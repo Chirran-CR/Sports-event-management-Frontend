@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import choose from "../assets/choose.png";
+import choose from "../assets/child2.png";
 import Button from "./Button";
 export default function Choose() {
   return (
@@ -29,7 +29,11 @@ const Section = styled.section`
   margin: 0 9rem;
   gap: 3rem;
   margin-bottom: 5rem;
+  // background-color:black;
   .image {
+    img{
+      height:25rem;
+    }
   }
   .content {
     display: flex;

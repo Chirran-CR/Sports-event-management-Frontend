@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import subscribe from "../assets/subscribe.png";
+import subscribe from "../assets/child3.png";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
 export default function Subscribe() {
   return (
     <Section>
       <div className="content">
-        <h2>Subscribe for Get update every New Offers</h2>
+        <h2>Subscribe to Get update about every new events</h2>
         <p>
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard.
@@ -32,6 +32,7 @@ const Section = styled.section`
   margin-bottom: 5rem;
   .image {
     img {
+       height:20rem;
     }
   }
   .content {
@@ -93,7 +94,7 @@ const Section = styled.section`
         line-height: 1.4rem;
       }
       .input-container {
-        display: none;
+        // display: none;
         width: max-content;
         input {
           width: 50%;

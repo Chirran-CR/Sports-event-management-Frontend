@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import hero from "../assets/hero.png";
+import hero from "../assets/child.png";
 import heroText from "../assets/heroText.png";
 import Button from "./Button";
 import Navbar from "./Navbar";
@@ -12,11 +12,11 @@ export default function Home() {
       <div className="container">
         <div className="content">
           <h1>
-            Explore Our{" "}
+            Sports
             <span>
               <img src={heroText} alt="Hero Text" />
             </span>{" "}
-            Digital NFT Market Place
+            Event Management Paltform
           </h1>
           <p>
             Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -24,20 +24,20 @@ export default function Home() {
           </p>
           <div className="buttons">
             <Button blue text="Explore Now" />
-            <Button text="Create NFT" />
+            <Button text="Register" />
           </div>
           <div className="data">
             <div className="dataTab">
-              <h2>40K</h2>
-              <h5>Artwork</h5>
+              <h2>20+</h2>
+              <h5>Colleges</h5>
             </div>
             <div className="dataTab">
-              <h2>12K</h2>
-              <h5>Auction</h5>
+              <h2>50+</h2>
+              <h5>Events</h5>
             </div>
             <div className="dataTab">
-              <h2>20K</h2>
-              <h5>Artist</h5>
+              <h2>2000+</h2>
+              <h5>Students</h5>
             </div>
           </div>
         </div>

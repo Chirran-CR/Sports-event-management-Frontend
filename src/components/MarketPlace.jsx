@@ -16,49 +16,49 @@ export default function MarketPlace() {
   const marketPlaceData = [
     {
       image: marketplace1,
-      name: "Aiboi-meta",
+      name: "Event Name 1",
     },
     {
       image: marketplace2,
-      name: "Pedram-mohamm...",
+      name: "Event Name...2",
     },
     {
       image: marketplace3,
-      name: "Eduardo-pena",
+      name: "Event Name 3",
     },
     {
       image: marketplace4,
-      name: "Daeho-cha",
+      name: "Event Name 4",
     },
     {
       image: marketplace5,
-      name: "Justine-florentino",
+      name: "Event Name 5",
     },
     {
       image: marketplace6,
-      name: "Hoang-l-p-solan",
+      name: "Event Name 6",
     },
     {
       image: marketplace7,
-      name: "Joshua-jay",
+      name: "Event Name 7",
     },
     {
       image: marketplace8,
-      name: "Joshua-jay",
+      name: "Event Name 8",
     },
   ];
   const marketPlaceType = [
     "All",
-    "Art",
-    "Generic",
-    "Common",
-    "Trading",
-    "Rare",
+    "Cricket",
+    "Football",
+    "Basketball",
+    "Badminton",
+    "Volleyball",
   ];
   return (
     <Section>
       <div className="title">
-        <h2>NFT Marketplace</h2>
+        <h2>Upcoming Sports Events</h2>
         <p>
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard.
@@ -80,9 +80,9 @@ export default function MarketPlace() {
                 <h4>{name}</h4>
                 <BsThreeDots />
               </div>
-              <h6 className="username">@koolkishansheth</h6>
+              <h6 className="username">@hosted college name</h6>
               <div className="price-container">
-                <h5 className="price">5.5ETH</h5>
+                <h5 className="price">free</h5>
                 <FaEthereum />
               </div>
             </div>

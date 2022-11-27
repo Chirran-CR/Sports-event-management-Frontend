@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdClose } from "react-icons/md";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.svg";
 import Button from "./Button";
+import { Link } from "react-router-dom";
 export default function Navbar() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const html = document.querySelector("html");
@@ -11,7 +12,9 @@ export default function Navbar() {
   return (
     <Nav state={isNavOpen ? 1 : 0}>
       <div className="brand">
+        <Link to="/">
         <img src={logo} alt="logo" />
+        </Link>
       </div>
       <div className="toggle">
         {isNavOpen ? (
@@ -31,13 +34,13 @@ export default function Navbar() {
             <a href="home">Home</a>
           </li>
           <li>
-            <a href="maketplace">Marketplace</a>
+            <a href="events">Events</a>
           </li>
           <li>
-            <a href="sellers">Sellers</a>
+            <a href="registration">Registration</a>
           </li>
           <li>
-            <a href="create">Create</a>
+            <a href="login">Login</a>
           </li>
         </ul>
       </div>

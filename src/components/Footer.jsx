@@ -6,23 +6,23 @@ import { FaTwitterSquare, FaInstagramSquare } from "react-icons/fa";
 import { MdEmail, MdPhoneInTalk } from "react-icons/md";
 import { IoLocationSharp } from "react-icons/io5";
 
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.svg";
 
 export default function Footer() {
-  const servicesLinks = ["Art", "Common", "Trading", "Rare", "Generic"];
-  const companyLinks = ["Home", "About", "Marketplace", "Sellers", "Create"];
+  const servicesLinks = ["Providing Platform", "Easier Payment", "Attractive GUI", "Effective Management"];
+  const companyLinks = ["Home", "About", "Events", "Account"];
   const contactInfo = [
     {
       icon: <MdEmail />,
-      value: "kishanshet21@gmail.com",
+      value: "chittaranjanswain.it.2019@nist.edu",
     },
     {
       icon: <MdPhoneInTalk />,
-      value: "+(480) 555-0103",
+      value: "+(91)2553456754",
     },
     {
       icon: <IoLocationSharp />,
-      value: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
+      value: "Bhubaneswar,Odisha,India",
     },
   ];
   const socialIcons = [
@@ -37,7 +37,7 @@ export default function Footer() {
         <div className="brand">
           <img src={logo} alt="logo" />
         </div>
-        <p className="description">1901 Thornridge Cir. Shiloh, Hawaii 81063</p>
+        <p className="description">Bhubaneswar,Odisha,India</p>
         <div className="social-icons">
           {socialIcons.map((icon) => {
             return <div className="icon">{icon}</div>;

@@ -9,30 +9,30 @@ export default function CreateAndSell() {
   const data = [
     {
       image: sell1,
-      title: "Create your collection",
+      title: "Create sports event",
       description:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been.",
       buttonText: "Create",
     },
     {
       image: sell2,
-      title: "Add your NFTs",
+      title: "Participate in an event",
       description:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been.",
-      buttonText: "Add NFT",
+      buttonText: "Participate",
     },
     {
       image: sell3,
-      title: "List them for sale",
+      title: "Check the results",
       description:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been.",
-      buttonText: "Sell Now",
+      buttonText: "Check",
     },
   ];
   return (
     <Section>
       <div className="title">
-        <h2>Create and Sell Your NFTs</h2>
+        <h2>Create and Manage Your Events</h2>
       </div>
       <div className="container">
         <div className="ellipse"></div>
