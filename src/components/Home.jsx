@@ -7,7 +7,7 @@ import Navbar from "./Navbar";
 export default function Home() {
   return (
     <Section>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="ellipse"></div>
       <div className="container">
         <div className="content">

@@ -31,16 +31,16 @@ export default function Navbar() {
       <div className={`links ${isNavOpen ? "show" : ""}`}>
         <ul>
           <li>
-            <a href="home">Home</a>
+            <Link to="/home">Home</Link>
           </li>
           <li>
-            <a href="events">Events</a>
+            <Link to="/events">Events</Link>
           </li>
           <li>
-            <a href="registration">Registration</a>
+            <Link to="/registration">Registration</Link>
           </li>
           <li>
-            <a href="login">Login</a>
+            <Link to="/login">Login</Link>
           </li>
         </ul>
       </div>
@@ -54,7 +54,12 @@ const Nav = styled.nav`
   justify-content: space-between;
   align-items: center;
   margin: 0 2rem;
-
+  border:2px solid black;
+  background:#232835;
+  width:99vw;
+  position:absolute;
+  z-index:1;
+  left:-1.5rem;
   .toggle {
     display: none;
   }
