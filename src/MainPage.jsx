@@ -8,7 +8,7 @@ import MarketPlace from "./components/MarketPlace";
 import ScrollToTop from "./components/ScrollToTop";
 import Subscribe from "./components/Subscribe";
 
-export default function Home() {
+export default function MainPage() {
   return (
     <div>
       <ScrollToTop />
