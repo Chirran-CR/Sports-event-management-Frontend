@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import App from './MyApp'
+import App from './App'
 
 const Signup = () => {
   return (
