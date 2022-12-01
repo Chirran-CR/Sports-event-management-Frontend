@@ -5,17 +5,18 @@ import { MdClose } from "react-icons/md";
 import logo from "../assets/logo.svg";
 import Button from "./Button";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 export default function Navbar() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const html = document.querySelector("html");
   html.addEventListener("click", (e) => setIsNavOpen(false));
   return (
     <Nav state={isNavOpen ? 1 : 0}>
-      <div className="brand">
+      <motion.div whileHover={{ scale: 1.2 }} className="brand">
         <Link to="/">
-        <img src={logo} alt="logo" />
+          <img src={logo} alt="logo" />
         </Link>
-      </div>
+      </motion.div>
       <div className="toggle">
         {isNavOpen ? (
           <MdClose onClick={() => setIsNavOpen(false)} />
@@ -30,18 +31,18 @@ export default function Navbar() {
       </div>
       <div className={`links ${isNavOpen ? "show" : ""}`}>
         <ul>
-          <li>
+          <motion.li whileHover={{ scale: 1.2 }}>
             <Link to="/home">Home</Link>
-          </li>
-          <li>
+          </motion.li>
+          <motion.li whileHover={{ scale: 1.2 }}>
             <Link to="/events">Events</Link>
-          </li>
-          <li>
-            <Link to="/registration">Registration</Link>
-          </li>
-          <li>
+          </motion.li>
+          <motion.li whileHover={{ scale: 1.2 }}>
+            <Link to="/signup">Registration</Link>
+          </motion.li>
+          <motion.li whileHover={{ scale: 1.2 }}>
             <Link to="/login">Login</Link>
-          </li>
+          </motion.li>
         </ul>
       </div>
       <Button text="Contact" />
@@ -49,17 +50,17 @@ export default function Navbar() {
   );
 }
 
-const Nav = styled.nav`
+const Nav = styled(motion.nav)`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 0 2rem;
-  border:2px solid black;
-  background:#232835;
-  width:99vw;
-  position:absolute;
-  z-index:1;
-  left:-1.5rem;
+  // border:2px solid black;
+  background: #232835;
+  width: 99vw;
+  position: absolute;
+  z-index: 1;
+  left: -1.5rem;
   .toggle {
     display: none;
   }
@@ -80,6 +81,14 @@ const Nav = styled.nav`
           color: #002000;
           text-decoration: none;
           transition: 0.4s ease-in-out;
+          border: 2px solid white;
+          border-radius: 1rem;
+          background-color: #232835;
+          padding: 1rem;
+          color: white;
+          font-size: 1.2rem;
+          box-shadow: 8px 8px 8px 8px gray;
+          // box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
           &:hover {
             color: #2d69fd;
           }
@@ -136,7 +145,8 @@ const Nav = styled.nav`
         justify-content: center;
         li {
           a {
-            color: #2d69fd;
+            // color: #2d69fd;
+            box-shadow: 5px 2px 5px 5px gray;
           }
         }
       }
