@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Events from "./components/Events";
+import Events from "./components/event/Events";
 import Login from "./components/auth/login/Login";
 import Navbar from "./components/Navbar";
 import Signup from "./components/auth/signup/Signup";

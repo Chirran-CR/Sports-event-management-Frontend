@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdClose } from "react-icons/md";
@@ -6,10 +6,18 @@ import logo from "../assets/logo.svg";
 import Button from "./Button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-export default function Navbar() {
+import {connect} from "react-redux";
+function Navbar(props) {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const html = document.querySelector("html");
+  let isLoggedIn=props.isLoggedIn;
+ 
   html.addEventListener("click", (e) => setIsNavOpen(false));
+  useEffect(()=>{
+    console.log("designation ki value:",localStorage.getItem("designation"));
+    isLoggedIn=localStorage.getItem("designation");
+  },[]);
+  
   return (
     <Nav state={isNavOpen ? 1 : 0}>
       <motion.div whileHover={{ scale: 1.2 }} className="brand">
@@ -37,12 +45,16 @@ export default function Navbar() {
           <motion.li whileHover={{ scale: 1.2 }}>
             <Link to="/events">Events</Link>
           </motion.li>
-          <motion.li whileHover={{ scale: 1.2 }}>
-            <Link to="/signup">Registration</Link>
-          </motion.li>
-          <motion.li whileHover={{ scale: 1.2 }}>
-            <Link to="/login">Login</Link>
-          </motion.li>
+          {isLoggedIn? <motion.li whileHover={{ scale: 1.2 }} onClick={props.logOut}> <Link to="/">Logout</Link></motion.li>:
+            (<>
+              <motion.li whileHover={{ scale: 1.2 }}>
+                <Link to="/signup">Registration</Link>
+              </motion.li>
+            <motion.li whileHover={{ scale: 1.2 }}>
+              <Link to="/login">Login</Link>
+            </motion.li></>
+            )
+          }
         </ul>
       </div>
       <Button text="Contact" />
@@ -55,7 +67,7 @@ const Nav = styled(motion.nav)`
   justify-content: space-between;
   align-items: center;
   margin: 0 2rem;
-  // border:2px solid black;
+  border:2px solid black;
   background: #232835;
   width: 99vw;
   position: absolute;
@@ -65,7 +77,7 @@ const Nav = styled(motion.nav)`
     display: none;
   }
   .links {
-    height: 4rem;
+    height: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -153,3 +165,16 @@ const Nav = styled(motion.nav)`
     }
   }
 `;
+
+function mapStateToProps(store){
+  return store.authReducer;
+}
+const mapDispatchToProps=(dispatch)=>{
+   return{
+       logOut:()=>{
+           return dispatch({type:"logout"});
+       }
+   }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Navbar);

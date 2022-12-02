@@ -1,33 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { GlobalStyle } from "./Styles/globalStyles";
 import { useFormik } from "formik";
 import { signUpSchema } from "./schemas";
 import { motion } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import {connect} from "react-redux";
+
 const initialValues = {
-  name: "",
   email: "",
   password: "",
-  confirm_password: "",
+  designation:"",
 };
 
-const Registration = () => {
+const Registration = (props) => {
+  const navigate=useNavigate();
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
       validationSchema: signUpSchema,
-      onSubmit: (values, action) => {
+      onSubmit: async (values, action) => {
         console.log(
           "🚀 ~ file: Registration.jsx ~ line 11 ~ Registration ~ values",
           values
         );
+        const loginRes=await axios.post(`http://localhost:5000/auth/${values.designation}/login`,{
+          email:values.email,
+          password:values.password,
+        })
+        if(true){
+          props.logIn(values.designation);
+          navigate("/events")
+        }
+        console.log("loginRes received is:",loginRes);
         action.resetForm();
       },
     });
-  console.log(
-    "🚀 ~ file: Registration.jsx ~ line 25 ~ Registration ~ errors",
-    errors
-  );
+  // console.log(
+  //   "🚀 ~ file: Registration.jsx ~ line 25 ~ Registration ~ errors",
+  //   errors
+  // );
   return (
     <>
       <GlobalStyle />
@@ -36,29 +49,11 @@ const Registration = () => {
           <div className="modal">
             <div className="modal-container">
               <div className="modal-left">
-                <h1 className="modal-title">Welcome!</h1>
+                <h1 className="modal-title">Welcome back!</h1>
                 <p className="modal-desc">
                   To the Sports Event Management Platform.
                 </p>
                 <form onSubmit={handleSubmit}>
-                  <div className="input-block">
-                    <label htmlFor="name" className="input-label">
-                      Name
-                    </label>
-                    <input
-                      type="name"
-                      autoComplete="off"
-                      name="name"
-                      id="name"
-                      placeholder="Name"
-                      value={values.name}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    {errors.name && touched.name ? (
-                      <p className="form-error">{errors.name}</p>
-                    ) : null}
-                  </div>
                   <div className="input-block">
                     <label htmlFor="email" className="input-label">
                       Email
@@ -75,6 +70,24 @@ const Registration = () => {
                     />
                     {errors.email && touched.email ? (
                       <p className="form-error">{errors.email}</p>
+                    ) : null}
+                  </div>
+                  <div className="input-block">
+                    <label htmlFor="designation" className="input-label">
+                      Are you a teacher or student
+                    </label>
+                    <input
+                      type="name"
+                      autoComplete="off"
+                      name="designation"
+                      id="designation"
+                      placeholder="teacher or student"
+                      value={values.designation}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.designation && touched.designation ? (
+                      <p className="form-error">{errors.designation}</p>
                     ) : null}
                   </div>
                   <div className="input-block">
@@ -95,35 +108,21 @@ const Registration = () => {
                       <p className="form-error">{errors.password}</p>
                     ) : null}
                   </div>
-                  <div className="input-block">
-                    <label htmlFor="confirm_password" className="input-label">
-                      Confirm Password
-                    </label>
-                    <input
-                      type="password"
-                      autoComplete="off"
-                      name="confirm_password"
-                      id="confirm_password"
-                      placeholder="Confirm Password"
-                      value={values.confirm_password}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    {errors.confirm_password && touched.confirm_password ? (
-                      <p className="form-error">{errors.confirm_password}</p>
-                    ) : null}
-                  </div>
                   <div className="modal-buttons">
                     <a href="#" className="">
-                      Want to register using Gmail?
+                      Want to login using Gmail?
                     </a>
-                    <motion.button whileHover={{ scale: 1.2 }} className="input-button" type="submit">
-                      Registration
+                    <motion.button
+                      whileHover={{ scale: 1.2 }}
+                      className="input-button"
+                      type="submit"
+                    >
+                      Login
                     </motion.button>
                   </div>
                 </form>
                 <p className="sign-up">
-                  Already have an account? <a href="#">Sign In now</a>
+                  Don't have an account? <Link to="/signup">Sign Up now</Link>
                 </p>
               </div>
               <div className="modal-right">
@@ -147,7 +146,7 @@ const Wrapper = styled.section`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #efedee;//original
+    background-color: #efedee; //original
     // background-color:#232835;
     display: flex;
     justify-content: center;
@@ -179,7 +178,7 @@ const Wrapper = styled.section`
     margin: 0;
     font-weight: 400;
     // color: #55311c;//original
-     color:#232835;
+    color: #232835;
   }
   .form-error {
     font-size: 1.4rem;
@@ -243,7 +242,7 @@ const Wrapper = styled.section`
     color: #fff;
     border-radius: 4px;
     // background: #8c7569;//original
-    background:#232835;
+    background: #232835;
     transition: 0.3s;
     cursor: pointer;
     font-family: "Nunito", sans-serif;
@@ -259,7 +258,7 @@ const Wrapper = styled.section`
     font-weight: 600;
     letter-spacing: 0.7px;
     // color: #8c7569;//original
-    color:#232835;
+    color: #232835;
     transition: 0.3s;
   }
 
@@ -308,5 +307,15 @@ const Wrapper = styled.section`
     }
   }
 `;
+function mapStateToProps(store){
+  return store.authReducer;
+}
+const mapDispatchToProps=(dispatch)=>{
+   return{
+       logIn:(desigantion)=>{
+           return dispatch({type:"login",payload:desigantion});
+       }
+   }
+}
 
-export default Registration;
+export default connect(mapStateToProps,mapDispatchToProps)(Registration);

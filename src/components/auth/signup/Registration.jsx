@@ -4,23 +4,42 @@ import { GlobalStyle } from "./Styles/globalStyles";
 import { useFormik } from "formik";
 import { signUpSchema } from "./schemas";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 const initialValues = {
   name: "",
   email: "",
+  college_name:"",
+  designation:"",
   password: "",
   confirm_password: "",
 };
 
 const Registration = () => {
+  const navigate=useNavigate();
+  let myDesignation="";
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
       validationSchema: signUpSchema,
-      onSubmit: (values, action) => {
+      onSubmit: async (values, action) => {
         console.log(
           "🚀 ~ file: Registration.jsx ~ line 11 ~ Registration ~ values",
           values
         );
+        // if(values.designation=="Teacher") myDesignation=
+        const res=await axios.post(`http://localhost:5000/auth/${values.designation}/signup`,{
+           name:values.name,
+           email:values.email,
+           collegeName:values.college_name,
+           password:values.password,
+           confirmPassword:values.confirm_password,
+        })
+        console.log("response received is:",res);//res.data will show the teacher returned info
+        if(!res.data.myError){//encoutner hoga ki nehi dubara cross check karna re..
+          navigate("/login")
+        }
         action.resetForm();
       },
     });
@@ -75,6 +94,42 @@ const Registration = () => {
                     />
                     {errors.email && touched.email ? (
                       <p className="form-error">{errors.email}</p>
+                    ) : null}
+                  </div>
+                  <div className="input-block">
+                    <label htmlFor="college_Name" className="input-label">
+                      College Name
+                    </label>
+                    <input
+                      type="name"
+                      autoComplete="off"
+                      name="college_name"
+                      id="college_Name"
+                      placeholder="College Name"
+                      value={values.college_name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.college_name && touched.college_name ? (
+                      <p className="form-error">{errors.college_name}</p>
+                    ) : null}
+                  </div>
+                  <div className="input-block">
+                    <label htmlFor="designation" className="input-label">
+                      Are you a teacher or student
+                    </label>
+                    <input
+                      type="name"
+                      autoComplete="off"
+                      name="designation"
+                      id="designation"
+                      placeholder="teacher or student"
+                      value={values.designation}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.designation && touched.designation ? (
+                      <p className="form-error">{errors.designation}</p>
                     ) : null}
                   </div>
                   <div className="input-block">
