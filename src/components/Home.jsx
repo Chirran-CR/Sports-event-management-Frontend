@@ -16,7 +16,7 @@ export default function Home() {
             <span>
               <img src={heroText} alt="Hero Text" />
             </span>{" "}
-            Event Management Paltform
+            Event Management Platform
           </h1>
           <p>
             Lorem Ipsum is simply dummy text of the printing and typesetting

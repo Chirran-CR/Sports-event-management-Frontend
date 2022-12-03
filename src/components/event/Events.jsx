@@ -26,12 +26,15 @@ const Section=styled.section`
   border:2px solid red;
    padding-top:6rem;
    gap:0.5rem;
+   box-sizing:border-box;
+
    .grid-item-1{
      grid-column:1 / span 3;
      background-color:pink;
    };
    .grid-item-2{
      background-color:orange;
+     
   };
   .grid-item-3{
      background-color:yellow;
