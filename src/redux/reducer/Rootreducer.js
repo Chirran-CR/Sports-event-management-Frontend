@@ -5,7 +5,7 @@ import Eventreducer from "./Eventreducer";
 
 const rootReducer=combineReducers({
       authReducer:Authreducer,
-      // eventReducer:Eventreducer,
+      eventReducer:Eventreducer,
 })
 
 export default rootReducer;

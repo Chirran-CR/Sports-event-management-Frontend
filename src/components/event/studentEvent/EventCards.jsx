@@ -1,21 +1,15 @@
+import axios from "axios";
 import React,{useEffect,useState} from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaEthereum } from "react-icons/fa";
 import {connect} from "react-redux";
-import axios from "axios";
+
 import styled from "styled-components";
-import marketplace1 from "../assets/marketplace1.png";
-import marketplace2 from "../assets/marketplace2.png";
-import marketplace3 from "../assets/marketplace3.png";
-import marketplace4 from "../assets/marketplace4.png";
-import marketplace5 from "../assets/marketplace5.png";
-import marketplace6 from "../assets/marketplace6.png";
-import marketplace7 from "../assets/marketplace7.png";
-import marketplace8 from "../assets/marketplace8.png";
-import Button from "./Button";
-function MarketPlace(props) {
+import marketplace1 from "../../../assets/marketplace1.png";
+import Button from "../../Button";
+function EventCards(props) {
   const [receivedData,setReceivedData]=useState([]);
- 
+  console.log("props in Event card of student:",props.eventReducer);//sportsEvent
   const marketPlaceType = [
     "All",
     "Cricket",
@@ -44,6 +38,7 @@ function MarketPlace(props) {
                 venue:ev.venue
             }
        })
+       
        setReceivedData(imageWithEventData);
         })();
         console.log("Received EventData outer:",eventData);
@@ -72,7 +67,7 @@ function MarketPlace(props) {
       <div className="marketPlaces">
         {receivedData.map((ev) => {
           return (
-            <div className="marketplace" key={ev.id}>
+            <div  onClick={()=>{props.setEvent(ev)}} className="marketplace" key={ev.id}>
               <div className="image">
                 <img src={ev.image} alt="marketplace" />
               </div>
@@ -123,7 +118,7 @@ const Section = styled.section`
   }
   .marketPlaces {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     .marketplace {
       box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -178,7 +173,13 @@ const Section = styled.section`
   }
 `;
 function mapStateToProps(store) {
-  return store.authReducer;
+  return store;
 }
-export default connect(mapStateToProps)(MarketPlace);
-
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setEvent: (eventObj) => {
+      return dispatch({ type: "set-event", payload: eventObj });
+    },
+  };
+};
+export default connect(mapStateToProps,mapDispatchToProps)(EventCards);

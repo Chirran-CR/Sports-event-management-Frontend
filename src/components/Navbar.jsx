@@ -10,14 +10,14 @@ import {connect} from "react-redux";
 function Navbar(props) {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const html = document.querySelector("html");
-  let isLoggedIn=props.isLoggedIn;
+  let isLogIn=props.isLoggedIn;
  
   html.addEventListener("click", (e) => setIsNavOpen(false));
-  useEffect(()=>{
-    console.log("designation ki value:",localStorage.getItem("designation"));
-    isLoggedIn=localStorage.getItem("designation");
-  },[]);
   
+  let degVal=localStorage.getItem("designation");
+    console.log("degVal in useEffect of Navbar:",degVal);
+    degVal=="teacher"?isLogIn=true:degVal=="student"? isLogIn=true:isLogIn=false;
+  console.log("is log in below useEffect:",isLogIn);
   return (
     <Nav state={isNavOpen ? 1 : 0}>
       <motion.div whileHover={{ scale: 1.2 }} className="brand">
@@ -45,7 +45,8 @@ function Navbar(props) {
           <motion.li whileHover={{ scale: 1.2 }}>
             <Link to="/events">Events</Link>
           </motion.li>
-          {isLoggedIn? <motion.li whileHover={{ scale: 1.2 }} onClick={props.logOut}> <Link to="/">Logout</Link></motion.li>:
+          {console.log("islogin render ho rha h and val is:",isLogIn)}
+          {isLogIn? <motion.li whileHover={{ scale: 1.2 }} onClick={props.logOut}> <Link to="/">Logout</Link></motion.li>:
             (<>
               <motion.li whileHover={{ scale: 1.2 }}>
                 <Link to="/signup">Registration</Link>

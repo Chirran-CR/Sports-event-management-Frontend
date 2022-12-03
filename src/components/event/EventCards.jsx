@@ -84,7 +84,7 @@ function EventCards(props) {
 
         
      console.log("image with eventData:",imageWithEventData);
-  })
+  },[])
   console.log("event dAta:",eventData);
   
   console.log("image with event data:",imageWithEventData);

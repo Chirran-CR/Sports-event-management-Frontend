@@ -1,17 +1,15 @@
 
 let initialState = {
-    displayForm:true
+    sportEvent:{}
 };
-const Eventreducer = async (state = initialState, action) => {
+const Eventreducer =  (state = initialState, action) => {
   switch (action.type) {
-    case "show-form":
+    case "set-event":
+      // console.log("set event value in reducer:",action.payload);
       return {
-        displayForm:true
+        sportEvent:action.payload
       };
-    case "hide-form":
-       return{
-        displayForm:false
-       }
+    
     default:
       return state;
   }
