@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import { GlobalStyle } from "../auth/login/Styles/globalStyles";
-import { Field, useFormik } from "formik";
+import { Field, useFormik,Formik,useField } from "formik";
 import { eventSchema } from "./schemas/eventSchema.js";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
@@ -202,6 +202,23 @@ const EventForm = (props) => {
                       <p className="form-error">{errors.sports_category}</p>
                     ) : null}
                   </div>
+                  <div className="input-block">
+                    <label htmlFor="event_photo" className="input-label">
+                       Event Photo
+                    </label>
+                        <input
+                      type="file"
+                      name="event_photo"
+                      id="event_photo"
+                      // value={values.event_photo}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                      
+                    {errors.sports_category && touched.sports_category ? (
+                      <p className="form-error">{errors.sports_category}</p>
+                    ) : null}
+                  </div>
                   <div className="modal-buttons">
                     <motion.button
                       whileHover={{ scale: 1.2 }}
@@ -231,7 +248,7 @@ const Wrapper = styled.section`
     bottom: 0;
     // background-color: #efedee; //original
     background-color:#232835;
-    border:2px solid blue;
+    // border:2px solid blue;
     display: flex;
     justify-content: center;
     align-items: center;

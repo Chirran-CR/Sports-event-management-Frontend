@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Category from './Category';
 import EventCards from './EventCards';
 import EventForm from './EventForm';
+import EventForm2 from './EventForm2';
 import Sliders from './Sliders';
 
 const Events = () => {
@@ -26,23 +27,23 @@ const Section=styled.section`
   border:2px solid red;
    padding-top:6rem;
    gap:0.5rem;
-   box-sizing:border-box;
-
+  //  box-sizing:border-box;
+   overflow:auto;
    .grid-item-1{
      grid-column:1 / span 3;
-     background-color:pink;
+    //  background-color:pink;
    };
    .grid-item-2{
-     background-color:orange;
+    //  background-color:orange;
      
   };
   .grid-item-3{
-     background-color:yellow;
+    //  background-color:yellow;
      grid-column:1 / span 3;
      grid-row:2/span 2;
   };
   .grid-item-4{
-    background-color:cyan;
+    // background-color:cyan;
     grid-row:2/span 2;
   };
 `
