@@ -1,14 +1,16 @@
 let initialState = {
-    choosedCategory:"ALL"
+    userEmail:"",
+    userName:"",
+    userCollegeName:""
   };
-  const Categoryreducer = (state = initialState, action) => {
+  const Userreducer = (state = initialState, action) => {
     switch (action.type) {
-      case "change-category":
-          return {choosedCategory:action.payload}
+      case "set-user":
+          return action.payload
       default:
         return state;
     }
   };
   
-  export default Categoryreducer;
+  export default Userreducer;
   

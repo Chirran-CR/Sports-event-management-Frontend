@@ -62,7 +62,7 @@ const EventForm = (props) => {
                   Participate in events and have fun...
                 </p>
                 <form onSubmit={handleSubmit}>
-                <h1 className="modal-title">Event Name:{props?.eventReducer?.sportEvent?.host}</h1>
+                <h1 className="modal-title">Event Name:{props?.eventReducer?.sportEvent?.name}</h1>
                   <div className="input-block">
                     <label htmlFor="student_email" className="input-label">
                       Student Email
@@ -73,7 +73,7 @@ const EventForm = (props) => {
                       name="student_email"
                       id="student_email"
                       placeholder="Student Email"
-                      value={values.student_email}
+                      value={props.userReducer.userEmail}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
@@ -81,14 +81,14 @@ const EventForm = (props) => {
                       <p className="form-error">{errors.student_email}</p>
                     ) : null}
                   </div>
-                  <h1 className="modal-title">Hosted By:{props?.eventReducer?.sportEvent?.name}</h1>
+                  <h1 className="modal-title">Hosted By:{props?.eventReducer?.sportEvent?.host}</h1>
                   <div className="input-block">
                   <label htmlFor="college_name" className="input-label">
                       Choose your college
                     </label>
                   {props?.eventReducer?.sportEvent?.participate?.map((clg,idx)=>{
                       return(<>
-                        <input
+                        <input 
                       type="radio"
                       autoComplete="off"
                       key={idx}

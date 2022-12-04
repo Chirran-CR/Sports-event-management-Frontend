@@ -3,6 +3,7 @@ import React,{useEffect,useState} from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaEthereum } from "react-icons/fa";
 import {connect} from "react-redux";
+import ParticipatedButton from "./ParticipatedButton";
 
 import styled from "styled-components";
 import marketplace1 from "../../../assets/sports3-min.png";
@@ -54,14 +55,12 @@ function EventCards(props) {
   
   console.log("image with event data:",imageWithEventData);
  console.log("new recevied data:",receivedData);
+ console.log("value of total event:",totalEvents);
   return (
     <Section>
       <div className="title">
         <h2>Added Sports Events</h2>
-        <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard.
-        </p>
+        <ParticipatedButton text="Participated Events" blue={true}/>
       </div>
       <div className="marketPlaceTypes">
         {sportsCategories.map((text, index) => {
@@ -76,14 +75,11 @@ function EventCards(props) {
                 <img src={ev.image} alt="marketplace" />
               </div>
               <div className="name">
-                <h4>{ev.eventName}</h4>
+                <h4>Event Name: {ev.name}</h4>
                 <BsThreeDots />
               </div>
-              <h6 className="username">{ev.host}</h6>
-              <div className="price-container">
-                <h5 className="price">free</h5>
-                <FaEthereum />
-              </div>
+              <h6 className="username">Hosted By: {ev.host}</h6>
+              
             </div>
           );
         })}

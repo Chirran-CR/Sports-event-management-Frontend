@@ -70,14 +70,14 @@ function MarketPlace(props) {
                 <img src={ev.image} alt="marketplace" />
               </div>
               <div className="name">
-                <h4>{ev.eventName}</h4>
+                <h3>Event Name:{ev.name}</h3>
                 <BsThreeDots />
               </div>
-              <h6 className="username">{ev.host}</h6>
-              <div className="price-container">
+              <h6 className="username">Hosted By:{ev.host}</h6>
+              {/* <div className="price-container">
                 <h5 className="price">free</h5>
                 <FaEthereum />
-              </div>
+              </div> */}
             </div>
           );
         })}
@@ -117,13 +117,16 @@ const Section = styled.section`
   .marketPlaces {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
+    column-gap: 0rem;
+    // border:2px solid blue;
+    row-gap:2rem;
     .marketplace {
       box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
       padding: 0.5rem;
       border-radius: 1rem;
       width: max-content;
       cursor: pointer;
+      // border:2px solid red;
       transition: 0.5s ease-in-out;
       &:hover {
         box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
@@ -138,9 +141,11 @@ const Section = styled.section`
         color: #222222;
         align-items: center;
         justify-content: space-between;
-        padding: 0 1rem;
+        // padding: 0 1rem;
+        // border:2px solid red;
         h4 {
         }
+        h3{}
       }
       .username {
         color: #555555;

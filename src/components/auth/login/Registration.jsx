@@ -31,6 +31,11 @@ const Registration = (props) => {
           password:values.password,
         })
         if(!loginRes.data.myError){
+          const userDetails=values.designation=="student"?loginRes.data.studentDetails:loginRes.data.teacherDetails;
+          const userObj={userEmail:userDetails.email,
+            userName:userDetails.name,
+            userCollegeName:userDetails.collegeName}
+          props.setUser(userObj);
           console.log("inside if block of registration login and response is:",loginRes);
           props.logIn(values.designation);
           navigate("/events")
@@ -330,12 +335,15 @@ const Wrapper = styled.section`
   }
 `;
 function mapStateToProps(store){
-  return store.authReducer;
+  return store;
 }
 const mapDispatchToProps=(dispatch)=>{
    return{
        logIn:(desigantion)=>{
            return dispatch({type:"login",payload:desigantion});
+       },
+       setUser:(userObj)=>{
+        return dispatch({type:"set-user",payload:userObj})
        }
    }
 }

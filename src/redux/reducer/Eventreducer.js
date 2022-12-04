@@ -2,6 +2,7 @@
 let initialState = {
     sportEvent:{}
 };
+//used to set and event when the student click an event
 const Eventreducer =  (state = initialState, action) => {
   switch (action.type) {
     case "set-event":

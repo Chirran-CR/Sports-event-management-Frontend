@@ -34,7 +34,8 @@ function EventCards(props) {
  console.log("new recevied data:",receivedData);
  let totalEvents=props?.teacherEventReducer.allEvents;
  if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=>  ev.sportsCategory.includes(selectedCategory));
-  return (
+ 
+ return (
     <Section>
       <div className="title">
         <h2>Added Sports Events</h2>
@@ -56,7 +57,7 @@ function EventCards(props) {
                 <img src={ev.image} alt="marketplace" />
               </div>
               <div className="name">
-                <h4>{ev.eventName}</h4>
+                <h4>{ev.name}</h4>
                 <BsThreeDots />
               </div>
               <h6 className="username">{ev.host}</h6>
