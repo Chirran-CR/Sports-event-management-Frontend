@@ -5,26 +5,18 @@ import { FaEthereum } from "react-icons/fa";
 import {connect} from "react-redux";
 
 import styled from "styled-components";
-import marketplace1 from "../../assets/marketplace1.png";
-import marketplace2 from "../../assets/marketplace2.png";
-import marketplace3 from "../../assets/marketplace3.png";
-import marketplace4 from "../../assets/marketplace4.png";
-import marketplace5 from "../../assets/marketplace5.png";
-import marketplace6 from "../../assets/marketplace6.png";
-import marketplace7 from "../../assets/marketplace7.png";
-import marketplace8 from "../../assets/marketplace8.png";
 import {getEventMiddleware} from "../../redux/middleware/getEventMiddleware";
 import Button from "../Button";
 function EventCards(props) {
   const [receivedData,setReceivedData]=useState([]);
  
-  const marketPlaceType = [
-    "All",
-    "Cricket",
-    "Football",
-    "Basketball",
-    "Badminton",
-    "Volleyball",
+  const sportsCategories = [
+    "ALL",
+    "CRICKET",
+    "FOOTBALL",
+    "BASKETBALL",
+    "BADMINTON",
+    "VOLLEY",
   ];
   let eventData=[];
   let imageWithEventData=[];
@@ -40,6 +32,7 @@ function EventCards(props) {
   console.log("image with event data:",imageWithEventData);
   // setReceivedData(props.allEvents);
  console.log("new recevied data:",receivedData);
+ const totalEvents=props?.allEvents;
   return (
     <Section>
       <div className="title">
@@ -50,12 +43,12 @@ function EventCards(props) {
         </p>
       </div>
       <div className="marketPlaceTypes">
-        {marketPlaceType.map((text, index) => {
+        {sportsCategories.map((text, index) => {
           return <Button text={text} key={index} blue={index === 0} />;
         })}
       </div>
       <div className="marketPlaces">
-        {props?.allEvents?.map((ev,idx) => {
+        {totalEvents?.map((ev,idx) => {
           return (
             <div className="marketplace" key={idx}>
               <div className="image">

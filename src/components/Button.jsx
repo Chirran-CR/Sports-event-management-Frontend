@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 export default function Button({ text, blue = false }) {
   return (
     <Div whileHover={{ scale: 1.2 }}>
-      <button className={`${blue ? "blue" : ""}`}>{text}</button>
+      <button className={`${blue ? "blue" : ""}`} onClick={()=>console.log("button clicked")}>{text}</button>
     </Div>
   );
 }
