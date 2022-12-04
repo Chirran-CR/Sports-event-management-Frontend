@@ -8,14 +8,14 @@ import marketplace1 from "../assets/marketplace1.png";
 import Button from "./Button";
 function MarketPlace(props) {
   const [receivedData,setReceivedData]=useState([]);
- 
-  const marketPlaceType = [
-    "All",
-    "Cricket",
-    "Football",
-    "Basketball",
-    "Badminton",
-    "Volleyball",
+  const selectedCategory=props.categoryReducer.choosedCategory;
+  const sportsCategories = [
+    "ALL",
+    "CRICKET",
+    "FOOTBALL",
+    "BASKETBALL",
+    "BADMINTON",
+    "VOLLEY",
   ];
   let eventData=[];
   let imageWithEventData=[];
@@ -40,11 +40,12 @@ function MarketPlace(props) {
        setReceivedData(imageWithEventData);
         })();
         console.log("Received EventData outer:",eventData);
-
         
      console.log("image with eventData:",imageWithEventData);
   },[])
   console.log("event dAta:",eventData);
+  let totalEvents=receivedData;
+  if (selectedCategory!="ALL") totalEvents=receivedData?.filter((ev)=>  ev.sports.includes(selectedCategory));
   
   console.log("image with event data:",imageWithEventData);
  console.log("new recevied data:",receivedData);
@@ -58,12 +59,12 @@ function MarketPlace(props) {
         </p>
       </div>
       <div className="marketPlaceTypes">
-        {marketPlaceType.map((text, index) => {
-          return <Button text={text} key={index} blue={index === 0} />;
+        {sportsCategories.map((text, index) => {
+          return <Button text={text} key={index} blue={text === selectedCategory} />;
         })}
       </div>
       <div className="marketPlaces">
-        {receivedData.map((ev) => {
+        {totalEvents?.map((ev) => {
           return (
             <div className="marketplace" key={ev.id}>
               <div className="image">
@@ -171,7 +172,7 @@ const Section = styled.section`
   }
 `;
 function mapStateToProps(store) {
-  return store.authReducer;
+  return store;
 }
 export default connect(mapStateToProps)(MarketPlace);
 
