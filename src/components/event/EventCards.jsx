@@ -9,7 +9,7 @@ import {getEventMiddleware} from "../../redux/middleware/getEventMiddleware";
 import Button from "../Button";
 function EventCards(props) {
   const [receivedData,setReceivedData]=useState([]);
- 
+  const selectedCategory=props.categoryReducer.choosedCategory;
   const sportsCategories = [
     "ALL",
     "CRICKET",
@@ -32,7 +32,8 @@ function EventCards(props) {
   console.log("image with event data:",imageWithEventData);
   // setReceivedData(props.allEvents);
  console.log("new recevied data:",receivedData);
- const totalEvents=props?.allEvents;
+ let totalEvents=props?.teacherEventReducer.allEvents;
+ if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=>  ev.sportsCategory.includes(selectedCategory));
   return (
     <Section>
       <div className="title">
@@ -44,7 +45,7 @@ function EventCards(props) {
       </div>
       <div className="marketPlaceTypes">
         {sportsCategories.map((text, index) => {
-          return <Button text={text} key={index} blue={index === 0} />;
+          return <Button text={text} key={index} blue={text=== selectedCategory} />;
         })}
       </div>
       <div className="marketPlaces">
@@ -156,7 +157,7 @@ const Section = styled.section`
   }
 `;
 function mapStateToProps(store) {
-  return store.teacherEventReducer;
+  return store;
 }
 const mapDispatchToProps = (dispatch) => {
   return {

@@ -1,10 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-export default function Button({ text, blue = false }) {
+import {connect} from "react-redux";
+
+function Button(props) {
+  const text=props.text;
+  const blue=props.blue;
   return (
     <Div whileHover={{ scale: 1.2 }}>
-      <button className={`${blue ? "blue" : ""}`} onClick={()=>console.log("button clicked")}>{text}</button>
+      <button className={`${blue ? "blue" : ""}`} onClick={()=>props.changeCategory(text)}>{text}</button>
     </Div>
   );
 }
@@ -27,3 +31,15 @@ const Div = styled(motion.div)`
     background-color: #2d69fd;
   }
 `;
+
+function mapStateToProps(store) {
+  return store.categoryReducer;
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeCategory: (category) => {
+      return dispatch({ type: "change-category", payload: category });
+    }
+  };
+};
+export default connect(mapStateToProps,mapDispatchToProps)(Button);
