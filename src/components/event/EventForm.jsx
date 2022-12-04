@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
 import EventAdded from "./EventAdded";
+import marketplace1 from "../../assets/marketplace1.png"
 
 const initialValues = {
   event_name: "",
@@ -21,7 +22,7 @@ const initialValues = {
 const EventForm = (props) => {
   // // const [checkboxTick,setCheckboxTick]=useState(1);
   // const [displayForm,setDisplayForm]=useState(true);
-
+  console.log("props ki value in EventForm:",props);
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
@@ -32,18 +33,19 @@ const EventForm = (props) => {
           values
         );
         axios.defaults.withCredentials = true
+        let toBeStoredObj={
+          eventName: values.event_name,
+          TeacherEmail: values.teacher_email,
+          hostingCollege:values.hosting_clg,
+          participatingColleges:values.participating_clg,
+          sportsCategory:values.sports_category,
+          venue:values.venue,
+        };
         const loginRes = await axios.post(
-          `http://localhost:5000/event/add`,
-          {
-            eventName: values.event_name,
-            TeacherEmail: values.teacher_email,
-            hostingCollege:values.hosting_clg,
-            participatingColleges:values.participating_clg,
-            sportsCategory:values.sports_category,
-            venue:values.venue,
-          },{credentials:true}
+          `http://localhost:5000/event/add`,toBeStoredObj,{credentials:true}
         );
-        
+        toBeStoredObj={...toBeStoredObj,image:marketplace1};
+        props.addEvent(toBeStoredObj);
         console.log("loginRes received is:", loginRes);
         action.resetForm({values:{  event_name: "",
         teacher_email: "",
@@ -54,7 +56,7 @@ const EventForm = (props) => {
         // action.setSubmitting(false);
         // document.getElementsByClassName("mycheck").checked = false;
         // setCheckboxTick(checkboxTick+1);
-        props.hideForm();
+        props.hideForm();//direct ya auth reducer se ayega
       },
     });
   const colleges = [
@@ -74,7 +76,7 @@ const EventForm = (props) => {
   return (
     <>
       <GlobalStyle />
-      {props.displayFormState ? <Wrapper>
+      {props.authReducer.displayFormState ? <Wrapper>
         <div className="container">
           <div className="modal">
             <div className="modal-container">
@@ -407,7 +409,7 @@ const Wrapper = styled.section`
   }
 `;
 function mapStateToProps(store) {
-  return store.authReducer;
+  return store;
 }
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -416,6 +418,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     hideForm:()=>{
       return dispatch({type:"hide-form"});
+    },
+    addEvent:(eventObj)=>{
+       return dispatch({type:"add-event",payload:eventObj})
     }
   };
 };

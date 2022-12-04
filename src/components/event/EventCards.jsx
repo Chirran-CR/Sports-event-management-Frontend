@@ -13,43 +13,11 @@ import marketplace5 from "../../assets/marketplace5.png";
 import marketplace6 from "../../assets/marketplace6.png";
 import marketplace7 from "../../assets/marketplace7.png";
 import marketplace8 from "../../assets/marketplace8.png";
+import {getEventMiddleware} from "../../redux/middleware/getEventMiddleware";
 import Button from "../Button";
 function EventCards(props) {
   const [receivedData,setReceivedData]=useState([]);
-  const marketPlaceData = [
-    {
-      image: marketplace1,
-      name: "Event Name 1",
-    },
-    {
-      image: marketplace2,
-      name: "Event Name...2",
-    },
-    {
-      image: marketplace3,
-      name: "Event Name 3",
-    },
-    {
-      image: marketplace4,
-      name: "Event Name 4",
-    },
-    {
-      image: marketplace5,
-      name: "Event Name 5",
-    },
-    {
-      image: marketplace6,
-      name: "Event Name 6",
-    },
-    {
-      image: marketplace7,
-      name: "Event Name 7",
-    },
-    {
-      image: marketplace8,
-      name: "Event Name 8",
-    },
-  ];
+ 
   const marketPlaceType = [
     "All",
     "Cricket",
@@ -60,34 +28,17 @@ function EventCards(props) {
   ];
   let eventData=[];
   let imageWithEventData=[];
+  console.log("props value in eventCards:",props);
   useEffect(()=>{
-
-    (async function (){
-          const resp=await axios.get("http://localhost:5000/event/",{credentials:true});
-          eventData=resp.data.allEventsDetails;
-          
-          console.log("Received EventData:",eventData);
-          imageWithEventData=eventData?.map((ev,i)=>{
-            return{
-                id:ev._id,
-                image:marketplace1,
-                name:ev.eventName,
-                host:ev.hostingCollege,
-                participate:ev.participatingColleges,
-                sports:ev.sportsCategory,
-                venue:ev.venue
-            }
-       })
-       setReceivedData(imageWithEventData);
-        })();
-        console.log("Received EventData outer:",eventData);
-
-        
-     console.log("image with eventData:",imageWithEventData);
-  },[])
+        imageWithEventData=props.getEvents();
+        // setReceivedData(props.allEvents);
+        console.log("Received EventData inner:",imageWithEventData);
+      },[])
+  // imageWithEventData=props.getEvents();
+        console.log("Received EventData inner:",imageWithEventData);
   console.log("event dAta:",eventData);
-  
   console.log("image with event data:",imageWithEventData);
+  // setReceivedData(props.allEvents);
  console.log("new recevied data:",receivedData);
   return (
     <Section>
@@ -104,9 +55,9 @@ function EventCards(props) {
         })}
       </div>
       <div className="marketPlaces">
-        {receivedData.map((ev) => {
+        {props?.allEvents?.map((ev,idx) => {
           return (
-            <div className="marketplace" key={ev.id}>
+            <div className="marketplace" key={idx}>
               <div className="image">
                 <img src={ev.image} alt="marketplace" />
               </div>
@@ -212,6 +163,12 @@ const Section = styled.section`
   }
 `;
 function mapStateToProps(store) {
-  return store.authReducer;
+  return store.teacherEventReducer;
 }
-export default connect(mapStateToProps)(EventCards);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getEvents:  () => {dispatch( getEventMiddleware());
+    },
+  };
+};
+export default connect(mapStateToProps,mapDispatchToProps)(EventCards);
