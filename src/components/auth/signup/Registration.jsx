@@ -19,6 +19,8 @@ const initialValues = {
 const Registration = () => {
   const navigate=useNavigate();
   const [err,setErr]=useState(false);
+  const users=["teacher","student"];
+
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
@@ -118,19 +120,27 @@ const Registration = () => {
                     ) : null}
                   </div>
                   <div className="input-block">
-                    <label htmlFor="designation" className="input-label">
-                      Are you a teacher or student
+                    <label htmlFor="designation" className="input-label ">
+                      Are you a:
                     </label>
-                    <input
-                      type="name"
-                      autoComplete="off"
-                      name="designation"
-                      id="designation"
-                      placeholder="teacher or student"
-                      value={values.designation}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
+                    <div className="input-radio">
+                   {
+                    users.map((user,idx)=>{
+                        return(
+                          <>
+                            <input
+                              type="radio"
+                              key={idx}
+                              name="designation"
+                              id="designation"
+                              value={user}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            />{user}
+                          </>
+                        )
+                    })
+                   }</div> 
                     {errors.designation && touched.designation ? (
                       <p className="form-error">{errors.designation}</p>
                     ) : null}
@@ -329,6 +339,12 @@ const Wrapper = styled.section`
     border-radius: 4px;
     margin-bottom: 20px;
     transition: 0.3s;
+    .input-radio{
+      // background-color:red;
+       margin:7px;
+       display:flex;
+       gap:12px;
+    }
   }
   .input-block input {
     outline: 0;
