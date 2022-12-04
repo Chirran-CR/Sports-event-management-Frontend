@@ -7,6 +7,8 @@ import Navbar from "./components/Navbar";
 import Signup from "./components/auth/signup/Signup";
 import MainPage from "./MainPage";
 import StudentEvents from "./components/event/studentEvent/StudentEvents";
+import Contact from "./components/contact/Contact";
+import AboutUs from "./components/aboutUs/AboutUs";
 function App() {
   return (
     <>
@@ -17,6 +19,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/events" element={<PrivateRoute />} />
+          <Route path="/contact" element={<Contact/>}/>
+          <Route path="/about-us" element={<AboutUs/>}/>
         </Routes>
       </BrowserRouter>
     </>

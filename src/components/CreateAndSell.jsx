@@ -4,6 +4,7 @@ import sell1 from "../assets/sell1.png";
 import sell2 from "../assets/sell2.png";
 import sell3 from "../assets/sell3.png";
 import Button from "./Button";
+import CreateButton from "./event/CreateButton";
 
 export default function CreateAndSell() {
   const data = [
@@ -11,21 +12,21 @@ export default function CreateAndSell() {
       image: sell1,
       title: "Create sports event",
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been.",
+        "Create the events for various sports and student of different colleges.",
       buttonText: "Create",
     },
     {
       image: sell2,
       title: "Participate in an event",
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been.",
+        "Register yourself and participate in various events.",
       buttonText: "Participate",
     },
     {
       image: sell3,
       title: "Check the results",
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been.",
+        "Worried about the result, we will inform you.Sit back and relax...",
       buttonText: "Check",
     },
   ];
@@ -46,7 +47,7 @@ export default function CreateAndSell() {
                 <h3>{title}</h3>
                 <p>{description}</p>
 
-                <Button text={buttonText} blue={index === 1} />
+                <CreateButton text={buttonText} blue={index === 1} />
               </div>
             );
           })}

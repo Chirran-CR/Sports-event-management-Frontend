@@ -1,9 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import hero from "../assets/child.png";
-import heroText from "../assets/heroText.png";
+import heroText from "../assets/hero logo 2.png";
+import AboutButton from "./aboutUs/AboutButton";
 import Button from "./Button";
 import Navbar from "./Navbar";
+import RegisterButton from "../components/auth/signup/RegisterButton";
 export default function Home() {
   return (
     <Section>
@@ -13,18 +16,19 @@ export default function Home() {
         <div className="content">
           <h1>
             Sports
-            <span>
-              <img src={heroText} alt="Hero Text" />
-            </span>{" "}
+            {/* <span style={{padingTop:"3rem"}}>
+              <img style={{marginLeft:"1rem",paddingTop:"rem"}} src={heroText} alt="Hero Text" />
+            </span> */}
+            {" "}
             Event Management Platform
           </h1>
           <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard.
+            Simplifies the management of all sporting events,
+            as well as the management of student information.
           </p>
           <div className="buttons">
-            <Button blue text="Explore Now" />
-            <Button text="Register" />
+            <AboutButton blue text="Explore Now" ></AboutButton>
+            <RegisterButton text="Register" />
           </div>
           <div className="data">
             <div className="dataTab">

@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdClose } from "react-icons/md";
-import logo from "../assets/logo.svg";
+import logo from "../assets/logo2.png";
 import Button from "./Button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {connect} from "react-redux";
+import ContactButton from "./contact/ContactButton";
 function Navbar(props) {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const html = document.querySelector("html");
@@ -40,7 +41,7 @@ function Navbar(props) {
       <div className={`links ${isNavOpen ? "show" : ""}`}>
         <ul>
           <motion.li whileHover={{ scale: 1.2 }}>
-            <Link to="/home">Home</Link>
+            <Link to="/">Home</Link>
           </motion.li>
           <motion.li whileHover={{ scale: 1.2 }}>
             <Link to="/events">Events</Link>
@@ -58,7 +59,7 @@ function Navbar(props) {
           }
         </ul>
       </div>
-      <Button text="Contact" />
+      <ContactButton onClick={()=>console.log("clicked")}text="Contact" />
     </Nav>
   );
 }

@@ -8,8 +8,8 @@ export default function Subscribe() {
       <div className="content">
         <h2>Subscribe to Get update about every new events</h2>
         <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard.
+          Subscribe to get the update when a new event is added.So you don't need to check 
+          frequently.
         </p>
         <div className="input-container">
           <input type="text" placeholder="Enter Email" />

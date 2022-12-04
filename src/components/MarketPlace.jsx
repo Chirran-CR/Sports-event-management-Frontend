@@ -4,7 +4,7 @@ import { FaEthereum } from "react-icons/fa";
 import {connect} from "react-redux";
 import axios from "axios";
 import styled from "styled-components";
-import marketplace1 from "../assets/marketplace1.png";
+import marketplace1 from "../assets/sports3-min.png";
 import Button from "./Button";
 function MarketPlace(props) {
   const [receivedData,setReceivedData]=useState([]);
@@ -54,13 +54,12 @@ function MarketPlace(props) {
       <div className="title">
         <h2>Added Sports Events</h2>
         <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard.
+          Events organised by different colleges...Browse the event categorically.....
         </p>
       </div>
       <div className="marketPlaceTypes">
         {sportsCategories.map((text, index) => {
-          return <Button text={text} key={index} blue={text === selectedCategory} />;
+          return <Button text={text} key={index} blue={text === selectedCategory} categoryButton={true}/>;
         })}
       </div>
       <div className="marketPlaces">

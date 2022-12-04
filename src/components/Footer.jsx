@@ -6,7 +6,7 @@ import { FaTwitterSquare, FaInstagramSquare } from "react-icons/fa";
 import { MdEmail, MdPhoneInTalk } from "react-icons/md";
 import { IoLocationSharp } from "react-icons/io5";
 
-import logo from "../assets/logo.svg";
+import logo from "../assets/logo2.png";
 
 export default function Footer() {
   const servicesLinks = ["Providing Platform", "Easier Payment", "Attractive GUI", "Effective Management"];
@@ -17,12 +17,16 @@ export default function Footer() {
       value: "chittaranjanswain.it.2019@nist.edu",
     },
     {
+      icon: <MdEmail />,
+      value: "dashrathi.ece.2019@nist.edu",
+    },
+    {
       icon: <MdPhoneInTalk />,
       value: "+(91)2553456754",
     },
     {
       icon: <IoLocationSharp />,
-      value: "Bhubaneswar,Odisha,India",
+      value: "Puri,Odisha,India",
     },
   ];
   const socialIcons = [
@@ -37,7 +41,7 @@ export default function Footer() {
         <div className="brand">
           <img src={logo} alt="logo" />
         </div>
-        <p className="description">Bhubaneswar,Odisha,India</p>
+        <p className="description">Puri,Odisha,India</p>
         <div className="social-icons">
           {socialIcons.map((icon) => {
             return <div className="icon">{icon}</div>;

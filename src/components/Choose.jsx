@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import choose from "../assets/child2.png";
 import Button from "./Button";
+import AboutButton from "../components/aboutUs/AboutButton";
 export default function Choose() {
   return (
     <Section>
@@ -11,12 +12,11 @@ export default function Choose() {
       <div className="content">
         <h2>Why should you Choose Our Website ?</h2>
         <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
+          Highly interactive user friendly interface.Already tie up with 20+ colleges and 2000+ students
+          are getting benifited through our website.All the things regarding the management of sports in
+          a single place.So join the community and keep participating. 
         </p>
-        <Button text="Read More" blue />
+        <AboutButton text="Read More" blue />
       </div>
     </Section>
   );

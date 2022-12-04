@@ -5,18 +5,19 @@ import { FaEthereum } from "react-icons/fa";
 import {connect} from "react-redux";
 
 import styled from "styled-components";
-import marketplace1 from "../../../assets/marketplace1.png";
+import marketplace1 from "../../../assets/sports3-min.png";
 import Button from "../../Button";
 function EventCards(props) {
   const [receivedData,setReceivedData]=useState([]);
-  console.log("props in Event card of student:",props.eventReducer);//sportsEvent
-  const marketPlaceType = [
-    "All",
-    "Cricket",
-    "Football",
-    "Basketball",
-    "Badminton",
-    "Volleyball",
+  console.log("props in Event card of student:",props);//sportsEvent
+  const selectedCategory=props.categoryReducer.choosedCategory;
+  const sportsCategories = [
+    "ALL",
+    "CRICKET",
+    "FOOTBALL",
+    "BASKETBALL",
+    "BADMINTON",
+    "VOLLEY",
   ];
   let eventData=[];
   let imageWithEventData=[];
@@ -46,6 +47,9 @@ function EventCards(props) {
         
      console.log("image with eventData:",imageWithEventData);
   },[])
+ let totalEvents=receivedData;
+ if (selectedCategory!="ALL") totalEvents=receivedData?.filter((ev)=>  ev.sports.includes(selectedCategory));
+
   console.log("event dAta:",eventData);
   
   console.log("image with event data:",imageWithEventData);
@@ -60,12 +64,12 @@ function EventCards(props) {
         </p>
       </div>
       <div className="marketPlaceTypes">
-        {marketPlaceType.map((text, index) => {
-          return <Button text={text} key={index} blue={index === 0} />;
+        {sportsCategories.map((text, index) => {
+          return <Button text={text} key={index} blue={text=== selectedCategory} />;
         })}
       </div>
       <div className="marketPlaces">
-        {receivedData.map((ev) => {
+        {totalEvents?.map((ev) => {
           return (
             <div  onClick={()=>{props.setEvent(ev)}} className="marketplace" key={ev.id}>
               <div className="image">

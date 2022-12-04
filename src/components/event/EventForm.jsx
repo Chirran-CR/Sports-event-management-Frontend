@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
 import EventAdded from "./EventAdded";
-import marketplace1 from "../../assets/marketplace1.png"
+import marketplace1 from "../../assets/sports3-min.png"
 
 const initialValues = {
   event_name: "",

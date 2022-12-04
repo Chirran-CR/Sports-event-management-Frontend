@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { signUpSchema } from "./schemas";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const initialValues = {
   name: "",
@@ -181,7 +181,7 @@ const Registration = () => {
                   </div>
                 </form>
                 <p className="sign-up">
-                  Already have an account? <a href="#">Sign In now</a>
+                  Already have an account? <Link to="/login">Sign In now</Link>
                 </p>
               </div>
               <div className="modal-right">

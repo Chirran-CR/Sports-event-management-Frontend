@@ -1,16 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import {connect} from "react-redux";
+import {Link } from "react-router-dom";
 
 function Button(props) {
   const text=props.text;
   const blue=props.blue;
-  
-  
+  let link="/signup";
+  if(localStorage.getItem("designation")) link="/";
   return (
     <Div whileHover={{ scale: 1.2 }}>
-      <button className={`${blue ? "blue" : ""}`} onClick={()=>props.changeCategory(text)}>{text}</button>
+     
+      <button className={`${blue ? "blue" : ""}`} ><Link style={{color:"white"}}to={link}>{text}</Link></button>
     </Div>
   );
 }
@@ -34,14 +35,5 @@ const Div = styled(motion.div)`
   }
 `;
 
-function mapStateToProps(store) {
-  return store.categoryReducer;
-}
-const mapDispatchToProps = (dispatch) => {
-  return {
-    changeCategory: (category) => {
-      return dispatch({ type: "change-category", payload: category });
-    }
-  };
-};
-export default connect(mapStateToProps,mapDispatchToProps)(Button);
+
+export default Button;
