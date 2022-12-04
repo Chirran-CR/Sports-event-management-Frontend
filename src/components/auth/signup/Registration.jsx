@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
 import { GlobalStyle } from "./Styles/globalStyles";
 import { useFormik } from "formik";
@@ -18,7 +18,7 @@ const initialValues = {
 
 const Registration = () => {
   const navigate=useNavigate();
-  let myDesignation="";
+  const [err,setErr]=useState(false);
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
@@ -39,6 +39,8 @@ const Registration = () => {
         console.log("response received is:",res);//res.data will show the teacher returned info
         if(!res.data.myError){//encoutner hoga ki nehi dubara cross check karna re..
           navigate("/login")
+        }else{
+          setErr(true);
         }
         action.resetForm();
       },
@@ -55,6 +57,7 @@ const Registration = () => {
           <div className="modal">
             <div className="modal-container">
               <div className="modal-left">
+              {err? <h1 style={{color:"red"}}>Invalid Credentials</h1>:<></>}
                 <h1 className="modal-title">Welcome!</h1>
                 <p className="modal-desc">
                   To the Sports Event Management Platform.
@@ -197,8 +200,8 @@ const Registration = () => {
 
 const Wrapper = styled.section`
   .container {
-    position: fixed;
-    top: 0;
+    position: relative;
+    top: 40rem;
     left: 0;
     right: 0;
     bottom: 0;

@@ -16,6 +16,7 @@ const initialValues = {
 
 const Registration = (props) => {
   const navigate=useNavigate();
+  const [err,setErr]=useState(false)
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
@@ -29,9 +30,12 @@ const Registration = (props) => {
           email:values.email,
           password:values.password,
         })
-        if(true){
+        if(!loginRes.data.myError){
+          console.log("inside if block of registration login and response is:",loginRes);
           props.logIn(values.designation);
           navigate("/events")
+        }else{
+          setErr(true);
         }
         console.log("loginRes received is:",loginRes);
         action.resetForm();
@@ -49,6 +53,7 @@ const Registration = (props) => {
           <div className="modal">
             <div className="modal-container">
               <div className="modal-left">
+                 {err? <h1 style={{color:"red"}}>Invalid Credentials</h1>:<></>}
                 <h1 className="modal-title">Welcome back!</h1>
                 <p className="modal-desc">
                   To the Sports Event Management Platform.
