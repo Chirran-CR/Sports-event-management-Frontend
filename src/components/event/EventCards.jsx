@@ -34,7 +34,7 @@ function EventCards(props) {
  console.log("new recevied data:",receivedData);
  let totalEvents=props?.teacherEventReducer.allEvents;
  if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=>  ev.sportsCategory.includes(selectedCategory));
- 
+ console.log("Total event ki value in 37 line:",totalEvents);
  return (
     <Section>
       <div className="title">
@@ -57,15 +57,11 @@ function EventCards(props) {
                 <img src={ev.image} alt="marketplace" />
               </div>
               <div className="name">
-                <h4>{ev.name}</h4>
+                <h4>Event Name:{ev.eventName}</h4>
                 <BsThreeDots />
               </div>
-              <h6 className="username">{ev.host}</h6>
-              <div className="price-container">
-                <h5 className="price">free</h5>
-                <FaEthereum />
-              </div>
-            </div>
+              <h6 className="username">Hosted By:{ev.hostingCollege}</h6>
+             </div> 
           );
         })}
       </div>

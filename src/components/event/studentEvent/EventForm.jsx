@@ -34,7 +34,7 @@ const EventForm = (props) => {
           `http://localhost:5000/event/student/add`,
           {
             eventId:event_id,
-            studentEmail:values.student_email,
+            studentEmail:props.userReducer.userEmail,
             collegeName:values.college_name,
             participatingSports:values.participating_sports
           },{credentials:true}
@@ -57,13 +57,13 @@ const EventForm = (props) => {
           <div className="modal">
             <div className="modal-container">
               <div className="modal-left">
-                <h1 className="modal-title">Welcome Student</h1>
+                <h1 className="modal-title">Welcome {props.userReducer.userName}</h1>
                 <p className="modal-desc">
                   Participate in events and have fun...
                 </p>
                 <form onSubmit={handleSubmit}>
                 <h1 className="modal-title">Event Name:{props?.eventReducer?.sportEvent?.name}</h1>
-                  <div className="input-block">
+                  {/* <div className="input-block">
                     <label htmlFor="student_email" className="input-label">
                       Student Email
                     </label>
@@ -80,7 +80,7 @@ const EventForm = (props) => {
                     {errors.student_email && touched.student_email ? (
                       <p className="form-error">{errors.student_email}</p>
                     ) : null}
-                  </div>
+                  </div> */}
                   <h1 className="modal-title">Hosted By:{props?.eventReducer?.sportEvent?.host}</h1>
                   <div className="input-block">
                   <label htmlFor="college_name" className="input-label">
