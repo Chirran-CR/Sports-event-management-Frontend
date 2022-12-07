@@ -40,8 +40,7 @@ function EventCards(props) {
       <div className="title">
         <h2>Added Sports Events</h2>
         <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard.
+         Add the event and we will manage the event for you...
         </p>
       </div>
       <div className="marketPlaceTypes">
