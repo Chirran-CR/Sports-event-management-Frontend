@@ -26,8 +26,11 @@ const Registration = (props) => {
           "🚀 ~ file: Registration.jsx ~ line 11 ~ Registration ~ values",
           values
         );
-        const loginRes=await axios.post(`http://localhost:5000/auth/${values.designation}/login`,{
-          email:values.email,
+        // const loginRes=await axios.post(`http://localhost:5000/auth/${values.designation}/login`,{
+          // const loginRes=await axios.post(`http://localhost:5000/auth/${values.designation}/login`,{
+          const loginRes=await axios.post(`https://sprots-event-api-2.onrender.com/auth/${values.designation}/login`,{
+          
+        email:values.email,
           password:values.password,
         })
         if(!loginRes.data.myError){
