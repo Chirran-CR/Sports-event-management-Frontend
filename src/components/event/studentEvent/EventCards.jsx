@@ -25,7 +25,8 @@ function EventCards(props) {
   useEffect(()=>{
 
     (async function (){
-          const resp=await axios.get("http://localhost:5000/event/",{credentials:true});
+          // const resp=await axios.get("http://localhost:5000/event/",{credentials:true});
+          const resp=await axios.get("https://sprots-event-api-2.onrender.com/event/",{credentials:true});
           eventData=resp.data.allEventsDetails;
           
           console.log("Received EventData:",eventData);
