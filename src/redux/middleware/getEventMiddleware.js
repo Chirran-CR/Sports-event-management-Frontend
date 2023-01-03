@@ -78,7 +78,8 @@ import marketplace1 from "../../assets/sports3-min.png"
 // }
 export const getEventMiddleware=()=>{
      return (dispatch)=>{
-         axios.get("http://localhost:5000/event/")
+        //  axios.get("http://localhost:5000/event/")
+        axios.get("https://sprots-event-api-2.onrender.com/event/")
               .then(resp=>{
                     let eventData=resp.data.allEventsDetails;
             

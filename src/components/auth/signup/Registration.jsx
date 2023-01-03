@@ -31,7 +31,9 @@ const Registration = () => {
           values
         );
         // if(values.designation=="Teacher") myDesignation=
-        const res=await axios.post(`http://localhost:5000/auth/${values.designation}/signup`,{
+        // const res=await axios.post(`http://localhost:5000/auth/${values.designation}/signup`,{
+        const res=await axios.post(`https://sprots-event-api-2.onrender.com/auth/${values.designation}/signup`,{
+
            name:values.name,
            email:values.email,
            collegeName:values.college_name,
