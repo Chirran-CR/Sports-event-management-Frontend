@@ -31,7 +31,8 @@ const EventForm = (props) => {
         console.log("values of form in EventForm of student",values);
         axios.defaults.withCredentials = true
         const studentEventRes = await axios.post(
-          `http://localhost:5000/event/student/add`,
+          // `http://localhost:5000/event/student/add`,
+          `https://sprots-event-api-2.onrender.com/event/student/add`,
           {
             eventId:event_id,
             studentEmail:props.userReducer.userEmail,
