@@ -1,8 +1,8 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import styled from "styled-components";
 import { GlobalStyle } from "../../auth/login/Styles/globalStyles";
 import { Field, useFormik,Formik,useField } from "formik";
-import { studentEventSchema } from "./schemas/studentEventSchema.js";
+// import { studentEventSchema } from "./schemas/studentEventSchema.js";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -13,23 +13,104 @@ import EventAdded from "./EventAdded";
 
 
 const initialValues = {
-  student_email: "",
+  // student_email: "",
   college_name: "",
   participating_sports:  "",
 };
 
 const EventForm = (props) => {
+  const [participatedSportsArray,setParticipatedSportsArray]=useState([]);
+  const [update,setUpdate]=useState(false);
+
+  let tempSport;
+useEffect(()=>{
+  setUpdate(false);
+},[props.eventReducer.update])
   // // const [checkboxTick,setCheckboxTick]=useState(1);
   // const [displayForm,setDisplayForm]=useState(true);
   // console.log("props in eventForm of student:",props);
   let event_id=props?.eventReducer?.sportEvent?.id;
+  // console.log("event_id is:",event_id);
+  // console.log("val of props.studentEventReducer.participatedEvents[0] is:",props.studentEventReducer.participatedEvents[0]);
   
-  // console.log("initial values in eventForm:",initialValues);
+  // let participatedSportsArray;
+  console.log("Val of update is:",update);
+  if(update==false){
+    console.log("inside update is false");
+    let singleParticipatedEvent=props.studentEventReducer?.participatedEvents[0]?.eventsArray?.filter((singleEvent)=>{
+      // console.log("Val of singleEvent.eventId",singleEvent.eventId);
+      // console.log("val of props.eventReducer.sportEvent.id:",props.eventReducer.sportEvent.id);
+      return singleEvent.eventId == props.eventReducer.sportEvent.id;
+    })
+    console.log("Val of singleParticipatedEvent is:",singleParticipatedEvent);
+    if(typeof(singleParticipatedEvent) != "undefined"){
+      // console.log("inside i.e not undefined");
+      // participatedSportsArray=singleParticipatedEvent[0]?.participatingSports;
+      // console.log("participatedSportsArray.length is:",participatedSportsArray.length);
+    console.log("Val of singleParticipatedEvent inside undefined if block is:",singleParticipatedEvent[0]?.participatingSports);
+    console.log("participatedSportsArray.length is:",participatedSportsArray.length);
+  
+      if(typeof(singleParticipatedEvent[0]?.participatingSports)!= "undefined"){
+        console.log("inside if block..");
+      const tempArrayForParticipatedSportsArray=[...singleParticipatedEvent[0]?.participatingSports];
+  
+        setParticipatedSportsArray([...tempArrayForParticipatedSportsArray]);
+      }
+    } 
+    setUpdate(true);
+    props.setUpdate(true);
+    console.log("Val of participated Sports array is:",participatedSportsArray);
+  }
+  
+  // const participatedSportsArray=singleParticipatedEvent == "undefined" ? "true":"false";
+function handleParticipatedSportsArray(){
+  console.log("Click on checkbox having sport is:",tempSport);
+  if(participatedSportsArray.includes(tempSport)){
+    const tempArrayForParticipatedSportsArray=[...participatedSportsArray];
+    const index = tempArrayForParticipatedSportsArray.indexOf(tempSport);
+    if (index > -1) { // only splice array when item is found
+      tempArrayForParticipatedSportsArray.splice(index, 1); // 2nd parameter means remove one item only
+      
+      // const newArry=[...participatedSportsArray];
+      setParticipatedSportsArray([...tempArrayForParticipatedSportsArray]);
+    }
+  }else{
+    const tempArrayForParticipatedSportsArray=[...participatedSportsArray,tempSport];
+    setParticipatedSportsArray([...tempArrayForParticipatedSportsArray]);
+  }
+  setUpdate(true);
+  props.setUpdate(true);
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+}
+async function handleRemoveParticipation(){
+  console.log("Inside handleRemoveParticipation function...");
+  const studentDeleteEventRes = await axios.delete(
+      `http://localhost:5000/event/student/${props.userReducer.id}`,
+      // `https://sprots-event-api-2.onrender.com/event/student/add`,
+      // {event_id:event_id},{credentials:true}
+      {data:{event_id:event_id},credentials:true}
+  );
+  console.log("Val of studentDeleteEventRes is:",studentDeleteEventRes);
+  const allParticipatedEvent=props.studentEventReducer.participatedEvents.map((ev)=>{
+      const eventsArray=ev.eventsArray.filter((event)=>{
+        return event.eventId != event_id;
+      });
+      return {...ev,eventsArray:eventsArray};
+  });
+  console.log("AllParticipatedEvent value after deleting:",allParticipatedEvent[0]);
+  // props.addParticipatedEvent(allParticipatedEvent[0]);
+  props.hideStudentForm();
+  // props.setEvent();
+}
+
+
+  console.log("Val of participatedSportsArray is:",participatedSportsArray);
+  // console.log("initial values in eventForm:",initialValues);
+  console.log("Val of studentEventReducer inside eventForm of myEvent is:",props.studentEventReducer);
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit,setFieldValue } =
     useFormik({
       initialValues,
-      validationSchema: studentEventSchema,
+      // validationSchema: studentEventSchema,
       onSubmit: async (values, action) => {
         axios.defaults.withCredentials = true
         const sendingDataDetails={
@@ -37,29 +118,39 @@ const EventForm = (props) => {
           studentEmail:props.userReducer.userEmail,
           hostingClg:props.eventReducer.sportEvent.host,
           collegeName:values.college_name,
-          participatingSports:values.participating_sports
+          participatingSports:[...participatedSportsArray]
         }
         console.log("values of form in EventForm of student",values);
         console.log("val of sending data details is:",sendingDataDetails);
-        const studentEventRes = await axios.post(
-          `http://localhost:5000/event/student/add`,
-          // `https://sprots-event-api-2.onrender.com/event/student/add`,
-          sendingDataDetails,{credentials:true}
-        );
-        
+        console.log("Val of removeParticipated event is:",true);
+      // let studentEventRes;
+      //  if(removeParticipatedEvent==true){
+      //   console.log("Inside true of removeParticipation...");
+      //      studentEventRes = await axios.post(
+      //       `http://localhost:5000/event/student/delete/${props.userReducer.id}`,
+      //       // `https://sprots-event-api-2.onrender.com/event/student/add`,
+      //       sendingDataDetails,{credentials:true}
+      //     );
+      //  }else{
+           const studentEventRes = await axios.put(
+            `http://localhost:5000/event/student/${props.userReducer.id}`,
+            // `https://sprots-event-api-2.onrender.com/event/student/add`,
+            sendingDataDetails,{credentials:true}
+          );
+      //  }
         console.log("studentEventRes received is:", studentEventRes);
         action.resetForm();
         // action.setSubmitting(false);
         // document.getElementsByClassName("mycheck").checked = false;
         // setCheckboxTick(checkboxTick+1);
-        props.hideForm();
+        // props.hideForm();
+        props.hideStudentForm();
       },
     });
-
   return (
     <>
       <GlobalStyle />
-      {props.authReducer.displayFormState ? <Wrapper>
+      {props.authReducer.dispalyStudentFromState ? <Wrapper>
         <div className="container">
           <div className="modal">
             <div className="modal-container">
@@ -67,11 +158,11 @@ const EventForm = (props) => {
                { console.log("image result is:",props.userReducer.profileImage)}
               {props.userReducer.profileImage != "" ? <Avatar src={<img src={`http://localhost:5000/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
               
-                <h1 className="modal-title">Welcome {props.userReducer.userName}</h1>
+                <h1  style={{marginLeft:"20%"}}>Event Details</h1>
                 <p className="modal-desc">
-                  Participate in events and have fun...
+                  ..
                 </p>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} >
                 <h1 className="modal-title">Event Name:{props?.eventReducer?.sportEvent?.name}</h1>
                   {/* <div className="input-block">
                     <label htmlFor="student_email" className="input-label">
@@ -92,33 +183,13 @@ const EventForm = (props) => {
                     ) : null}
                   </div> */}
                   <h1 className="modal-title">Hosted By:{props?.eventReducer?.sportEvent?.host}</h1>
-                  <div className="input-block">
-                  <label htmlFor="college_name" className="input-label">
-                      Choose your college
-                    </label>
-                  {props?.eventReducer?.sportEvent?.participate?.map((clg,idx)=>{
-                      return(<>
-                        <input 
-                      type="radio"
-                      autoComplete="off"
-                      key={idx}
-                      name="college_name"
-                      id="college_name"
-                      value={clg}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />{clg}</>
-                      )
-                    })}
-                    {errors.college_name && touched.college_name ? (
-                      <p className="form-error">{errors.college_name}</p>
-                    ) : null}
-                  </div>
+                  
                   <div className="input-block">
                     <label htmlFor="participating_sports" className="input-label">
-                      Available Sports
+                      Selected Sports
                     </label>
                     { props?.eventReducer?.sportEvent?.sports?.map((sport,idx)=>{
+                      console.log();//here checkbox's checked val ko true set krenge
                       return(<>
                         <input
                       type="checkbox"
@@ -126,7 +197,9 @@ const EventForm = (props) => {
                       name="participating_sports"
                       id="participating_sports"
                       value={sport}
+                      checked={participatedSportsArray.includes(sport)}
                       onChange={handleChange}
+                      onClick={(value)=>{ tempSport=sport;console.log("sport is",tempSport);handleParticipatedSportsArray()}}
                       onBlur={handleBlur}
                     />{sport}</>
                       )
@@ -135,13 +208,26 @@ const EventForm = (props) => {
                       <p className="form-error">{errors.sports_category}</p>
                     ) : null}
                   </div>
+                  <h1 className="modal-title">No of Participants:{23}</h1>
                   <div className="modal-buttons">
                     <motion.button
                       whileHover={{ scale: 1.2 }}
                       className="input-button"
                       type="submit"
+                      // onClick={(removeParticipatedEvent)=>{setRemoveParticipatedEvent(false);}}
                     >
-                      Join Event
+                      Update Participation
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.2 }}
+                      className="input-button"
+                      // type="submit"
+                      type="button"
+                      style={{marginLeft:"5px",marginRight:"2px"}}
+                      // onClick={(removeParticipatedEvent)=>{console.log("remove participation is clicked...");setRemoveParticipatedEvent(true);}}
+                      onClick={()=>{handleRemoveParticipation()}}
+                    >
+                      Remove Participation
                     </motion.button>
                   </div>
                 </form>
@@ -330,8 +416,20 @@ const mapDispatchToProps = (dispatch) => {
     logIn: (desigantion) => {
       return dispatch({ type: "login", payload: desigantion });
     },
-    hideForm:()=>{
+    hideForm:()=>{//not required here 
       return dispatch({type:"hide-form"});
+    },
+    hideStudentForm:()=>{
+      return dispatch({type:"hide-student-form"})
+    },
+    setEvent:()=>{
+      return dispatch({type:"set-event",payload:{}})
+    },
+    addParticipatedEvent:(eventObj)=>{
+      return dispatch({type:"add-participated-event",payload:eventObj})
+    },
+    setUpdate:(val)=>{
+      return dispatch({type:"set-update",payload:val})
     }
   };
 };

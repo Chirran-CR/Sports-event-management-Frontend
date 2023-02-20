@@ -1,4 +1,4 @@
-
+//to store all the events
 let initialState = {
   allEvents:[],
 };

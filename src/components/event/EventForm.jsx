@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
+import { UserOutlined } from '@ant-design/icons';
+import {Avatar} from "antd";
 import EventAdded from "./EventAdded";
 import marketplace1 from "../../assets/sports3-min.png"
 
@@ -17,21 +19,20 @@ const initialValues = {
   participating_clg: [],
   venue: "",
   sports_category: [],
+  event_banner:""
 };
 
 const EventForm = (props) => {
   // // const [checkboxTick,setCheckboxTick]=useState(1);
   // const [displayForm,setDisplayForm]=useState(true);
+  axios.defaults.withCredentials=true;
   console.log("props ki value in EventForm:",props);
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit,setFieldValue } =
     useFormik({
       initialValues,
       validationSchema: eventSchema,
       onSubmit: async (values, action) => {
-        console.log(
-          "🚀 ~ file: Registration.jsx ~ line 11 ~ Registration ~ values",
-          values
-        );
+        console.log("form values inside eventForm of teacher is:",values);
         axios.defaults.withCredentials = true
         let toBeStoredObj={
           eventName: values.event_name,
@@ -40,11 +41,40 @@ const EventForm = (props) => {
           participatingColleges:values.participating_clg,
           sportsCategory:values.sports_category,
           venue:values.venue,
+          eventBanner:values.event_banner
         };
-        const loginRes = await axios.post(
-          `http://localhost:5000/event/add`,toBeStoredObj,{credentials:true}
+        //works good but file has not send to backend
+        // const loginRes = await axios.post(
+        //   `http://localhost:5000/event/add`,toBeStoredObj,{credentials:true}          
+          
+        // );
+
+        // const loginRes=await axios({
+        //   method:'post',
+        //   url:'http://localhost:5000/event/add',
+        //   headers:{
+        //     "Content-Type":"multipart/form-data"
+        //   },
+        //   withCredentials:true,
+        //   data:toBeStoredObj
+        // })
+        //solution src:-https://github.com/axios/axios/issues/2149
+        //solution:-Try to add withCredentials: true to the request which create cookie in your server.
+         // For example when cookie is created when user is try to login, than add flag withCredentials to login request.
+        const loginRes=await axios.post('http://localhost:5000/event/add',
+        toBeStoredObj,
+        {
+          headers:{
+            "Content-Type":"multipart/form-data"
+          },
+          credentials:true
+        }
         );
-        toBeStoredObj={...toBeStoredObj,image:marketplace1};
+       
+
+
+       console.log("loginRes from teacher event(event form) is:",loginRes);
+        toBeStoredObj={...toBeStoredObj,eventBanner:loginRes.data.addedEventDetails.eventBanner};
         props.addEvent(toBeStoredObj);
         console.log("loginRes received is:", loginRes);
         action.resetForm({values:{  event_name: "",
@@ -52,7 +82,9 @@ const EventForm = (props) => {
         hosting_clg: "",
         participating_clg: [],
         venue: "",
-        sports_category: [],}});
+        sports_category: [],
+        event_banner:""
+      }});
         // action.setSubmitting(false);
         // document.getElementsByClassName("mycheck").checked = false;
         // setCheckboxTick(checkboxTick+1);
@@ -81,11 +113,12 @@ const EventForm = (props) => {
           <div className="modal">
             <div className="modal-container">
               <div className="modal-left">
-                <h1 className="modal-title">Welcome Teacher</h1>
+              {props.userReducer.profileImage != "" ? <Avatar src={<img src={`http://localhost:5000/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
+                <h1 className="modal-title">Welcome {props.userReducer.userName}</h1>
                 <p className="modal-desc">
                   Add event and relax...
                 </p>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} encType="multipart/form-data">
                   <div className="input-block">
                     <label htmlFor="event_name" className="input-label">
                       Event Name
@@ -205,20 +238,17 @@ const EventForm = (props) => {
                     ) : null}
                   </div>
                   <div className="input-block">
-                    <label htmlFor="event_photo" className="input-label">
-                       Event Photo
+                    <label htmlFor="eventBanner" className="input-label">
+                       Event Banner
                     </label>
                         <input
                       type="file"
-                      name="event_photo"
-                      id="event_photo"
-                      // value={values.event_photo}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
+                      name="eventBanner"
+                      onChange={(event) => {setFieldValue("event_banner", event.currentTarget.files[0])}}
                     />
                       
-                    {errors.sports_category && touched.sports_category ? (
-                      <p className="form-error">{errors.sports_category}</p>
+                    {errors.event_banner && touched.event_banner ? (
+                      <p className="form-error">{errors.event_banner}</p>
                     ) : null}
                   </div>
                   <div className="modal-buttons">

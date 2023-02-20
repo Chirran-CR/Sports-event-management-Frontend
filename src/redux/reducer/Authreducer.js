@@ -2,6 +2,7 @@ import axios from "axios";
 let initialState = {
   isLoggedIn: false,
   displayFormState:true,
+  dispalyStudentFromState:true,
 };
 const Authreducer = (state = initialState, action) => {
   switch (action.type) {
@@ -27,6 +28,13 @@ const Authreducer = (state = initialState, action) => {
     case "hide-form":
             return{...state,displayFormState:false
             }
+    case "display-student-form":
+      return{
+          ...state,dispalyStudentFromState:true
+      }
+    case "hide-student-form":
+      return{...state,dispalyStudentFromState:false
+      }
     default:
       return state;
   }

@@ -1,7 +1,9 @@
 let initialState = {
     userEmail:"",
     userName:"",
-    userCollegeName:""
+    userCollegeName:"",
+    profileImage:"",
+    id:""
   };
   const Userreducer = (state = initialState, action) => {
     switch (action.type) {

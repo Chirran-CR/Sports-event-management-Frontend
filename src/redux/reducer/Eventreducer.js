@@ -1,6 +1,7 @@
-
+//store perticular event
 let initialState = {
-    sportEvent:{}
+    sportEvent:{},
+    update:false,
 };
 //used to set and event when the student click an event
 const Eventreducer =  (state = initialState, action) => {
@@ -8,9 +9,14 @@ const Eventreducer =  (state = initialState, action) => {
     case "set-event":
       // console.log("set event value in reducer:",action.payload);
       return {
-        sportEvent:action.payload
+        sportEvent:action.payload,
+        update:state.update
       };
-    
+    case "set-update":
+      return {
+        sportEvent:state.sportEvent,
+        update:action.payload
+      }
     default:
       return state;
   }

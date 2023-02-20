@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useRef} from "react";
 import styled from "styled-components";
 import { GlobalStyle } from "./Styles/globalStyles";
 import { useFormik } from "formik";
@@ -14,14 +14,16 @@ const initialValues = {
   designation:"",
   password: "",
   confirm_password: "",
+  profile_pic:""
 };
 
 const Registration = () => {
   const navigate=useNavigate();
   const [err,setErr]=useState(false);
+  const fileRef=useRef(null);
   const users=["teacher","student"];
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue } =
     useFormik({
       initialValues,
       validationSchema: signUpSchema,
@@ -30,16 +32,22 @@ const Registration = () => {
           "🚀 ~ file: Registration.jsx ~ line 11 ~ Registration ~ values",
           values
         );
+        const configObj={
+          headers:{
+            "Content-Type":"multipart/form-data"
+          }
+        }
         // if(values.designation=="Teacher") myDesignation=
-        // const res=await axios.post(`http://localhost:5000/auth/${values.designation}/signup`,{
-        const res=await axios.post(`https://sprots-event-api-2.onrender.com/auth/${values.designation}/signup`,{
+        const res=await axios.post(`http://localhost:5000/auth/${values.designation}/signup`,{
+        // const res=await axios.post(`https://sprots-event-api-2.onrender.com/auth/${values.designation}/signup`,{
 
            name:values.name,
            email:values.email,
            collegeName:values.college_name,
            password:values.password,
            confirmPassword:values.confirm_password,
-        })
+           profilePic:values.profile_pic,
+        },configObj)
         console.log("response received is:",res);//res.data will show the teacher returned info
         if(!res.data.myError){//encoutner hoga ki nehi dubara cross check karna re..
           navigate("/login")
@@ -66,7 +74,7 @@ const Registration = () => {
                 <p className="modal-desc">
                   To the Sports Event Management Platform.
                 </p>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} encType="multipart/form-data">
                   <div className="input-block">
                     <label htmlFor="name" className="input-label">
                       Name
@@ -183,6 +191,12 @@ const Registration = () => {
                       <p className="form-error">{errors.confirm_password}</p>
                     ) : null}
                   </div>
+                  <input ref={fileRef}  type="file" name="profilePic" onChange={(event) => {setFieldValue("profile_pic", event.currentTarget.files[0])}}/>
+                    <label className="input-label" style={{border:"2px solid black"}}>Upload Profile Picture</label>
+                    {/* <button onClick={()=>{fileRef.current.click()}}>Upload Profile Pic</button> */}
+                    {errors.profile_pic && touched.profile_pic ? (
+                      <p className="form-error">{errors.profile_pic}</p>
+                    ) : null}
                   <div className="modal-buttons">
                     <a href="#" className="">
                       Want to register using Gmail?

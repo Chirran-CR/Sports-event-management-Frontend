@@ -4,7 +4,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { FaEthereum } from "react-icons/fa";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import ParticipatedButton from "./ParticipatedButton";
+// import ParticipatedButton from "./ParticipatedButton";
 
 import styled from "styled-components";
 import marketplace1 from "../../../assets/sports3-min.png";
@@ -21,39 +21,58 @@ function EventCards(props) {
     "BADMINTON",
     "VOLLEY",
   ];
-  let eventData=[];
+  let participatedEventData=[];
   let imageWithEventData=[];
+  let id=props.userReducer.id;
+  console.log("Val of userReducer is:",props.userReducer);
+  console.log("Val of id is:",id);
   useEffect(()=>{
-
+    console.log("inside the useEffect of eventCards of event...");
     (async function (){
-          const resp=await axios.get("http://localhost:5000/event/",{credentials:true});
+          const resp=await axios.get(`http://localhost:5000/event/student/${id}`,{credentials:true});
           // const resp=await axios.get("https://sprots-event-api-2.onrender.com/event/",{credentials:true});
-          eventData=resp.data.allEventsDetails;
           
-          console.log("Received EventData:",eventData);
-          imageWithEventData=eventData?.map((ev,i)=>{
-            return{
-                id:ev._id,
-                eventBanner:ev.eventBanner,
-                name:ev.eventName,
-                host:ev.hostingCollege,
-                participate:ev.participatingColleges,
-                sports:ev.sportsCategory,
-                venue:ev.venue
-            }
-       })
+          const  receivedParticipatedEventData=resp.data.participatedEventsDetails;
+          console.log("Received participatedEventData is:",receivedParticipatedEventData);
+          const respEvents=await axios.get("http://localhost:5000/event/",{credentials:true});
+          const allEventData=respEvents.data.allEventsDetails;
+          console.log("Received allEventData is:",allEventData);
+          const participatedArray=receivedParticipatedEventData[0].eventsArray;
+          console.log("Val oif participatedArray is:",participatedArray);
+          const participatedEventIds=participatedArray.map((ev)=>{
+            return ev.eventId;
+          })
+          console.log("val of participatedEventIds is:",participatedEventIds);
+          const participatedEvents=allEventData.filter((event)=>{
+             return participatedEventIds.includes(event._id);
+          })
+          console.log("Val of participatedEvents is:",participatedEvents);
+          
+          imageWithEventData=participatedEvents?.map((ev,i)=>{
+              return{
+                  id:ev._id,
+                  eventBanner:ev.eventBanner,
+                  name:ev.eventName,
+                  host:ev.hostingCollege,
+                  participate:ev.participatingColleges,
+                  sports:ev.sportsCategory,
+                  venue:ev.venue
+              }
+            })
        
-       setReceivedData(imageWithEventData);
-        })();
-        console.log("Received EventData outer:",eventData);
+          setReceivedData(imageWithEventData);
+          props.addParticipatedEvents(receivedParticipatedEventData[0]);
+          
+    })();
+    console.log("Received participatedEventData outer:",participatedEventData);
 
         
-     console.log("image with eventData:",imageWithEventData);
+    console.log("image with participatedEventData:",imageWithEventData);
   },[])
  let totalEvents=receivedData;
  if (selectedCategory!="ALL") totalEvents=receivedData?.filter((ev)=>  ev.sports.includes(selectedCategory));
 
-  console.log("event dAta:",eventData);
+  console.log("event dAta:",participatedEventData);
   
   console.log("image with event data:",imageWithEventData);
  console.log("new recevied data:",receivedData);
@@ -61,10 +80,10 @@ function EventCards(props) {
   return (
     <Section>
       <div className="title">
-        <h2>Added Sports Events</h2>
-       <Link to="/myevent">
+        <h2>Participated Events</h2>
+       {/* <Link to="/myevent">
           <ParticipatedButton text="Participated Events" blue={true}/>
-       </Link> 
+       </Link>  */}
       </div>
       <div className="marketPlaceTypes">
         {sportsCategories.map((text, index) => {
@@ -74,7 +93,7 @@ function EventCards(props) {
       <div className="marketPlaces">
         {totalEvents?.map((ev) => {
           return (
-            <div  onClick={()=>{props.setEvent(ev)}} className="marketplace" key={ev.id}>
+            <div  onClick={()=>{props.setEvent(ev); props.setUpdate(false)}} className="marketplace" key={ev.id}>
               <div className="image">
                 <img src={`http://localhost:5000/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
               </div>
@@ -184,6 +203,12 @@ const mapDispatchToProps = (dispatch) => {
     setEvent: (eventObj) => {
       return dispatch({ type: "set-event", payload: eventObj });
     },
+    addParticipatedEvents:(eventObj)=>{
+      return dispatch({type:"add-participated-event",payload:eventObj})
+    },
+    setUpdate:(val)=>{
+      return dispatch({type:"set-update",payload:val})
+    }
   };
 };
 export default connect(mapStateToProps,mapDispatchToProps)(EventCards);

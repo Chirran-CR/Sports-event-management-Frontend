@@ -9,4 +9,5 @@ export const signUpSchema = Yup.object({
   confirm_password: Yup.string()
     .required()
     .oneOf([Yup.ref("password"), null], "Password must match"),
+  profile_pic: Yup.mixed().required("File is required"),
 });

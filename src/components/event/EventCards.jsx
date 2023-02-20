@@ -32,7 +32,7 @@ function EventCards(props) {
   console.log("image with event data:",imageWithEventData);
   // setReceivedData(props.allEvents);
  console.log("new recevied data:",receivedData);
- let totalEvents=props?.teacherEventReducer.allEvents;
+ let totalEvents=props?.teacherEventReducer.allEvents; 
  if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=>  ev.sportsCategory.includes(selectedCategory));
  console.log("Total event ki value in 37 line:",totalEvents);
  return (
@@ -53,7 +53,7 @@ function EventCards(props) {
           return (
             <div className="marketplace" key={idx}>
               <div className="image">
-                <img src={ev.image} alt="marketplace" />
+                <img src={`http://localhost:5000/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
               </div>
               <div className="name">
                 <h4>Event Name:{ev.eventName}</h4>

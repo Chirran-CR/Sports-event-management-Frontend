@@ -78,15 +78,19 @@ import marketplace1 from "../../assets/sports3-min.png"
 // }
 export const getEventMiddleware=()=>{
      return (dispatch)=>{
-        //  axios.get("http://localhost:5000/event/")
-        axios.get("https://sprots-event-api-2.onrender.com/event")
+         axios.get("http://localhost:5000/event/")
+        // axios.get("https://sprots-event-api-2.onrender.com/event")
               .then(resp=>{
                     let eventData=resp.data.allEventsDetails;
             
                     console.log("Received EventData:",eventData);
-                    let imageWithEventData=eventData?.map((ev)=>{ return{
+                    let imageWithEventData=eventData?.map((ev)=>
+                    { 
+                        
+                        return{
                         id:ev._id,
-                        image:marketplace1,
+                        // image:marketplace1,
+                        eventBanner:ev.eventBanner,
                         eventName:ev.eventName,
                         hostingCollege:ev.hostingCollege,
                         participatingColleges:ev.participatingColleges,
