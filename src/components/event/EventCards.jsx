@@ -3,6 +3,9 @@ import React,{useEffect,useState} from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaEthereum } from "react-icons/fa";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
+import ParticipatedButton from "./ParticipatedButton";
+
 
 import styled from "styled-components";
 import {getEventMiddleware} from "../../redux/middleware/getEventMiddleware";
@@ -15,7 +18,7 @@ function EventCards(props) {
     "CRICKET",
     "FOOTBALL",
     "BASKETBALL",
-    "BADMINTON",
+    "BADMINTON", 
     "VOLLEY",
   ];
   let eventData=[];
@@ -39,6 +42,9 @@ function EventCards(props) {
     <Section>
       <div className="title">
         <h2>Added Sports Events</h2>
+        <Link to="/myuploadedevent">
+          <ParticipatedButton text="My Uploaded Events" blue={true}/>
+       </Link> 
         <p>
          Add the event and we will manage the event for you...
         </p>

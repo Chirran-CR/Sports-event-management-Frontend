@@ -2,6 +2,7 @@
 let initialState = {
     sportEvent:{},
     update:false,
+    clgUpdate:false,
 };
 //used to set and event when the student click an event
 const Eventreducer =  (state = initialState, action) => {
@@ -10,12 +11,20 @@ const Eventreducer =  (state = initialState, action) => {
       // console.log("set event value in reducer:",action.payload);
       return {
         sportEvent:action.payload,
-        update:state.update
+        update:state.update,
+        clgUpdate:state.clgUpdate
       };
     case "set-update":
       return {
         sportEvent:state.sportEvent,
-        update:action.payload
+        update:action.payload,
+        clgUpdate:state.clgUpdate
+      }
+    case "set-clg-update":
+      return {
+        sportEvent:state.sportEvent,
+        update:state.update,
+        clgUpdate:action.payload
       }
     default:
       return state;

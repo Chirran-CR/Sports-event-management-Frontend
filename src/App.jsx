@@ -12,6 +12,7 @@ import StudentEvents from "./components/event/studentEvent/StudentEvents";
 import Contact from "./components/contact/Contact";
 import AboutUs from "./components/aboutUs/AboutUs";
 import MyEvents from "./components/event/myEvent/MyEvents";
+import MyUploadedEvent from "./components/event/myUploadedEvent/MyUploadedEvents";
 function App() {
   return (
     <>
@@ -25,6 +26,7 @@ function App() {
           <Route path="/contact" element={<Contact/>}/>
           <Route path="/about-us" element={<AboutUs/>}/>
           <Route path="/myevent" element={<MyEvents/>}/>
+          <Route path="/myuploadedevent" element={<MyUploadedEvent/>} />
         </Routes>
       <ToastContainer/>
       </BrowserRouter>

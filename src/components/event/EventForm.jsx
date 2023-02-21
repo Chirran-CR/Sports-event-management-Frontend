@@ -70,10 +70,16 @@ const EventForm = (props) => {
           credentials:true
         }
         );
-       
+        toBeStoredObj.eventId=loginRes.data.addedEventDetails._id;
+        const uploadedRes=await axios.post(`http://localhost:5000/event/teacher/add/${props.userReducer.id}`,
+          toBeStoredObj,
+          {
+            credentials:true
+          }
+        );
+        console.log("Val of uploadedRes is:",uploadedRes);
 
-
-       console.log("loginRes from teacher event(event form) is:",loginRes);
+      //  console.log("loginRes from teacher event(event form) is:",loginRes);
         toBeStoredObj={...toBeStoredObj,eventBanner:loginRes.data.addedEventDetails.eventBanner};
         props.addEvent(toBeStoredObj);
         console.log("loginRes received is:", loginRes);

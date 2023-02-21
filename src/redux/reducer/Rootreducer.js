@@ -5,6 +5,7 @@ import Teachereventreducer from "./Teachereventreducer";
 import Categoryreducer from "./Categoryreducer";
 import Userreducer from "./Userreducer";
 import Studenteventreducer from "./Studenteventreducer";
+import Teacheruploadedeventreducer from "./Teacheruploadedeventreducer";
 
 
 const rootReducer=combineReducers({
@@ -14,6 +15,7 @@ const rootReducer=combineReducers({
       categoryReducer:Categoryreducer,
       userReducer:Userreducer,
       studentEventReducer:Studenteventreducer, 
+      teacherUploadedEventReducer:Teacheruploadedeventreducer,
 })
 
 export default rootReducer;
