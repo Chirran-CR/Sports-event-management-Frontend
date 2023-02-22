@@ -312,7 +312,7 @@ function handleParticipatedClgArray(){
                       type="submit"
                       // onClick={(removeParticipatedEvent)=>{setRemoveParticipatedEvent(false);}}
                     >
-                      Update Participation
+                      Update Event
                     </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.2 }}
@@ -323,7 +323,7 @@ function handleParticipatedClgArray(){
                       // onClick={(removeParticipatedEvent)=>{console.log("remove participation is clicked...");setRemoveParticipatedEvent(true);}}
                       onClick={()=>{handleRemoveParticipation()}}
                     >
-                      Remove Participation
+                      Remove Event
                     </motion.button>
                   </div>
                 </form>

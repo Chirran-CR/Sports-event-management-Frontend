@@ -42,9 +42,14 @@ function EventCards(props) {
     <Section>
       <div className="title">
         <h2>Added Sports Events</h2>
+       <div  style={{display:"flex"}}>
         <Link to="/myuploadedevent">
           <ParticipatedButton text="My Uploaded Events" blue={true}/>
        </Link> 
+       <Link to="/selectparticipant">
+          <ParticipatedButton text="Select Participant" blue={true}/>
+       </Link>
+        </div> 
         <p>
          Add the event and we will manage the event for you...
         </p>
