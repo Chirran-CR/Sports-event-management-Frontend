@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import React from "react";
 import { BrowserRouter, Routes, Route,Navigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
@@ -28,7 +29,8 @@ function App() {
           <Route path="/about-us" element={<AboutUs/>}/>
           <Route path="/myevent" element={<MyEvents/>}/>
           <Route path="/myuploadedevent" element={<MyUploadedEvent/>} />
-          <Route path="/selectparticipant" element={<SelectParticipant/>} />
+          <Route path="/selectparticipant/" element={<SelectParticipant />}>
+          </Route>
         </Routes>
       <ToastContainer/>
       </BrowserRouter>

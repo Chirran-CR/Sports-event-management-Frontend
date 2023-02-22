@@ -12,6 +12,7 @@ const initialValues = {
   email: "",
   college_name:"",
   designation:"",
+  gender:"",
   password: "",
   confirm_password: "",
   profile_pic:""
@@ -22,7 +23,8 @@ const Registration = () => {
   const [err,setErr]=useState(false);
   const fileRef=useRef(null);
   const users=["teacher","student"];
-
+  const gender=["Male","Female"];
+  
   const { values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue } =
     useFormik({
       initialValues,
@@ -44,6 +46,7 @@ const Registration = () => {
            name:values.name,
            email:values.email,
            collegeName:values.college_name,
+           gender:values.gender,
            password:values.password,
            confirmPassword:values.confirm_password,
            profilePic:values.profile_pic,
@@ -153,6 +156,32 @@ const Registration = () => {
                    }</div> 
                     {errors.designation && touched.designation ? (
                       <p className="form-error">{errors.designation}</p>
+                    ) : null}
+                  </div>
+                  <div className="input-block">
+                    <label htmlFor="gender" className="input-label ">
+                      Gender:
+                    </label>
+                    <div className="input-radio">
+                   {
+                    gender.map((g,idx)=>{
+                        return(
+                          <>
+                            <input
+                              type="radio"
+                              key={idx}
+                              name="gender"
+                              id="gender"
+                              value={g}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            />{g}
+                          </>
+                        )
+                    })
+                   }</div> 
+                    {errors.gender && touched.gender ? (
+                      <p className="form-error">{errors.gender}</p>
                     ) : null}
                   </div>
                   <div className="input-block">

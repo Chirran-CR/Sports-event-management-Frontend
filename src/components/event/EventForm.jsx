@@ -26,6 +26,8 @@ const EventForm = (props) => {
   // // const [checkboxTick,setCheckboxTick]=useState(1);
   // const [displayForm,setDisplayForm]=useState(true);
   axios.defaults.withCredentials=true;
+  initialValues.teacher_email=props.userReducer.userEmail;
+  initialValues.hosting_clg=props.userReducer.userCollegeName;
   console.log("props ki value in EventForm:",props);
   const { values, errors, touched, handleBlur, handleChange, handleSubmit,setFieldValue } =
     useFormik({
@@ -84,8 +86,8 @@ const EventForm = (props) => {
         props.addEvent(toBeStoredObj);
         console.log("loginRes received is:", loginRes);
         action.resetForm({values:{  event_name: "",
-        teacher_email: "",
-        hosting_clg: "",
+        teacher_email: props.userReducer.userEmail,
+        hosting_clg: props.userReducer.userCollegeName,
         participating_clg: [],
         venue: "",
         sports_category: [],
@@ -154,7 +156,7 @@ const EventForm = (props) => {
                       id="teacher_email"
                       placeholder="Teacher Email"
                       value={values.teacher_email}
-                      onChange={handleChange}
+                      // onChange={handleChange}
                       onBlur={handleBlur}
                     />
                     {errors.teacher_email && touched.teacher_email ? (
@@ -172,7 +174,7 @@ const EventForm = (props) => {
                       id="hosting_clg"
                       placeholder="Hosting College Name"
                       value={values.hosting_clg}
-                      onChange={handleChange}
+                      // onChange={handleChange}
                       onBlur={handleBlur}
                     />
                     {errors.hosting_clg && touched.hosting_clg ? (

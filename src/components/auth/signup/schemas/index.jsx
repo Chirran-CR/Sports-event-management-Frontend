@@ -6,6 +6,7 @@ export const signUpSchema = Yup.object({
   password: Yup.string().min(6).required("Please enter your password"),
   college_name:Yup.string().required("Please enter the college name"),
   designation:Yup.string().required("Please enter your designation"),
+  gender:Yup.string().required("Please choose your gender"),
   confirm_password: Yup.string()
     .required()
     .oneOf([Yup.ref("password"), null], "Password must match"),
