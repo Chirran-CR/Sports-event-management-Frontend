@@ -27,6 +27,7 @@ table {
 .header_fixed {
     max-height: 100vh;
     width: 100%;
+    margin-top: 23px;
     overflow: auto;
     border: 1px solid #dddddd;
 }
@@ -74,11 +75,56 @@ td button {
     background-color: black;
     color: #e6e7e8;
 }
+.export_button{
+    border: none;
+    padding: 7px 20px;
+    border-radius: 20px;
+    background-color: black;
+    color: #e6e7e8;
+}
 .other_component_selection{
     display: flex;
     width:100%;
     margin-left:auto;
     margin-right:auto;
+}
+.select_student{
+    border:2px solid #865DFF;
+    border-radius:20px;
+    font-size: 1.2rem;
+}
+.select_student:hover{
+    border:2px solid #191825;
+    
+}
+.select_student_label{
+    color: #002000;
+    box-sizing: border-box;
+    text-decoration: none;
+    /* transition: 0.4s ease-in-out; */
+    border: 2px solid white;
+    border-radius: 1rem;
+    background-color: #232835;
+    padding: 0.5rem;
+    color: white;
+    font-size: 0.8rem;
+    box-shadow: 8px 8px 8px 8px gray;
+    box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    /* &:hover {
+      color: #2d69fd;
+    } */
+}
+.other_component_selection{
+    margin-top: 28px;
+    display: flex;
+    justify-content:space-around;
+}
+.event_selection{
+    width:100vw;
+   display: flex;
+   justify-content: center;
+
+    margin-top: 20px;
 }
 /* ::-webkit-scrollbar {
     width: 6px;

@@ -36,7 +36,7 @@ const EventForm = (props) => {
           eventId:event_id,
           studentEmail:props.userReducer.userEmail,
           hostingClg:props.eventReducer.sportEvent.host,
-          collegeName:values.college_name,
+          collegeName:props.userReducer.userCollegeName,
           participatingSports:values.participating_sports
         }
         console.log("values of form in EventForm of student",values);
@@ -96,23 +96,26 @@ const EventForm = (props) => {
                   <label htmlFor="college_name" className="input-label">
                       Choose your college
                     </label>
-                  {props?.eventReducer?.sportEvent?.participate?.map((clg,idx)=>{
+                  
+                  {props?.eventReducer?.sportEvent?.participate?.includes(props.userReducer.userCollegeName)?
+                  (props?.eventReducer?.sportEvent?.participate?.map((clg,idx)=>{
                       return(<>
-                        <input 
+                        <input
                       type="radio"
                       autoComplete="off"
                       key={idx}
                       name="college_name"
                       id="college_name"
                       value={clg}
-                      onChange={handleChange}
+                      checked={props?.eventReducer?.sportEvent?.participate?.includes(props.userReducer.userCollegeName) && clg==props.userReducer.userCollegeName}
+                      // onChange={handleChange}
                       onBlur={handleBlur}
                     />{clg}</>
                       )
-                    })}
-                    {errors.college_name && touched.college_name ? (
+                    })):<h2>Not Eligible</h2>}
+                    {/* {errors.college_name && touched.college_name ? (
                       <p className="form-error">{errors.college_name}</p>
-                    ) : null}
+                    ) : null} */}
                   </div>
                   <div className="input-block">
                     <label htmlFor="participating_sports" className="input-label">
@@ -140,6 +143,8 @@ const EventForm = (props) => {
                       whileHover={{ scale: 1.2 }}
                       className="input-button"
                       type="submit"
+                      disabled={!props?.eventReducer?.sportEvent?.participate?.includes(props.userReducer.userCollegeName)}
+                      
                     >
                       Join Event
                     </motion.button>
