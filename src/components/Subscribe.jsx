@@ -1,8 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import subscribe from "../assets/child3.png";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 export default function Subscribe() {
+  const [email,setEmail]=useState("");
+  const [sport,setSport]=useState("All");
+  const [clg,setClg]=useState("All");
+  const notifySubscription = () => toast.success('Newsletter subscribed', {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+    });
+  const notifyErrorSubscription = () => toast.warn('Email already present..No Worries', {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+    });  
+  const handleEmailChange=(ev)=>{
+    setEmail(ev.target.value);
+  }
+  function handleSport(ev){
+    setSport(ev.target.value);
+  }
+  function handleClg(ev){
+    setClg(ev.target.value);
+  }
+  const handleSubscribe=async (ev)=>{
+      console.log("Val of email,sport & clg is:",email," ",sport," ",clg);
+      const subscribeRes=await axios.post("http://localhost:5000/subscribe/add",{
+        emailId:email,
+        interestedSport:sport,
+        interestedCollege:clg
+      }) 
+      setEmail("");
+      if(subscribeRes.data.successNotification){
+        notifySubscription();
+      }else{
+        notifyErrorSubscription();
+      }
+      console.log("subscribe response received is:",subscribeRes);
+  }
   return (
     <Section>
       <div className="content">
@@ -12,8 +64,26 @@ export default function Subscribe() {
           frequently.
         </p>
         <div className="input-container">
-          <input type="text" placeholder="Enter Email" />
-          <BsFillArrowRightCircleFill />
+          <input type="text" value={email} onChange={(ev)=>handleEmailChange(ev)}placeholder="Enter Email" />
+          <select name="sport" onChange={(ev)=>handleSport(ev)}id="sports-names">
+              <option value="All" selected>All</option>
+              <option value="CRICKET">CRICKET</option>
+              <option value="BASKETBALL">BASKETBALL</option>
+              <option value="FOOTBALL">FOOTBALL</option>
+              <option value="VOLLEY">VOLLEY</option>
+              <option value="BADMINTON">BADMINTON</option>
+          </select>
+          <select name="college" onChange={(ev)=>{handleClg(ev)}} id="colleges-names">c
+              <option value="All" selected>All</option>
+              <option value="NIST">NIST</option>
+              <option value="RIT">RIT</option>
+              <option value="ITER">ITER</option>
+              <option value="IISER">IISER</option>
+              <option value="KIT">KIT</option>
+          </select>
+          <button style={{border:"none"}} onClick={(ev)=>{handleSubscribe(ev)}}>
+               <BsFillArrowRightCircleFill />
+          </button> 
         </div>
       </div>
       <div className="image">
