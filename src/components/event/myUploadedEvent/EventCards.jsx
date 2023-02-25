@@ -8,6 +8,7 @@ import {Link} from "react-router-dom";
 
 import styled from "styled-components";
 import marketplace1 from "../../../assets/sports3-min.png";
+import { getSelectedParticipateMiddleware } from "../../../redux/middleware/getSelectedParticipateMiddleware";
 import Button from "../../Button";
 function EventCards(props) {
   const [receivedData,setReceivedData]=useState([]);
@@ -84,7 +85,7 @@ function EventCards(props) {
        {/* <Link to="/myevent">
           <ParticipatedButton text="Participated Events" blue={true}/>
        </Link>  */}
-      </div>
+      </div> 
       <div className="marketPlaceTypes">
         {sportsCategories.map((text, index) => {
           return <Button text={text} key={index} blue={text=== selectedCategory} />;
@@ -93,7 +94,7 @@ function EventCards(props) {
       <div className="marketPlaces">
         {totalEvents?.map((ev) => {
           return (
-            <div  onClick={()=>{props.setEvent(ev); props.setUpdate(false); props.setClgUpdate(false)}} className="marketplace" key={ev.id}>
+            <div  onClick={()=>{props.setEvent(ev); props.setUpdate(false); props.setClgUpdate(false);props.getSelectedParticipateMiddlewareFn(ev.id)}} className="marketplace" key={ev.id}>
               <div className="image">
                 <img src={`http://localhost:5000/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
               </div>
@@ -214,6 +215,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setClgUpdate:(val)=>{
       return dispatch({type:"set-clg-update",payload:val})
+    },
+    getSelectedParticipateMiddlewareFn:(eventId)=>{
+      return dispatch(getSelectedParticipateMiddleware(eventId))
     }
   };
 };

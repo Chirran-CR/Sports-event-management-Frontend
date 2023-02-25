@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import {connect} from "react-redux";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import {CSVLink} from "react-csv";
 import "./selectParticipant.css";
 
@@ -26,7 +29,16 @@ const SelectParticipant = (props) => {
   const allGender=["All","Male","Female"];
   const allSelectionBasis=["FCFS","Random"];
 
-
+  const notifySelectedStudent = () =>toast.info("Student selected & mail has been sent..", {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+    });
   let id=props.userReducer.id;
   function handleSelectedEvent(ev){
     // ev.preventDefault();
@@ -210,6 +222,54 @@ const SelectParticipant = (props) => {
       setDisplayedEvent(eventSelected);
     }
   }
+  async function handleSelectStudentAndSendMail(ev){
+    console.log("Clicked on handle send mail & ev.target.value is:",ev.target.value);
+    const sendSelectedStudent=displayedEvent?.participatingStudents?.filter((studentObj,idx)=>{
+      // console.log("No Of Student is:",noOfStudent)
+      if(idx+1 <= (noOfStudent=="All"? 100:noOfStudent)) return true;
+      else return false;      
+    }).map((studentObj)=>{return studentObj});
+    console.log("Val of sendSelectedStudent is:",sendSelectedStudent);
+    //TODO:- first check uploaded event's particiipated sports is more than one if more than one then,
+    //TODO:- then only remove that particular sport else remove the whole event as students are selected for all the sports
+   
+   const sendObj={sendSelectedStudent:sendSelectedStudent,selectedSport:selectedSport};
+   
+    const addSelectedStudentRes=await axios.post(`http://localhost:5000/event/addselectedstudent/${displayedEvent.eventId}`,sendObj);
+    console.log("Val of addSelectedStudentRes is:",addSelectedStudentRes);
+    //remove this event from allTheUploadedEvent & set the selectedEvent & displayed event as ""
+    
+    const afterRemovingSelectedEventAllTheUploadedEvent=allTheUploadedEvent.filter((evObj)=>{
+       if(evObj.eventId == selectedEvent.eventId){
+         if(evObj.sportsCategory.length ==1){
+          return false;
+         }
+       }
+       return true;
+    }).map((evObj)=>{
+      if(evObj.eventId == selectedEvent.eventId){
+        evObj.sportsCategory=evObj.sportsCategory.filter((sport)=> {return sport != selectedSport})
+      }
+      return evObj;
+    })
+
+    let tempFlag=false;
+    afterRemovingSelectedEventAllTheUploadedEvent.map((evObj)=>{
+       if(evObj.eventId == selectedEvent.eventId){
+         setSelectedEvent(evObj);
+         setDisplayedEvent(evObj);
+         tempFlag=true;
+       }
+    })
+    if(tempFlag==false){
+      setSelectedEvent("");
+      setDisplayedEvent("");
+    }
+    console.log("Val of afterRemovingSelectedEventAllTheUploadedEvent is:",afterRemovingSelectedEventAllTheUploadedEvent);
+    setAllTheUploadedEvent(afterRemovingSelectedEventAllTheUploadedEvent);
+    notifySelectedStudent();
+
+  }
   console.log("Val of selectedGender is:",selectedGender);
   useEffect(()=>{
     (async function (){
@@ -363,7 +423,9 @@ const SelectParticipant = (props) => {
             </tbody>
         </table>
     </div>
-
+    <div style={{textAlign:"right",marginTop:10}} >
+      <button style={{marginRight:20}} onClick={(ev)=>{handleSelectStudentAndSendMail(ev)}} className="send_email_button">Select Student & Send Email</button>
+    </div>
       
     </div>
   )

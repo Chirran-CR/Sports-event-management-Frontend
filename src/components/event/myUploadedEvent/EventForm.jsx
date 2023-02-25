@@ -38,6 +38,14 @@ const EventForm = (props) => {
   const [participatedClgArray,setParticipatedClgArray]=useState([]);
   const [update,setUpdate]=useState(false);
   const [clgUpdate,setClgUpdate]=useState(false);
+  const [isResultFormVisible,setResultFormVisible]=useState(false);
+  const [selectedSport,setSelectedSport]=useState("");
+  const [selectedStudentArray,setSelectedStudentArray]=useState([]);
+  const [selectedOutcome,setSelectOutcome]=useState({
+    winner:"",
+    runnersUp:"",
+  })
+
 
   let tempSport,tempClg;
 useEffect(()=>{
@@ -175,7 +183,31 @@ function handleParticipatedClgArray(){
   setClgUpdate(true);
   props.setClgUpdate(true);
 }
+function handleUploadResult(){
+  console.log("Handle Upload result is clicked...");
+  console.log(`Winner of the ${selectedSport} is: ${selectedOutcome.winner} & runnersUp is: ${selectedOutcome.runnersUp}`);
+  //TODO:- remove the sports from the, selected sport dropdown menu..
+  //TODO:- send resutl to backend & store it in the respective event..
+  props.hideStudentForm();
 
+}
+function handleSelectedSport(ev){
+  setSelectedSport(ev.target.value);
+  const studentList=props.selectedStudentReducer?.selectedStudentData.filter((studObj)=>{
+    return studObj.selectedSport == ev.target.value;
+  })
+  console.log("Val of studentList is:",studentList);
+  setSelectedStudentArray([...studentList]);
+}
+function handleOutcome(ev){
+  console.log("Val of winner is:",ev.target.value);
+  setSelectOutcome({
+    ...selectedOutcome,
+    [ev.target.name]:ev.target.value,
+  })
+}
+console.log("Val of selectedOutcome is:",selectedOutcome);
+  console.log("Val of selectedStudentArray is:",selectedStudentArray);
   console.log("Val of uploadedSportsArray is:",uploadedSportsArray);
   // console.log("initial values in eventForm:",initialValues);
   console.log("Val of teacherUploadedEventReducer inside eventForm of myEvent is:",props.teacherUploadedEventReducer);
@@ -231,102 +263,200 @@ function handleParticipatedClgArray(){
               <div className="modal-left">
                { console.log("image result is:",props.userReducer.profileImage)}
               {props.userReducer.profileImage != "" ? <Avatar src={<img src={`http://localhost:5000/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
-              
+              {
+                isResultFormVisible ? (<>
                 <h1  style={{marginLeft:"20%"}}>Event Details</h1>
-                <p className="modal-desc">
-                  ..
-                </p>
-                <form onSubmit={handleSubmit} >
-                <h1 className="modal-title">Event Name:{props?.eventReducer?.sportEvent?.name}</h1>
-                  {/* <div className="input-block">
-                    <label htmlFor="student_email" className="input-label">
-                      Student Email
-                    </label>
-                    <input
-                      type="email"
-                      autoComplete="off"
-                      name="student_email"
-                      id="student_email"
-                      placeholder="Student Email"
-                      value={props.userReducer.userEmail}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    {errors.student_email && touched.student_email ? (
-                      <p className="form-error">{errors.student_email}</p>
-                    ) : null}
-                  </div> */}
-                  <h1 className="modal-title">Hosted By:{props?.eventReducer?.sportEvent?.host}</h1>
-                  <div className="input-block">
-                    <label htmlFor="participating_clg" className="input-label">
-                      Participating Colleges
-                    </label>
-                    {colleges.map((clg)=>{
-                      return(<>
-                        <input
-                      type="checkbox"
-                      autoComplete="off"
-                      key={clg.key}
-                      name="participating_clg"
-                      id="participating_clg"
-                      value={clg.value}
-                      checked={participatedClgArray.includes(clg.value)}
-                      onClick={(value)=>{ tempClg=clg.value;console.log("college is",tempClg);handleParticipatedClgArray()}}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />{clg.value}</>
-                      )
-                    })}
-                    
-                  </div>
-                  <div className="input-block">
-                    <label htmlFor="participating_sports" className="input-label">
-                      Selected Sports
-                    </label>
-                    {/* { props?.eventReducer?.sportEvent?.sports?.map((sport,idx)=>{ */}
-                    { sportsCategories.map((sport,idx)=>{                      
-                      console.log();//here checkbox's checked val ko true set krenge
-                      return(<>
-                        <input
-                      type="checkbox"
-                      key={idx}
-                      name="uploaded_sports"
-                      id="uploaded_sports"
-                      value={sport}
-                      checked={uploadedSportsArray.includes(sport)}
-                      onChange={handleChange}
-                      onClick={(value)=>{ tempSport=sport;console.log("sport is",tempSport);handleUploadedSportsArray()}}
-                      onBlur={handleBlur}
-                    />{sport}</>
-                      )
-                    })}
-                    {errors.sports_category && touched.sports_category ? (
-                      <p className="form-error">{errors.sports_category}</p>
-                    ) : null}
-                  </div>
-                  <h1 className="modal-title">No of Participants:{23}</h1>
-                  <div className="modal-buttons">
-                    <motion.button
-                      whileHover={{ scale: 1.2 }}
-                      className="input-button"
-                      type="submit"
-                      // onClick={(removeParticipatedEvent)=>{setRemoveParticipatedEvent(false);}}
-                    >
-                      Update Event
-                    </motion.button>
-                    <motion.button
-                      whileHover={{ scale: 1.2 }}
-                      className="input-button"
-                      // type="submit"
-                      type="button"
-                      style={{marginLeft:"5px",marginRight:"2px"}}
-                      // onClick={(removeParticipatedEvent)=>{console.log("remove participation is clicked...");setRemoveParticipatedEvent(true);}}
-                      onClick={()=>{handleRemoveParticipation()}}
-                    >
-                      Remove Event
-                    </motion.button>
-                  </div>
+                <form>
+                   <h1 className="modal-title">Event Name:{props?.eventReducer?.sportEvent?.name}</h1>
+                   <div className="input-block">
+                      <label htmlFor="Select" className="input-label">
+                        Select Sports Category:
+                      </label> 
+                      <select className="select_sport"  name="sport" id="sport"  onChange={(ev)=>{handleSelectedSport(ev)}}>
+                        { props.selectedStudentReducer?.selectedStudentData ? (
+                            <>
+                              {
+                                props.selectedStudentReducer?.selectedStudentData.map((studentObj,idx)=>{
+                                    return(<option value={studentObj.selectedSport} key={idx}>{studentObj.selectedSport}</option>)
+                                })
+                              }
+                            </>
+                          ):( 
+                            <option value="All" key="All">Select an event</option>
+                          )
+                        }
+                      </select>                     
+                    </div>
+                    <div className="input-block">
+                      <label htmlFor="Select" className="input-label">
+                        Select Winner:
+                      </label> 
+                      <select className="select_winner"  name="winner" id="winner"  onChange={(ev)=>{handleOutcome(ev)}}>
+                        { selectedStudentArray ? (
+                            <>
+                              {
+                                selectedStudentArray?.map((studentObj,idx)=>{
+                                  return studentObj.studentInfo.map((obj,i)=>{
+                                    return(<option value={obj.name} key={i}>{obj.name}</option>)
+                                  })
+                                })
+                              }
+                            </>
+                          ):( 
+                            <option value="All" key="All">NA</option>
+                          )
+                        }
+                      </select>                       
+                    </div>
+                    <div className="input-block">
+                      <label htmlFor="Select" className="input-label">
+                        Select Runners-up:
+                      </label>  
+                      <select className="select_runnersUp"  name="runnersUp" id="runnersUp"  onChange={(ev)=>{handleOutcome(ev)}}>
+                        { selectedStudentArray ? (
+                            <>
+                              {
+                                selectedStudentArray?.map((studentObj,idx)=>{
+                                  return studentObj.studentInfo.map((obj,i)=>{
+                                    return(<option value={obj.name} key={i}>{obj.name}</option>)
+                                  })
+                                })
+                              }
+                            </>
+                          ):( 
+                            <option value="All" key="All">NA</option>
+                          )
+                        }
+                      </select>                      
+                    </div>
+                    <div className="upload_result_button">
+                      <motion.button
+                          whileHover={{ scale: 1.2 }}
+                          className="input-button"
+                          // type="submit"
+                          type="button"
+                          style={{marginLeft:"20px",marginRight:"2px",marginTop:"10px"}}
+                          // onClick={(removeParticipatedEvent)=>{console.log("remove participation is clicked...");setRemoveParticipatedEvent(true);}}
+                          // onClick={()=>{handleUploadResult()}}
+                          onClick={()=>handleUploadResult()}
+                        >
+                          Upload result
+                        </motion.button>
+                    </div>
                 </form>
+                </>):(<>
+                  <h1  style={{marginLeft:"20%"}}>Event Details</h1>
+                  <p className="modal-desc">
+                  
+                  </p>
+                  <form onSubmit={handleSubmit} >
+                  <h1 className="modal-title">Event Name:{props?.eventReducer?.sportEvent?.name}</h1>
+                    {/* <div className="input-block">
+                      <label htmlFor="student_email" className="input-label">
+                        Student Email
+                      </label>
+                      <input
+                        type="email"
+                        autoComplete="off"
+                        name="student_email"
+                        id="student_email"
+                        placeholder="Student Email"
+                        value={props.userReducer.userEmail}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      {errors.student_email && touched.student_email ? (
+                        <p className="form-error">{errors.student_email}</p>
+                      ) : null}
+                    </div> */}
+                    <h1 className="modal-title">Hosted By:{props?.eventReducer?.sportEvent?.host}</h1>
+                    <div className="input-block">
+                      <label htmlFor="participating_clg" className="input-label">
+                        Participating Colleges
+                      </label>
+                      {colleges.map((clg)=>{
+                        return(<>
+                          <input
+                        type="checkbox"
+                        autoComplete="off"
+                        key={clg.key}
+                        name="participating_clg"
+                        id="participating_clg"
+                        value={clg.value}
+                        checked={participatedClgArray.includes(clg.value)}
+                        onClick={(value)=>{ tempClg=clg.value;console.log("college is",tempClg);handleParticipatedClgArray()}}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />{clg.value}</>
+                        )
+                      })}
+                      
+                    </div>
+                    <div className="input-block">
+                      <label htmlFor="participating_sports" className="input-label">
+                        Selected Sports
+                      </label>
+                      {/* { props?.eventReducer?.sportEvent?.sports?.map((sport,idx)=>{ */}
+                      { sportsCategories.map((sport,idx)=>{                      
+                        console.log();//here checkbox's checked val ko true set krenge
+                        return(<>
+                          <input
+                        type="checkbox"
+                        key={idx}
+                        name="uploaded_sports"
+                        id="uploaded_sports"
+                        value={sport}
+                        checked={uploadedSportsArray.includes(sport)}
+                        onChange={handleChange}
+                        onClick={(value)=>{ tempSport=sport;console.log("sport is",tempSport);handleUploadedSportsArray()}}
+                        onBlur={handleBlur}
+                      />{sport}</>
+                        )
+                      })}
+                      {errors.sports_category && touched.sports_category ? (
+                        <p className="form-error">{errors.sports_category}</p>
+                      ) : null}
+                    </div>
+                    <h1 className="modal-title">No of Participants:{23}</h1>
+                    <div className="modal-buttons">
+                      <motion.button
+                        whileHover={{ scale: 1.2 }}
+                        className="input-button"
+                        type="submit"
+                        // onClick={(removeParticipatedEvent)=>{setRemoveParticipatedEvent(false);}}
+                      >
+                        Update Event
+                      </motion.button>
+                      <motion.button
+                        whileHover={{ scale: 1.2 }}
+                        className="input-button"
+                        // type="submit"
+                        type="button"
+                        style={{marginLeft:"5px",marginRight:"2px"}}
+                        // onClick={(removeParticipatedEvent)=>{console.log("remove participation is clicked...");setRemoveParticipatedEvent(true);}}
+                        onClick={()=>{handleRemoveParticipation()}}
+                      >
+                        Remove Event
+                      </motion.button>
+                    </div>
+                    <div className="add_result_button">
+                    <motion.button
+                        whileHover={{ scale: 1.2 }}
+                        className="input-button"
+                        // type="submit"
+                        type="button"
+                        style={{marginLeft:"20px",marginRight:"2px",marginTop:"10px"}}
+                        // onClick={(removeParticipatedEvent)=>{console.log("remove participation is clicked...");setRemoveParticipatedEvent(true);}}
+                        // onClick={()=>{handleUploadResult()}}
+                        onClick={()=>setResultFormVisible(true)}
+                      >
+                        Want to upload result
+                      </motion.button>
+                    </div>
+                  </form>
+                </>)
+              }
+               
               </div>
             </div>
           </div>
