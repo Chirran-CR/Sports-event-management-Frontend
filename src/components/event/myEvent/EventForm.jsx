@@ -21,6 +21,13 @@ const initialValues = {
 const EventForm = (props) => {
   const [participatedSportsArray,setParticipatedSportsArray]=useState([]);
   const [update,setUpdate]=useState(false);
+  const [showResult,setShowResult]=useState(false);
+  const [showFeedbackBlock,setShowFeedbackBlock]=useState(false);
+  const [textAreaVal,setTextAreaVal]=useState("");
+  const [resultData,setResultData]=useState([]);
+  const [selectedSportForResult,setSelectedSportForResult]=useState("");
+  const [winnerInfo,setWinnerInfo]=useState({});
+  const [runnersUpInfo,setRunnersUpInfo]=useState({});
 
   let tempSport;
 useEffect(()=>{
@@ -102,7 +109,38 @@ async function handleRemoveParticipation(){
   props.hideStudentForm();
   // props.setEvent();
 }
+async function handleShowResult(){
+  setWinnerInfo({});
+  setRunnersUpInfo({});
+  console.log("Handle show reslult is called..");
+  //* from the event id, i will get the teacher mail, then send to that mailId...
+  const resultRes=await axios.get(`http://localhost:5000/event/getresult/${event_id}`);
+  console.log("Val of resultRes is:",resultRes);
+  setResultData([...resultRes.data.resultOfEvent]);
 
+}
+console.log("Val of resultData is:",resultData);
+
+async function handleSendFeedback(){
+  console.log("Val of feeback is:",textAreaVal);
+  console.log("Val of student id is:",props.userReducer.id);
+  console.log("Val of event id is:",event_id);
+  console.log("val of sportEvent inside eventReducer is:",props?.eventReducer?.sportEvent);
+  setTextAreaVal("");
+  setShowFeedbackBlock(false);
+  setShowResult(false);
+}
+function handleSelectedSportForResult(val){
+  setSelectedSportForResult(val);
+  resultData.map((resultObj)=>{
+     if(resultObj.selectedSport == val){
+      setWinnerInfo(resultObj.winnerStudentInfo);
+      setRunnersUpInfo(resultObj.runnersUpStudentInfo);
+     }
+  })
+}
+console.log("Val of winnerInfo:",winnerInfo);
+console.log("Val of runnersUpInfo:",runnersUpInfo);
 
   console.log("Val of participatedSportsArray is:",participatedSportsArray);
   // console.log("initial values in eventForm:",initialValues);
@@ -150,93 +188,211 @@ async function handleRemoveParticipation(){
   return (
     <>
       <GlobalStyle />
-      {props.authReducer.dispalyStudentFromState ? <Wrapper>
-        <div className="container">
-          <div className="modal">
-            <div className="modal-container">
-              <div className="modal-left">
-               { console.log("image result is:",props.userReducer.profileImage)}
-              {props.userReducer.profileImage != "" ? <Avatar src={<img src={`http://localhost:5000/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
-              
-                <h1  style={{marginLeft:"20%"}}>Event Details</h1>
-                <p className="modal-desc">
-                  ..
-                </p>
-                <form onSubmit={handleSubmit} >
-                <h1 className="modal-title">Event Name:{props?.eventReducer?.sportEvent?.name}</h1>
-                  {/* <div className="input-block">
-                    <label htmlFor="student_email" className="input-label">
-                      Student Email
-                    </label>
-                    <input
-                      type="email"
-                      autoComplete="off"
-                      name="student_email"
-                      id="student_email"
-                      placeholder="Student Email"
-                      value={props.userReducer.userEmail}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    {errors.student_email && touched.student_email ? (
-                      <p className="form-error">{errors.student_email}</p>
-                    ) : null}
-                  </div> */}
-                  <h1 className="modal-title">Hosted By:{props?.eventReducer?.sportEvent?.host}</h1>
+      {showResult ? 
+        <Wrapper>
+          <div className="container" >
+              <div className="modal">
+                <div className="modal-container">
+                  <div className="modal-left">
+                  { console.log("image result is:",props.userReducer.profileImage)}
+                  {props.userReducer.profileImage != "" ? <Avatar src={<img src={`http://localhost:5000/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
                   
-                  <div className="input-block">
-                    <label htmlFor="participating_sports" className="input-label">
-                      Selected Sports
-                    </label>
-                    { props?.eventReducer?.sportEvent?.sports?.map((sport,idx)=>{
-                      console.log();//here checkbox's checked val ko true set krenge
-                      return(<>
+                    <h1  style={{marginLeft:"20%"}}>Result of Event</h1>
+                    <p className="modal-desc">
+                    </p>
+                    <form onSubmit={handleSubmit} >
+                    <h1 className="modal-title">Event Name:{props?.eventReducer?.sportEvent?.name}</h1>
+                      <h1 className="modal-title">Hosted By:{props?.eventReducer?.sportEvent?.host}</h1>
+                      
+                      <div className="input-block">
+                        <label htmlFor="select_sports" className="input-label">
+                          Select Sport:-
+                        </label>
+                        <select className="select_sports"  name="selectSports" id="selectSports"  onChange={(ev)=>{handleSelectedSportForResult(ev.target.value)}}>
+                        { resultData ? (
+                            <>
+                              {
+                                resultData?.map((resultObj,idx)=>{
+                                    return(<option value={resultObj.selectedSport} key={idx}>{resultObj.selectedSport}</option>)
+                                })
+                              }
+                            </>
+                          ):( 
+                            <option value="All" key="All">NA</option>
+                          )
+                        }
+                      </select> 
+                      </div>
+                      <div className="input-block">
+                        <label htmlFor="winner_block" className="input-label" style={{marginTop:"10px"}}>
+                          <h2>Winner:-</h2>
+                        </label>
+                        <div style={{display:"flex"}}>
+                          <Avatar src={<img src={`http://localhost:5000/images/profilePics/${winnerInfo.profilePic}`}  alt="avatar" />}style={{marginLeft:"35%",marginTop:"-12%",marginBottom:"5%"}} size={50} />
+                          <h2 style={{marginTop:"-7%",marginLeft:"5%"}}>{winnerInfo.name}</h2>
+                        </div>
+                        <label htmlFor="runners_up_block" className="input-label" style={{marginTop:"10px"}}>
+                          <h2>Runner Up:-</h2>
+                        </label>
+                        <div style={{display:"flex"}}>
+                          <Avatar src={<img src={`http://localhost:5000/images/profilePics/${runnersUpInfo.profilePic}`}  alt="avatar" />}style={{marginLeft:"52%",marginTop:"-12%",marginBottom:"5%"}} size={50} />
+                          <h2 style={{marginTop:"-7%",marginLeft:"5%"}}>{runnersUpInfo.name}</h2>
+                        </div>
+                      </div>
+                      <h1 className="modal-title">No of Participants:{23}</h1>
+                      {showFeedbackBlock? 
+                        <div className="input-block">
+                          <label htmlFor="comment_block" className="input-label">
+                            Give your feedback:-
+                          </label>
+                          <textarea rows={5} cols={10} value={textAreaVal} onChange={(e)=>{setTextAreaVal(e.target.value)}}></textarea>                     
+                        </div>
+                      :
+                      (<div className="modal-buttons">
+                      <motion.button
+                        whileHover={{ scale: 1.2 }}
+                        className="input-button"
+                        // type="submit"
+                        type="button"
+                        style={{marginLeft:"5px",marginRight:"2px"}}
+                        // onClick={(removeParticipatedEvent)=>{console.log("remove participation is clicked...");setRemoveParticipatedEvent(true);}}
+                        onClick={()=>{setShowFeedbackBlock(true)}}
+                      >
+                        Want to Say Something
+                      </motion.button>
+                    </div>)}
+                      {showFeedbackBlock? (<div className="modal-buttons">
+                        <motion.button
+                            whileHover={{ scale: 1.2 }}
+                            className="input-button"
+                            // type="submit"
+                            type="button"
+                            style={{marginLeft:"80px",marginRight:"2px",marginTop:"10px"}}
+                            // onClick={(removeParticipatedEvent)=>{console.log("remove participation is clicked...");setRemoveParticipatedEvent(true);}}
+                            onClick={()=>{handleSendFeedback();}}
+                        >
+                           Send Feedback
+                          </motion.button>
+                      </div>)
+                      :(<div className="modal-buttons">
+                        <motion.button
+                            whileHover={{ scale: 1.2 }}
+                            className="input-button"
+                            // type="submit"
+                            type="button"
+                            style={{marginLeft:"80px",marginRight:"2px",marginTop:"10px"}}
+                            // onClick={(removeParticipatedEvent)=>{console.log("remove participation is clicked...");setRemoveParticipatedEvent(true);}}
+                            onClick={()=>{setShowResult(false)}}
+                        >
+                           OK
+                          </motion.button>
+                      </div>)}
+                    </form>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </Wrapper>
+      :
+          (props.authReducer.dispalyStudentFromState ? <Wrapper>
+            <div className="container">
+              <div className="modal">
+                <div className="modal-container">
+                  <div className="modal-left">
+                  { console.log("image result is:",props.userReducer.profileImage)}
+                  {props.userReducer.profileImage != "" ? <Avatar src={<img src={`http://localhost:5000/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
+                  
+                    <h1  style={{marginLeft:"20%"}}>Event Details</h1>
+                    <p className="modal-desc">
+                    </p>
+                    <form onSubmit={handleSubmit} >
+                    <h1 className="modal-title">Event Name:{props?.eventReducer?.sportEvent?.name}</h1>
+                      {/* <div className="input-block">
+                        <label htmlFor="student_email" className="input-label">
+                          Student Email
+                        </label>
                         <input
-                      type="checkbox"
-                      key={idx}
-                      name="participating_sports"
-                      id="participating_sports"
-                      value={sport}
-                      checked={participatedSportsArray.includes(sport)}
-                      onChange={handleChange}
-                      onClick={(value)=>{ tempSport=sport;console.log("sport is",tempSport);handleParticipatedSportsArray()}}
-                      onBlur={handleBlur}
-                    />{sport}</>
-                      )
-                    })}
-                    {errors.sports_category && touched.sports_category ? (
-                      <p className="form-error">{errors.sports_category}</p>
-                    ) : null}
+                          type="email"
+                          autoComplete="off"
+                          name="student_email"
+                          id="student_email"
+                          placeholder="Student Email"
+                          value={props.userReducer.userEmail}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                        {errors.student_email && touched.student_email ? (
+                          <p className="form-error">{errors.student_email}</p>
+                        ) : null}
+                      </div> */}
+                      <h1 className="modal-title">Hosted By:{props?.eventReducer?.sportEvent?.host}</h1>
+                      
+                      <div className="input-block">
+                        <label htmlFor="participating_sports" className="input-label">
+                          Selected Sports
+                        </label>
+                        { props?.eventReducer?.sportEvent?.sports?.map((sport,idx)=>{
+                          console.log();//here checkbox's checked val ko true set krenge
+                          return(<>
+                            <input
+                          type="checkbox"
+                          key={idx}
+                          name="participating_sports"
+                          id="participating_sports"
+                          value={sport}
+                          checked={participatedSportsArray.includes(sport)}
+                          onChange={handleChange}
+                          onClick={(value)=>{ tempSport=sport;console.log("sport is",tempSport);handleParticipatedSportsArray()}}
+                          onBlur={handleBlur}
+                        />{sport}</>
+                          )
+                        })}
+                        {errors.sports_category && touched.sports_category ? (
+                          <p className="form-error">{errors.sports_category}</p>
+                        ) : null}
+                      </div>
+                      <h1 className="modal-title">No of Participants:{23}</h1>
+                      <div className="modal-buttons">
+                        <motion.button
+                          whileHover={{ scale: 1.2 }}
+                          className="input-button"
+                          type="submit"
+                          // onClick={(removeParticipatedEvent)=>{setRemoveParticipatedEvent(false);}}
+                        >
+                          Update Participation
+                        </motion.button>
+                        <motion.button
+                          whileHover={{ scale: 1.2 }}
+                          className="input-button"
+                          // type="submit"
+                          type="button"
+                          style={{marginLeft:"5px",marginRight:"2px"}}
+                          // onClick={(removeParticipatedEvent)=>{console.log("remove participation is clicked...");setRemoveParticipatedEvent(true);}}
+                          onClick={()=>{handleRemoveParticipation()}}
+                        >
+                          Remove Participation
+                        </motion.button>
+                      </div>
+                      <div className="modal-buttons">
+                        <motion.button
+                            whileHover={{ scale: 1.2 }}
+                            className="input-button"
+                            // type="submit"
+                            type="button"
+                            style={{marginLeft:"80px",marginRight:"2px",marginTop:"10px"}}
+                            // onClick={(removeParticipatedEvent)=>{console.log("remove participation is clicked...");setRemoveParticipatedEvent(true);}}
+                            onClick={()=>{setShowResult(true);handleShowResult();}}
+                        >
+                            View Result
+                          </motion.button>
+                      </div>
+                    </form>
                   </div>
-                  <h1 className="modal-title">No of Participants:{23}</h1>
-                  <div className="modal-buttons">
-                    <motion.button
-                      whileHover={{ scale: 1.2 }}
-                      className="input-button"
-                      type="submit"
-                      // onClick={(removeParticipatedEvent)=>{setRemoveParticipatedEvent(false);}}
-                    >
-                      Update Participation
-                    </motion.button>
-                    <motion.button
-                      whileHover={{ scale: 1.2 }}
-                      className="input-button"
-                      // type="submit"
-                      type="button"
-                      style={{marginLeft:"5px",marginRight:"2px"}}
-                      // onClick={(removeParticipatedEvent)=>{console.log("remove participation is clicked...");setRemoveParticipatedEvent(true);}}
-                      onClick={()=>{handleRemoveParticipation()}}
-                    >
-                      Remove Participation
-                    </motion.button>
-                  </div>
-                </form>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </Wrapper> :<EventAdded/>}
-      
+          </Wrapper> :<EventAdded/>)
+       }
     </>
   );
 };

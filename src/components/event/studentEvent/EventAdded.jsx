@@ -25,7 +25,7 @@ const EventAdded = (props) => {
           type="submit"
           onClick={props.displayForm}
         >
-          Add Another Event
+          Join Another Event
         </motion.button>
               </div>
               </div>

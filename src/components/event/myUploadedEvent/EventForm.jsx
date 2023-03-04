@@ -183,11 +183,54 @@ function handleParticipatedClgArray(){
   setClgUpdate(true);
   props.setClgUpdate(true);
 }
-function handleUploadResult(){
+async function handleUploadResult(){
   console.log("Handle Upload result is clicked...");
   console.log(`Winner of the ${selectedSport} is: ${selectedOutcome.winner} & runnersUp is: ${selectedOutcome.runnersUp}`);
   //TODO:- remove the sports from the, selected sport dropdown menu..
   //TODO:- send resutl to backend & store it in the respective event..
+  let winnerStudentInfo={};
+  selectedStudentArray.filter((obj)=>{
+    if(obj.selectedSport == selectedSport ){
+      // console.log("obj.studentInfo is:",obj.studentInfo);   
+      for(let student of obj.studentInfo){
+        //  console.log("inside outer");
+        if(student.email == selectedOutcome.winner){
+          // console.log("inside");
+          winnerStudentInfo={...student}
+          return true;
+        }
+       }
+     }else{
+      return false;
+     }
+  })
+  let runnersUpStudentInfo={};
+  selectedStudentArray.filter((obj)=>{
+    // console.log("inside true...")
+    
+    if(obj.selectedSport == selectedSport ){
+      for(let student of obj.studentInfo){
+       if(student.email == selectedOutcome.runnersUp){
+        // console.log("inside true...")
+        runnersUpStudentInfo={...student}
+         return true;
+       }
+      }
+    }else{
+     return false;
+    }
+ })
+ console.log("Val of runnersUpStudentInfoWithSelectedSport is:",runnersUpStudentInfo);
+ console.log("Val of winnerStudentInfo is:",winnerStudentInfo);
+  const sendingResultData={
+    selectedSport:selectedSport,
+    winnerStudentInfo:winnerStudentInfo,
+    runnersUpStudentInfo:runnersUpStudentInfo,
+  }
+  console.log("Val of sendingResultData is:",sendingResultData);
+
+  const uploadResultRes=await axios.post(`http://localhost:5000/event/addresult/${event_id}`,sendingResultData);
+  console.log("Val of uploadResultRes is:",uploadResultRes);
   props.hideStudentForm();
 
 }
@@ -297,7 +340,7 @@ console.log("Val of selectedOutcome is:",selectedOutcome);
                               {
                                 selectedStudentArray?.map((studentObj,idx)=>{
                                   return studentObj.studentInfo.map((obj,i)=>{
-                                    return(<option value={obj.name} key={i}>{obj.name}</option>)
+                                    return(<option value={obj.email} key={i}>{obj.name}</option>)
                                   })
                                 })
                               }
@@ -318,7 +361,7 @@ console.log("Val of selectedOutcome is:",selectedOutcome);
                               {
                                 selectedStudentArray?.map((studentObj,idx)=>{
                                   return studentObj.studentInfo.map((obj,i)=>{
-                                    return(<option value={obj.name} key={i}>{obj.name}</option>)
+                                    return(<option value={obj.email} key={i}>{obj.name}</option>)
                                   })
                                 })
                               }
