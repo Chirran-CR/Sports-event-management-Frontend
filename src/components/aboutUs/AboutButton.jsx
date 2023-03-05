@@ -9,7 +9,7 @@ function AboutButton(props) {
   return (
     <Div whileHover={{ scale: 1.2 }}>
      
-      <button className={`${blue ? "blue" : ""}`} ><Link style={{color:"white"}}to="/about-us">{text}</Link></button>
+      <button className={`${blue ? "blue" : ""}`} ><Link style={{color:"white",textDecoration:"none"}}to="/about-us">{text}</Link></button>
     </Div>
   );
 }

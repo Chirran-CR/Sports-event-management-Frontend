@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {connect} from "react-redux";
 import ContactButton from "./contact/ContactButton";
+import ScoreButton from "./liveScore/ScoreButton";
 function Navbar(props) {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const html = document.querySelector("html");
@@ -59,7 +60,8 @@ function Navbar(props) {
           }
         </ul>
       </div>
-      <ContactButton onClick={()=>console.log("clicked")}text="Contact" />
+      {/* <ContactButton onClick={()=>console.log("clicked")}text="Contact" /> */}
+      <ScoreButton text="LiveScore"/>
     </Nav>
   );
 }

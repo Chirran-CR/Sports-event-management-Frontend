@@ -3,13 +3,13 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import {Link } from "react-router-dom";
 
-function ContactButton(props) {
+function ScoreButton(props) {
   const text=props.text;
   const blue=props.blue;
   return (
     <Div whileHover={{ scale: 1.2 }}>
      
-      <button className={`${blue ? "blue" : ""}`} ><Link style={{color:"white",textDecoration:"none"}}to="/contact">{text}</Link></button>
+      <button className={`${blue ? "blue" : ""}`} ><Link style={{color:"white",textDecoration:"none"}}to="/livescore">{text}</Link></button>
     </Div>
   );
 }
@@ -34,4 +34,4 @@ const Div = styled(motion.div)`
 `;
 
 
-export default ContactButton;
+export default ScoreButton;
