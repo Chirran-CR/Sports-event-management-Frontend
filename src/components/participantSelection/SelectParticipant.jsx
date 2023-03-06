@@ -407,7 +407,7 @@ const SelectParticipant = (props) => {
                     return(
                       <tr key={idx}>
                           <td>{idx+1}</td>
-                          <td><img src={`http://localhost:5000/images/profilePics/${studentObj.profilePic}`}_ /></td>
+                          <td><img src={`http://localhost:5000/images/profilePics/${studentObj.profilePic}`} /></td>
                           <td>{studentObj.name}</td>
                           <td>{studentObj.email}</td>
                           <td>{studentObj.gender}</td>

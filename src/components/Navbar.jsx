@@ -18,7 +18,7 @@ function Navbar(props) {
   
   let degVal=localStorage.getItem("designation");
     console.log("degVal in useEffect of Navbar:",degVal);
-    degVal=="teacher"?isLogIn=true:degVal=="student"? isLogIn=true:isLogIn=false;
+    degVal=="teacher"?isLogIn=true:degVal=="student"? isLogIn=true:degVal=="admin"? isLogIn=true:degVal=="moderator"? isLogIn=true:isLogIn=false;
   console.log("is log in below useEffect:",isLogIn);
   return (
     <Nav state={isNavOpen ? 1 : 0}>
@@ -44,9 +44,19 @@ function Navbar(props) {
           <motion.li whileHover={{ scale: 1.2 }}>
             <Link to="/">Home</Link>
           </motion.li>
-          <motion.li whileHover={{ scale: 1.2 }}>
+         {
+          localStorage.getItem("designation") == "admin" ? (<motion.li whileHover={{ scale: 1.2 }}>
+            <Link to="/dashboard">Dashboard</Link>
+          </motion.li>): localStorage.getItem("designation") == "moderator" ? (<motion.li whileHover={{ scale: 1.2 }}>
+            <Link to="/dashboard">Moderator Dashboard</Link>
+          </motion.li>):(<motion.li whileHover={{ scale: 1.2 }}>
             <Link to="/events">Events</Link>
-          </motion.li>
+          </motion.li>)
+         }
+          
+          {/* (<motion.li whileHover={{ scale: 1.2 }}>
+            <Link to="/events">Events</Link>
+          </motion.li>) */}
           {console.log("islogin render ho rha h and val is:",isLogIn)}
           {isLogIn? <motion.li whileHover={{ scale: 1.2 }} onClick={props.logOut}> <Link to="/">Logout</Link></motion.li>:
             (<>

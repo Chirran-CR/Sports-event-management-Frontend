@@ -11,7 +11,7 @@ import {connect} from "react-redux";
 const initialValues = {
   email: "",
   password: "",
-  designation:"",
+  // designation:"",//received from backend i.e userCollection
 };
 
 const Registration = (props) => {
@@ -26,18 +26,46 @@ const Registration = (props) => {
           "🚀 ~ file: Registration.jsx ~ line 11 ~ Registration ~ values",
           values
         );
-        if(values.designation=="teacher" && values.email=="chirran@nist.edu" && values.password=="123456"){
-           
-        }else{
+        const userObjRes=await axios.post('http://localhost:5000/user/get',{email:values.email});
+        console.log("userObjRes is:",userObjRes);
+        const receivedDesignation=userObjRes.data.userDetails[0].designation;
+        if(receivedDesignation == "admin"){
+            console.log("Desugnation is:",receivedDesignation);
+            if(values.password == "123456"){
+              props.logIn(receivedDesignation);
+              // if(receivedDesignation == "moderator"){
+              //   const moderatorRes=await axios.post("http://localhost:5000/moderator/get",{email:values.email});
+              //   console.log("Val of moderator res is:",moderatorRes);
+              //   props.setModerator({...moderatorRes.data.moderatorDetails});
+              // } 
+              navigate("/dashboard");
+            }else{
+              setErr(true);
+            }
+        }else if(receivedDesignation == "moderator"){
+            const loginRes=await axios.post("http://localhost:5000/moderator/login",{
+              email:values.email,
+              password:values.password,
+            })
+            console.log("Val of loginRes inside login of registraion inside else if block:",loginRes);
+            if(!loginRes.data.errorPresent){
+              props.setModerator({...loginRes.data.moderatorDetails});
+              props.logIn(receivedDesignation);
+              navigate("/dashboard");
+            }else{
+              setErr(true);
+            }
+        }
+        else{ 
                 // const loginRes=await axios.post(`http://localhost:5000/auth/${values.designation}/login`,{
-            const loginRes=await axios.post(`http://localhost:5000/auth/${values.designation}/login`,{
+            const loginRes=await axios.post(`http://localhost:5000/auth/${receivedDesignation}/login`,{
               // const loginRes=await axios.post(`https://sprots-event-api-2.onrender.com/auth/${values.designation}/login`,{
               
             email:values.email,
               password:values.password,
             },{withCredentials:true})
             if(!loginRes.data.myError){
-              const userDetails=values.designation=="student"?loginRes.data.studentDetails:loginRes.data.teacherDetails;
+              const userDetails=receivedDesignation=="student"?loginRes.data.studentDetails:loginRes.data.teacherDetails;
               const userObj={userEmail:userDetails.email,
                 userName:userDetails.name,
                 userCollegeName:userDetails.collegeName,
@@ -46,7 +74,7 @@ const Registration = (props) => {
               }
               props.setUser(userObj);
               console.log("inside if block of registration login and response is:",loginRes);
-              props.logIn(values.designation);
+              props.logIn(receivedDesignation);
               navigate("/events")
             }else{
               setErr(true);
@@ -61,7 +89,7 @@ const Registration = (props) => {
   //   "🚀 ~ file: Registration.jsx ~ line 25 ~ Registration ~ errors",
   //   errors
   // );
-  const users=["teacher","student"];
+  // const users=["teacher","student"];
 
   return (
     <>
@@ -95,7 +123,7 @@ const Registration = (props) => {
                       <p className="form-error">{errors.email}</p>
                     ) : null}
                   </div>
-                  <div className="input-block">
+                  {/* <div className="input-block">
                     <label htmlFor="designation" className="input-label ">
                       Are you a:
                     </label>
@@ -121,7 +149,7 @@ const Registration = (props) => {
                     {errors.designation && touched.designation ? (
                       <p className="form-error">{errors.designation}</p>
                     ) : null}
-                  </div>
+                  </div> */}
                   <div className="input-block">
                     <label htmlFor="password" className="input-label">
                       Password
@@ -355,6 +383,9 @@ const mapDispatchToProps=(dispatch)=>{
        },
        setUser:(userObj)=>{
         return dispatch({type:"set-user",payload:userObj})
+       },
+       setModerator:(moderatorObj)=>{
+        return dispatch({type:"set-moderator",payload:moderatorObj})
        }
    }
 }

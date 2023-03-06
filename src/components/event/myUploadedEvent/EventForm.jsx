@@ -340,6 +340,7 @@ console.log("Val of selectedOutcome is:",selectedOutcome);
                               {
                                 selectedStudentArray?.map((studentObj,idx)=>{
                                   return studentObj.studentInfo.map((obj,i)=>{
+                                    if(selectedOutcome.runnersUp != obj.email)
                                     return(<option value={obj.email} key={i}>{obj.name}</option>)
                                   })
                                 })
@@ -361,7 +362,8 @@ console.log("Val of selectedOutcome is:",selectedOutcome);
                               {
                                 selectedStudentArray?.map((studentObj,idx)=>{
                                   return studentObj.studentInfo.map((obj,i)=>{
-                                    return(<option value={obj.email} key={i}>{obj.name}</option>)
+                                    if(selectedOutcome.winner != obj.email)
+                                       return(<option value={obj.email} key={i}>{obj.name}</option>)
                                   })
                                 })
                               }

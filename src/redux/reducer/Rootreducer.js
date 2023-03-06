@@ -7,6 +7,8 @@ import Userreducer from "./Userreducer";
 import Studenteventreducer from "./Studenteventreducer";
 import Teacheruploadedeventreducer from "./Teacheruploadedeventreducer";
 import Selectedstudentreducer from "./Selectedstudentreducer";
+import Adminreducer from "./Adminreducer";
+import Moderatorreducer from "./Moderatorreducer";
 
 const rootReducer=combineReducers({
       authReducer:Authreducer,
@@ -17,6 +19,8 @@ const rootReducer=combineReducers({
       studentEventReducer:Studenteventreducer, 
       teacherUploadedEventReducer:Teacheruploadedeventreducer,
       selectedStudentReducer:Selectedstudentreducer,
+      adminReducer:Adminreducer,
+      moderatorReducer:Moderatorreducer,
 })
 
 export default rootReducer;

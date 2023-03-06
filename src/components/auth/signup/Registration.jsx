@@ -40,6 +40,13 @@ const Registration = () => {
           }
         }
         // if(values.designation=="Teacher") myDesignation=
+        const resAfterSavingInUser=await axios.post('http://localhost:5000/user/add',{
+          name:values.name,
+          email:values.email,
+          designation:values.designation
+        })
+        console.log("received from user collection is:",resAfterSavingInUser);
+        
         const res=await axios.post(`http://localhost:5000/auth/${values.designation}/signup`,{
         // const res=await axios.post(`https://sprots-event-api-2.onrender.com/auth/${values.designation}/signup`,{
 

@@ -16,6 +16,8 @@ import MyEvents from "./components/event/myEvent/MyEvents";
 import MyUploadedEvent from "./components/event/myUploadedEvent/MyUploadedEvents";
 import SelectParticipant from "./components/participantSelection/SelectParticipant";
 import LiveScore from "./components/liveScore/LiveScore";
+import Dashboard from "./components/admin/Dashboard";
+import ModeratorDashboard from "./components/moderator/ModeratorDashboard";
 function App() {
   return (
     <>
@@ -32,6 +34,7 @@ function App() {
           <Route path="/myuploadedevent" element={<MyUploadedEvent/>} />
             <Route path="/selectparticipant/" element={<SelectParticipant />}>
           </Route>
+          <Route path="/dashboard" element={<DashboardPrivateRoute />} />
           <Route path="/livescore" element={<LiveScore/>} />
         </Routes>
       <ToastContainer/>
@@ -59,5 +62,26 @@ const PrivateRoute=()=>{
       notify();
        return (<Navigate to="/"/>)
     }
+}
+const DashboardPrivateRoute=()=>{
+  const notify = () => toast.error('You are not admin..!!', {
+    toastId: 'success1',
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+    });;
+  const designation=localStorage.getItem("designation");
+  if(designation == "admin" || designation == "moderator"){
+     return ( designation=="admin"? <Dashboard/>:<ModeratorDashboard/>)
+  }else{
+    console.log("Notify called....");
+    notify();
+     return (<Navigate to="/"/>)
+  }
 }
 export default App;
