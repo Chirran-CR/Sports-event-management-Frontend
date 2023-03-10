@@ -206,7 +206,6 @@ console.log("Val of runnersUpInfo:",runnersUpInfo);
                       
                       <div className="input-block">
                         <label htmlFor="select_sports" className="input-label">
-                          Select Sport:-
                         </label>
                         <select className="select_sports"  name="selectSports" id="selectSports"  onChange={(ev)=>{handleSelectedSportForResult(ev.target.value)}}>
                         { resultData ? (

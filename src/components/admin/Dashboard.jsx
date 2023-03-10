@@ -96,6 +96,100 @@ const [clickedSport,setClickedSport]=useState("");//used to add moderator receiv
 		console.log("Val of modified event is:",singleEvent);
 		console.log("val of allEvent data is:",allEventData);
  }
+ async function handleUpdateModerator(name,email,psd,oldEmail){
+	const addModeratorRes=await axios.post("http://localhost:5000/moderator/update",{name:name,email:email,oldEmail:oldEmail,password:psd,singleEvent:singleEvent,sport:clickedSport});
+    if(addModeratorRes.data.errorPresent){
+		alert("Moderator is already assigned to another sport");
+	}else{
+		setSingleEvent({...singleEvent,moderators:singleEvent.moderators.map((scoreObj)=>{
+			if(scoreObj.sport==clickedSport){
+				scoreObj.moderatorDetails={name:name,email:email,password:psd}
+			}
+			return scoreObj;
+		})})
+		const tempSingleEvent={...singleEvent,moderators:singleEvent.moderators.map((scoreObj)=>{
+			if(scoreObj.sport==clickedSport){
+				scoreObj.moderatorDetails={name:name,email:email,password:psd}
+			}
+			return scoreObj;
+		})};
+		console.log("Val of tempSingleEvent inside dashboard of admin:",tempSingleEvent);
+
+		setSingleSportClick(singleSportClick?.map((sObject)=>{
+			if(sObject?.sport==clickedSport){
+			sObject.val=!sObject.val;
+			}
+		}))
+		// setTotalData({...totalData,moderators:Number(totalData.moderators)+1})
+		
+		const updatedAllEventData=allEventData.map((evObj)=>{
+			if(evObj.TeacherEmail == singleEvent.TeacherEmail){
+				// evObj.moderators=[...singleEvent.moderators]
+				evObj.moderators=[...evObj.moderators.map((modObj)=>{
+					if(modObj.sport==clickedSport){
+						modObj.moderatorDetails={name:name,email:email,password:psd}
+					}
+					return modObj;
+				})];
+			}
+			return evObj;
+		})
+		const sendModeratorEventToBackendResp=await axios.post("http://localhost:5000/event/updatemoderator",{singleEvent:tempSingleEvent});
+		console.log("Val of sendModeratorEventToBackendResp.data is:",sendModeratorEventToBackendResp.data);
+		console.log("Val of addModeratorRes is:",addModeratorRes);
+		const addModeratorToUserDB=await axios.post("http://localhost:5000/user/add",{name:name,email:email,designation:"moderator"});
+		console.log("Val of addModeratorToUserDB is:",addModeratorToUserDB);
+	
+		setAllEventData([...updatedAllEventData]);
+		console.log("Val of modified event is:",singleEvent);
+		console.log("val of allEvent data is:",allEventData);
+	}
+}
+async function handleRemoveModerator(name,email,psd){
+	console.log("handleRemoveModerator is called..");
+	//todo- remove from moderator db,user db,and from that event's moderators:moderatorDetails
+	const moderatorRes=await axios.post("http://localhost:5000/moderator/remove",{email:email});
+	if(moderatorRes.data.errorPresent){
+		alert("Moderator is not assigned to any sport")
+	}else{
+		const removeFromUserDBRes=await axios.post("http://localhost:5000/user/remove",{email:email});
+		console.log("Moderator removed from user db and res is:",removeFromUserDBRes);
+	}
+	//todo-delete the moderator from event db
+	const tempSingleEvent={...singleEvent,moderators:singleEvent.moderators.filter((scoreObj)=>{
+		if(scoreObj.sport==clickedSport){
+			return false;
+		}
+		return true;
+	})};
+	const removeModeratorFromEventDBRes=await axios.post("http://localhost:5000/event/removemoderator",{singleEvent:tempSingleEvent});
+	console.log("Val of removeModeratorFromEventDBRes is:",removeModeratorFromEventDBRes);
+	
+	//todo- all the other update for frontend
+	setSingleEvent({...singleEvent,moderators:singleEvent.moderators.filter((scoreObj)=>{
+		if(scoreObj.sport==clickedSport){
+			return false;
+		}
+		return true;
+	})})
+	setSingleSportClick(singleSportClick?.map((sObject)=>{
+		if(sObject?.sport==clickedSport){
+		sObject.val=!sObject.val;
+		}
+	}))
+	const updatedAllEventData=allEventData.map((evObj)=>{
+		if(evObj.TeacherEmail == singleEvent.TeacherEmail){
+			// evObj.moderators=[...singleEvent.moderators]
+			evObj.moderators=[...evObj.moderators.filter((modObj)=>{
+				if(modObj.sport==clickedSport){
+					return false;
+				}
+				return true;
+			})];
+		}
+		return evObj;
+	})
+}
   return (
     <div>
         {/* <!-- SIDEBAR --> */}
@@ -331,7 +425,7 @@ const [clickedSport,setClickedSport]=useState("");//used to add moderator receiv
 								<p>{s}</p>
 								<i class='bx bx-dots-vertical-rounded' ></i>
 							</li>
-							{singleSportClick?.map((sc,i)=>{ return (sc?.val && sc?.idx==idx ? <SingleSportModeratorAdd classVal={statusCheck} key={idx} handleAddModerator={handleAddModerator} singleEvent/>:"")})}
+							{singleSportClick?.map((sc,i)=>{ return (sc?.val && sc?.idx==idx ? <SingleSportModeratorAdd classVal={statusCheck} key={idx} handleAddModerator={handleAddModerator} clickedSport={clickedSport} singleEvent={singleEvent} handleRemoveModerator={handleRemoveModerator} handleUpdateModerator={handleUpdateModerator}/>:"")})}
 						   </>)
 							}):""
 						}
