@@ -74,7 +74,10 @@ const SelectParticipant = (props) => {
       });
     }
    //for no of student
-   if(noOfStudent == "All"){
+   console.log("Val of eventSelected.participatingStudents.length inside the selectParticipant is:",eventSelected.participatingStudents.length);
+   console.log("Val of eventSelected is:",eventSelected);
+
+   if(noOfStudent == "All" || noOfStudent == 0){
     setNoOfStudent(eventSelected.participatingStudents.length);
    }else{
     setNoOfStudent(noOfStudent);
@@ -82,6 +85,8 @@ const SelectParticipant = (props) => {
     setDisplayedEvent(eventSelected);
   }
   console.log("Val of displayedEvent is:",displayedEvent);
+  console.log("Val of selected gender inside select participant is:",selectedGender);
+  console.log("Val of noOfStudent below handleGender fn is:",noOfStudent);
   function handleSelectedCollege(ev){
     setSelectedClg(ev.target.value);
     console.log("Val of clg is:",ev.target.value);
@@ -287,7 +292,7 @@ const SelectParticipant = (props) => {
       <div className="event_selection">
         <div>
           <label className="select_student_label" htmlFor="event">Select Event:</label>
-          <select className="select_student"  name="event" id="event"  onChange={(ev)=>{handleSelectedEvent(ev)}}>
+          <select className="select_student"  name="event" id="event"  onClick={(ev)=>{handleSelectedEvent(ev)}}>
             { 
               allTheUploadedEvent?.map((obj,idx)=>{
                 // console.log("Val of obj.eventName is:",obj.eventName);
@@ -302,7 +307,7 @@ const SelectParticipant = (props) => {
       <div className="other_component_selection">
         <div className="gender_selection">
         <label className="select_student_label" htmlFor="gender">Select Gender:</label>
-          <select  className="select_student" name="gender" id="gender"  onChange={(ev)=>{handleSelectedGender(ev)}}>
+          <select  className="select_student" name="gender" id="gender"  onClick={(ev)=>{handleSelectedGender(ev)}}>
             { 
               allGender?.map((g,idx)=>{
                 // console.log("Val of obj.eventName is:",obj.eventName);
@@ -314,7 +319,7 @@ const SelectParticipant = (props) => {
         </div>
         <div className="college_selection">
         <label className="select_student_label" htmlFor="college">Select College:</label>
-          <select className="select_student"  name="college" id="college"  onChange={(ev)=>{handleSelectedCollege(ev)}}>
+          <select className="select_student"  name="college" id="college"  onClick={(ev)=>{handleSelectedCollege(ev)}}>
             { selectedEvent ? (
                  <>
                   <option value="All" key="All">All</option>
@@ -332,7 +337,7 @@ const SelectParticipant = (props) => {
         </div>
         <div className="sports_selection">
         <label className="select_student_label" htmlFor="sports">Select sport:</label>
-          <select className="select_student"  name="sports" id="sports"  onChange={(ev)=>{handleSelectedSport(ev)}}>
+          <select className="select_student"  name="sports" id="sports"  onClick={(ev)=>{handleSelectedSport(ev)}}>
             { selectedEvent ? (
                  <>
                   <option value="All" key="All">All</option>
@@ -350,7 +355,7 @@ const SelectParticipant = (props) => {
         </div>
         <div className="student_no_selection">
         <label className="select_student_label" htmlFor="student_no">No. of student:</label>
-          <select className="select_student"  name="student_no" id="student_no"  onChange={(ev)=>{handleNoOfStudent(ev)}}>
+          <select className="select_student"  name="student_no" id="student_no"  onClick={(ev)=>{handleNoOfStudent(ev)}}>
           { displayedEvent ? (
                  <>
                   <option value="All" key="All">All</option>
@@ -368,7 +373,7 @@ const SelectParticipant = (props) => {
         </div>
         <div className="basis_selection">
          <label className="select_student_label" htmlFor="basis_selection">Select Basis:</label>
-          <select className="select_student" name="basis_selection" id="basis_selection"  onChange={(ev)=>{handleSelectionBasis(ev)}}>
+          <select className="select_student" name="basis_selection" id="basis_selection"  onClick={(ev)=>{handleSelectionBasis(ev)}}>
             { 
               allSelectionBasis?.map((g,idx)=>{
                 // console.log("Val of obj.eventName is:",obj.eventName);

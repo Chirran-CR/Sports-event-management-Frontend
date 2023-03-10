@@ -210,7 +210,9 @@ async function handleSelectedSportForResult(val){
                         <label htmlFor="select_sports" className="input-label">
                           Select Sport:-
                         </label>
-                        <select className="select_sports"  name="selectSports" id="selectSports"  onChange={(ev)=>{handleSelectedSportForResult(ev.target.value)}}>
+                        {/* <select className="select_sports"  name="selectSports" id="selectSports"  onChange={(ev)=>{handleSelectedSportForResult(ev.target.value)}}> */}
+                        <select className="select_sports"  name="selectSports" id="selectSports"  onClick={(ev)=>{handleSelectedSportForResult(ev.target.value)}}>
+
                         { resultData ? (
                             <>
                               {

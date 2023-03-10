@@ -315,7 +315,7 @@ console.log("Val of selectedOutcome is:",selectedOutcome);
                       <label htmlFor="Select" className="input-label">
                         Select Sports Category:
                       </label> 
-                      <select className="select_sport"  name="sport" id="sport"  onChange={(ev)=>{handleSelectedSport(ev)}}>
+                      <select className="select_sport"  name="sport" id="sport"  onClick={(ev)=>{handleSelectedSport(ev)}}>
                         { props.selectedStudentReducer?.selectedStudentData ? (
                             <>
                               {
@@ -334,7 +334,7 @@ console.log("Val of selectedOutcome is:",selectedOutcome);
                       <label htmlFor="Select" className="input-label">
                         Select Winner:
                       </label> 
-                      <select className="select_winner"  name="winner" id="winner"  onChange={(ev)=>{handleOutcome(ev)}}>
+                      <select className="select_winner"  name="winner" id="winner"  onClick={(ev)=>{handleOutcome(ev)}}>
                         { selectedStudentArray ? (
                             <>
                               {
@@ -356,7 +356,7 @@ console.log("Val of selectedOutcome is:",selectedOutcome);
                       <label htmlFor="Select" className="input-label">
                         Select Runners-up:
                       </label>  
-                      <select className="select_runnersUp"  name="runnersUp" id="runnersUp"  onChange={(ev)=>{handleOutcome(ev)}}>
+                      <select className="select_runnersUp"  name="runnersUp" id="runnersUp"  onClick={(ev)=>{handleOutcome(ev)}}>
                         { selectedStudentArray ? (
                             <>
                               {
