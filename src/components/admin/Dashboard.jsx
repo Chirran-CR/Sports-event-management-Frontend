@@ -80,7 +80,7 @@ const [clickedSport,setClickedSport]=useState("");//used to add moderator receiv
 		setTotalData({...totalData,moderators:Number(totalData.moderators)+1})
 		//    setSingleEvent()
 		const updatedAllEventData=allEventData.map((evObj)=>{
-			if(evObj.TeacherEmail == singleEvent.TeacherEmail){
+			if(evObj.TeacherEmail == singleEvent.TeacherEmail && evObj._id == singleEvent._id){
 				evObj.moderators=[...singleEvent.moderators]
 			}
 			return evObj;
@@ -100,6 +100,7 @@ const [clickedSport,setClickedSport]=useState("");//used to add moderator receiv
 	const addModeratorRes=await axios.post("http://localhost:5000/moderator/update",{name:name,email:email,oldEmail:oldEmail,password:psd,singleEvent:singleEvent,sport:clickedSport});
     if(addModeratorRes.data.errorPresent){
 		alert("Moderator is already assigned to another sport");
+		console.log("Error msg is:",addModeratorRes.data.message);
 	}else{
 		setSingleEvent({...singleEvent,moderators:singleEvent.moderators.map((scoreObj)=>{
 			if(scoreObj.sport==clickedSport){
@@ -123,7 +124,7 @@ const [clickedSport,setClickedSport]=useState("");//used to add moderator receiv
 		// setTotalData({...totalData,moderators:Number(totalData.moderators)+1})
 		
 		const updatedAllEventData=allEventData.map((evObj)=>{
-			if(evObj.TeacherEmail == singleEvent.TeacherEmail){
+			if(evObj.TeacherEmail == singleEvent.TeacherEmail && evObj._id == singleEvent._id){
 				// evObj.moderators=[...singleEvent.moderators]
 				evObj.moderators=[...evObj.moderators.map((modObj)=>{
 					if(modObj.sport==clickedSport){
@@ -137,6 +138,9 @@ const [clickedSport,setClickedSport]=useState("");//used to add moderator receiv
 		const sendModeratorEventToBackendResp=await axios.post("http://localhost:5000/event/updatemoderator",{singleEvent:tempSingleEvent});
 		console.log("Val of sendModeratorEventToBackendResp.data is:",sendModeratorEventToBackendResp.data);
 		console.log("Val of addModeratorRes is:",addModeratorRes);
+		//remove the old moderator from user database first then add the new moderator into user db---------
+		const removeModeratorFromUserDb=await axios.post("http://localhost:5000/user/remove",{email:oldEmail});
+		console.log("Val of removeModeratorFromUserDb is:",removeModeratorFromUserDb);
 		const addModeratorToUserDB=await axios.post("http://localhost:5000/user/add",{name:name,email:email,designation:"moderator"});
 		console.log("Val of addModeratorToUserDB is:",addModeratorToUserDB);
 	
@@ -151,6 +155,7 @@ async function handleRemoveModerator(name,email,psd){
 	const moderatorRes=await axios.post("http://localhost:5000/moderator/remove",{email:email});
 	if(moderatorRes.data.errorPresent){
 		alert("Moderator is not assigned to any sport")
+		console.log("Error in handleRemoveModerator and error is:",moderatorRes.data.message);
 	}else{
 		const removeFromUserDBRes=await axios.post("http://localhost:5000/user/remove",{email:email});
 		console.log("Moderator removed from user db and res is:",removeFromUserDBRes);
@@ -177,8 +182,9 @@ async function handleRemoveModerator(name,email,psd){
 		sObject.val=!sObject.val;
 		}
 	}))
+	setTotalData({...totalData,moderators:Number(totalData.moderators)-1})
 	const updatedAllEventData=allEventData.map((evObj)=>{
-		if(evObj.TeacherEmail == singleEvent.TeacherEmail){
+		if(evObj.TeacherEmail == singleEvent.TeacherEmail && evObj._id == singleEvent._id ){
 			// evObj.moderators=[...singleEvent.moderators]
 			evObj.moderators=[...evObj.moderators.filter((modObj)=>{
 				if(modObj.sport==clickedSport){
@@ -189,6 +195,8 @@ async function handleRemoveModerator(name,email,psd){
 		}
 		return evObj;
 	})
+	setAllEventData([...updatedAllEventData]);
+
 }
   return (
     <div>

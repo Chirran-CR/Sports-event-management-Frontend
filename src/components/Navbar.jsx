@@ -53,7 +53,9 @@ function Navbar(props) {
             <Link to="/events">Events</Link>
           </motion.li>)
          }
-          
+          <motion.li whileHover={{ scale: 1.2 }}>
+            <Link to="/livescore">Livescore</Link>
+          </motion.li>
           {/* (<motion.li whileHover={{ scale: 1.2 }}>
             <Link to="/events">Events</Link>
           </motion.li>) */}
@@ -68,6 +70,7 @@ function Navbar(props) {
             </motion.li></>
             )
           }
+           
         </ul>
       </div>
       {/* <ContactButton onClick={()=>console.log("clicked")}text="Contact" /> */}
