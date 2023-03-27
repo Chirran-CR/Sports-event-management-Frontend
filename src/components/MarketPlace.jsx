@@ -68,7 +68,8 @@ function MarketPlace(props) {
           return (
             <div className="marketplace" key={ev.id}>
               <div className="image">
-                <img src={`http://localhost:5000/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
+              <img src={`https://sprots-event-api-2.onrender.com/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
+              {/* <img src={`http://localhost:5000/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" /> */}
               </div>
               <div className="name">
                 <h3>Event Name:{ev.name}</h3>
