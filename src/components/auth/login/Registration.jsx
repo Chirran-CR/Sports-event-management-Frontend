@@ -26,7 +26,7 @@ const Registration = (props) => {
           "🚀 ~ file: Registration.jsx ~ line 11 ~ Registration ~ values",
           values
         );
-        const userObjRes=await axios.post('http://localhost:5000/user/get',{email:values.email});
+        const userObjRes=await axios.post('/user/get',{email:values.email});
         console.log("userObjRes is:",userObjRes);
         const receivedDesignation=userObjRes.data.userDetails[0].designation;
         if(receivedDesignation == "admin"){
@@ -43,7 +43,7 @@ const Registration = (props) => {
               setErr(true);
             }
         }else if(receivedDesignation == "moderator"){
-            const loginRes=await axios.post("http://localhost:5000/moderator/login",{
+            const loginRes=await axios.post("/moderator/login",{
               email:values.email,
               password:values.password,
             })
@@ -58,7 +58,7 @@ const Registration = (props) => {
         }
         else{ 
                 // const loginRes=await axios.post(`http://localhost:5000/auth/${values.designation}/login`,{
-            const loginRes=await axios.post(`http://localhost:5000/auth/${receivedDesignation}/login`,{
+            const loginRes=await axios.post(`/auth/${receivedDesignation}/login`,{
               // const loginRes=await axios.post(`https://sprots-event-api-2.onrender.com/auth/${values.designation}/login`,{
               
             email:values.email,

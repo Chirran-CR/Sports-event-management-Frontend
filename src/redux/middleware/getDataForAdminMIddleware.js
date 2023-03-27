@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getDataFroAdminMiddlewareFn=()=>{
      return (dispatch)=>{
-         axios.get(`http://localhost:5000/event`)
+         axios.get(`/event`)
         // axios.get("https://sprots-event-api-2.onrender.com/event")
               .then(resp=>{
                     let allEvents=resp.data.allEventsDetails;

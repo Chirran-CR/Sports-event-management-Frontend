@@ -92,7 +92,7 @@ function handleParticipatedSportsArray(){
 async function handleRemoveParticipation(){
   console.log("Inside handleRemoveParticipation function...");
   const studentDeleteEventRes = await axios.delete(
-      `http://localhost:5000/event/student/${props.userReducer.id}`,
+      `/event/student/${props.userReducer.id}`,
       // `https://sprots-event-api-2.onrender.com/event/student/add`,
       // {event_id:event_id},{credentials:true}
       {data:{event_id:event_id},credentials:true}
@@ -114,7 +114,7 @@ async function handleShowResult(){
   setRunnersUpInfo({});
   console.log("Handle show reslult is called..");
   //* from the event id, i will get the teacher mail, then send to that mailId...
-  const resultRes=await axios.get(`http://localhost:5000/event/getresult/${event_id}`);
+  const resultRes=await axios.get(`/event/getresult/${event_id}`);
   console.log("Val of resultRes is:",resultRes);
   setResultData([...resultRes.data.resultOfEvent]);
 
@@ -171,7 +171,7 @@ console.log("Val of runnersUpInfo:",runnersUpInfo);
       //     );
       //  }else{
            const studentEventRes = await axios.put(
-            `http://localhost:5000/event/student/${props.userReducer.id}`,
+            `/event/student/${props.userReducer.id}`,
             // `https://sprots-event-api-2.onrender.com/event/student/add`,
             sendingDataDetails,{credentials:true}
           );
@@ -195,7 +195,7 @@ console.log("Val of runnersUpInfo:",runnersUpInfo);
                 <div className="modal-container">
                   <div className="modal-left">
                   { console.log("image result is:",props.userReducer.profileImage)}
-                  {props.userReducer.profileImage != "" ? <Avatar src={<img src={`http://localhost:5000/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
+                  {props.userReducer.profileImage != "" ? <Avatar src={<img src={`/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
                   
                     <h1  style={{marginLeft:"20%"}}>Result of Event</h1>
                     <p className="modal-desc">
@@ -227,14 +227,14 @@ console.log("Val of runnersUpInfo:",runnersUpInfo);
                           <h2>Winner:-</h2>
                         </label>
                         <div style={{display:"flex"}}>
-                          <Avatar src={<img src={`http://localhost:5000/images/profilePics/${winnerInfo.profilePic}`}  alt="avatar" />}style={{marginLeft:"35%",marginTop:"-12%",marginBottom:"5%"}} size={50} />
+                          <Avatar src={<img src={`/images/profilePics/${winnerInfo.profilePic}`}  alt="avatar" />}style={{marginLeft:"35%",marginTop:"-12%",marginBottom:"5%"}} size={50} />
                           <h2 style={{marginTop:"-7%",marginLeft:"5%"}}>{winnerInfo.name}</h2>
                         </div>
                         <label htmlFor="runners_up_block" className="input-label" style={{marginTop:"10px"}}>
                           <h2>Runner Up:-</h2>
                         </label>
                         <div style={{display:"flex"}}>
-                          <Avatar src={<img src={`http://localhost:5000/images/profilePics/${runnersUpInfo.profilePic}`}  alt="avatar" />}style={{marginLeft:"52%",marginTop:"-12%",marginBottom:"5%"}} size={50} />
+                          <Avatar src={<img src={`/images/profilePics/${runnersUpInfo.profilePic}`}  alt="avatar" />}style={{marginLeft:"52%",marginTop:"-12%",marginBottom:"5%"}} size={50} />
                           <h2 style={{marginTop:"-7%",marginLeft:"5%"}}>{runnersUpInfo.name}</h2>
                         </div>
                       </div>
@@ -299,7 +299,7 @@ console.log("Val of runnersUpInfo:",runnersUpInfo);
                 <div className="modal-container">
                   <div className="modal-left">
                   { console.log("image result is:",props.userReducer.profileImage)}
-                  {props.userReducer.profileImage != "" ? <Avatar src={<img src={`http://localhost:5000/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
+                  {props.userReducer.profileImage != "" ? <Avatar src={<img src={`/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
                   
                     <h1  style={{marginLeft:"20%"}}>Event Details</h1>
                     <p className="modal-desc">

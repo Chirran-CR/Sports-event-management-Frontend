@@ -240,7 +240,9 @@ const SelectParticipant = (props) => {
    
    const sendObj={sendSelectedStudent:sendSelectedStudent,selectedSport:selectedSport};
    
-    const addSelectedStudentRes=await axios.post(`http://localhost:5000/event/addselectedstudent/${displayedEvent.eventId}`,sendObj);
+    // const addSelectedStudentRes=await axios.post(`http://localhost:5000/event/addselectedstudent/${displayedEvent.eventId}`,sendObj);
+    const addSelectedStudentRes=await axios.post(`/event/addselectedstudent/${displayedEvent.eventId}`,sendObj);
+    
     console.log("Val of addSelectedStudentRes is:",addSelectedStudentRes);
     //remove this event from allTheUploadedEvent & set the selectedEvent & displayed event as ""
     
@@ -279,7 +281,8 @@ const SelectParticipant = (props) => {
   useEffect(()=>{
     (async function (){
       console.log("inside async fn of useEffect of selectParticipant..");
-      const allTheUploadedEventRes=await axios.get(`http://localhost:5000/selectparticipant/${id}`)
+      // const allTheUploadedEventRes=await axios.get(`http://localhost:5000/selectparticipant/${id}`)
+      const allTheUploadedEventRes=await axios.get(`/selectparticipant/${id}`)
       console.log("Val of allTheUploadedEventRes is:",allTheUploadedEventRes);
       setAllTheUploadedEvent(allTheUploadedEventRes.data.sendDetailsObj);
       // setDisplayedEvent(allTheUploadedEventRes.data.sendDetailsObj);
@@ -412,7 +415,9 @@ const SelectParticipant = (props) => {
                     return(
                       <tr key={idx}>
                           <td>{idx+1}</td>
-                          <td><img src={`http://localhost:5000/images/profilePics/${studentObj.profilePic}`} /></td>
+                          {/* <td><img src={`http://localhost:5000/images/profilePics/${studentObj.profilePic}`} /></td> */}
+                          <td><img src={`/images/profilePics/${studentObj.profilePic}`} /></td>
+
                           <td>{studentObj.name}</td>
                           <td>{studentObj.email}</td>
                           <td>{studentObj.gender}</td>

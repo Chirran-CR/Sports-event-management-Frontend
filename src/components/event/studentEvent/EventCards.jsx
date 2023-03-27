@@ -26,7 +26,7 @@ function EventCards(props) {
   useEffect(()=>{
 
     (async function (){
-          const resp=await axios.get("http://localhost:5000/event/",{credentials:true});
+          const resp=await axios.get("/event/",{credentials:true});
           // const resp=await axios.get("https://sprots-event-api-2.onrender.com/event/",{credentials:true});
           eventData=resp.data.allEventsDetails;
           
@@ -76,7 +76,7 @@ function EventCards(props) {
           return (
             <div  onClick={()=>{props.setEvent(ev)}} className="marketplace" key={ev.id}>
               <div className="image">
-                <img src={`http://localhost:5000/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
+                <img src={`/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
               </div>
               <div className="name">
                 <h4>Event Name: {ev.name}</h4>

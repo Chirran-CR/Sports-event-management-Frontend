@@ -42,7 +42,8 @@ export default function Subscribe() {
   }
   const handleSubscribe=async (ev)=>{
       console.log("Val of email,sport & clg is:",email," ",sport," ",clg);
-      const subscribeRes=await axios.post("http://localhost:5000/subscribe/add",{
+      // const subscribeRes=await axios.post("http://localhost:5000/subscribe/add",{
+      const subscribeRes=await axios.post("/subscribe/add",{
         emailId:email,
         interestedSport:sport,
         interestedCollege:clg

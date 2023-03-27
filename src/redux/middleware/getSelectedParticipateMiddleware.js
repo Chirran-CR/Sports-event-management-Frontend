@@ -77,7 +77,7 @@ import axios from "axios";
 // }
 export const getSelectedParticipateMiddleware=(eventId)=>{
      return (dispatch)=>{
-         axios.get(`http://localhost:5000/event/getselectedstudent/${eventId}`)
+         axios.get(`/event/getselectedstudent/${eventId}`)
         // axios.get("https://sprots-event-api-2.onrender.com/event")
               .then(resp=>{
                     let selectedStudentData=resp.data.allSelectedStudent;

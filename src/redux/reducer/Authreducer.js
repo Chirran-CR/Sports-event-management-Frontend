@@ -13,7 +13,7 @@ const Authreducer = (state = initialState, action) => {
       };
     case "logout":
       const designation = localStorage.getItem("designation");
-     axios.get(`http://localhost:5000/auth/${designation}/logout`, {
+     axios.get(`/auth/${designation}/logout`, {
         credentials: true,
       });
       localStorage.removeItem("designation");

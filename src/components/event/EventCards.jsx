@@ -64,7 +64,7 @@ function EventCards(props) {
           return (
             <div className="marketplace" key={idx}>
               <div className="image">
-                <img src={`http://localhost:5000/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
+                <img src={`/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
               </div>
               <div className="name">
                 <h4>Event Name:{ev.eventName}</h4>

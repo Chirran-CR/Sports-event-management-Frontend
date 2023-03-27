@@ -10,7 +10,8 @@ const SingleLiveScore = (props) => {
         (async function (){
             console.log("Val of event id inside singleLiveScore :",props.eventId);
             console.log("Val of selected sport  inside singleLiveScore is:",props.selectedSport);
-            const liveScoreRes=await axios.get(`http://localhost:5000/event/getlivescore/${props.eventId}`);
+            // const liveScoreRes=await axios.get(`http://localhost:5000/event/getlivescore/${props.eventId}`);
+            const liveScoreRes=await axios.get(`/event/getlivescore/${props.eventId}`);
             console.log("Val of liveScoreRes is:",liveScoreRes.data.liveScoreOfSingleEvent);
             setLiveScoreArrayObj([...liveScoreRes.data.liveScoreOfSingleEvent])
         })();
@@ -19,7 +20,8 @@ const SingleLiveScore = (props) => {
    console.log("Val of liveScoreObj is:",liveScoreArrayObj);
 
    async function handleRefresh(){
-    const liveScoreRes=await axios.get(`http://localhost:5000/event/getlivescore/${props.eventId}`);
+    // const liveScoreRes=await axios.get(`http://localhost:5000/event/getlivescore/${props.eventId}`);
+    const liveScoreRes=await axios.get(`/event/getlivescore/${props.eventId}`);
     console.log("Val of liveScoreRes inside handleRefresh is:",liveScoreRes.data.liveScoreOfSingleEvent);
     setLiveScoreArrayObj([...liveScoreRes.data.liveScoreOfSingleEvent])
    }

@@ -22,7 +22,7 @@ function MarketPlace(props) {
   useEffect(()=>{
 
     (async function (){
-          const resp=await axios.get("https://sprots-event-api-2.onrender.com/event/",{credentials:true});
+          const resp=await axios.get("/event/",{credentials:true});
           // const resp=await axios.get("http://localhost:5000/event/",{credentials:true});
           eventData=resp.data.allEventsDetails;
           
@@ -68,7 +68,7 @@ function MarketPlace(props) {
           return (
             <div className="marketplace" key={ev.id}>
               <div className="image">
-              <img src={`https://sprots-event-api-2.onrender.com/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
+              <img src={`/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
               {/* <img src={`http://localhost:5000/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" /> */}
               </div>
               <div className="name">

@@ -30,12 +30,12 @@ function EventCards(props) {
   useEffect(()=>{
     console.log("inside the useEffect of eventCards of event...");
     (async function (){
-          const resp=await axios.get(`http://localhost:5000/event/teacher/${id}`,{credentials:true});
+          const resp=await axios.get(`/event/teacher/${id}`,{credentials:true});
           // const resp=await axios.get("https://sprots-event-api-2.onrender.com/event/",{credentials:true});
           
           const  receivedUploadedEventData=resp.data.uploadedEventsDetails;
           console.log("Received receivedUploadedEventData is:",receivedUploadedEventData);
-          const respEvents=await axios.get("http://localhost:5000/event/",{credentials:true});
+          const respEvents=await axios.get("/event/",{credentials:true});
           const allEventData=respEvents.data.allEventsDetails;
           console.log("Received allEventData is:",allEventData);
           const uploadedArray=receivedUploadedEventData[0].eventsArray;
@@ -96,7 +96,7 @@ function EventCards(props) {
           return (
             <div  onClick={()=>{props.setEvent(ev); props.setUpdate(false); props.setClgUpdate(false);props.getSelectedParticipateMiddlewareFn(ev.id)}} className="marketplace" key={ev.id}>
               <div className="image">
-                <img src={`http://localhost:5000/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
+                <img src={`/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
               </div>
               <div className="name">
                 <h4>Event Name: {ev.name}</h4>

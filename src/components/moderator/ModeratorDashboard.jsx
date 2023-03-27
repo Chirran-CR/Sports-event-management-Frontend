@@ -18,7 +18,8 @@ const ModeratorDashboard = (props) => {
 
   useEffect(()=>{
     (async function (){
-      const selectedEventRes=await axios.get(`http://localhost:5000/event/${props.moderatorReducer.eventId}`);
+      // const selectedEventRes=await axios.get(`http://localhost:5000/event/${props.moderatorReducer.eventId}`);
+      const selectedEventRes=await axios.get(`/event/${props.moderatorReducer.eventId}`);
       const singleEvent=selectedEventRes?.data?.singleEvent[0];
       console.log("Val of single Event from moderator dashboard is:",singleEvent);
       setSelectedEvent({...singleEvent});
@@ -50,7 +51,8 @@ const ModeratorDashboard = (props) => {
     console.log("Val of liveScore is:",liveSc);
     console.log("Val of commentary is:",commentary);
     //TODO- send livescore data to backend 
-    const sendLiveScoreRes= await axios.post(`http://localhost:5000/event/addscore/${props.moderatorReducer.eventId}`,{
+    // const sendLiveScoreRes= await axios.post(`http://localhost:5000/event/addscore/${props.moderatorReducer.eventId}`,{
+    const sendLiveScoreRes= await axios.post(`/event/addscore/${props.moderatorReducer.eventId}`,{
       sport:props.moderatorReducer.selectedSport,
       score:{
         matchBetween:{

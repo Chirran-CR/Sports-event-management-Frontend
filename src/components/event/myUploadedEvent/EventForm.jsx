@@ -145,7 +145,7 @@ function handleUploadedSportsArray(){
 async function handleRemoveParticipation(){
   console.log("Inside handleRemoveParticipation function...");
   const teacherDeleteEventRes = await axios.delete(
-      `http://localhost:5000/event/teacher/${props.userReducer.id}`,
+      `/event/teacher/${props.userReducer.id}`,
       // `https://sprots-event-api-2.onrender.com/event/student/add`,
       // {event_id:event_id},{credentials:true}
       {data:{event_id:event_id},credentials:true}
@@ -229,7 +229,7 @@ async function handleUploadResult(){
   }
   console.log("Val of sendingResultData is:",sendingResultData);
 
-  const uploadResultRes=await axios.post(`http://localhost:5000/event/addresult/${event_id}`,sendingResultData);
+  const uploadResultRes=await axios.post(`/event/addresult/${event_id}`,sendingResultData);
   console.log("Val of uploadResultRes is:",uploadResultRes);
   props.hideStudentForm();
 
@@ -282,7 +282,7 @@ console.log("Val of selectedOutcome is:",selectedOutcome);
       //     );
       //  }else{
            const teacherEventRes = await axios.put(
-            `http://localhost:5000/event/teacher/${props.userReducer.id}`,
+            `/event/teacher/${props.userReducer.id}`,
             // `https://sprots-event-api-2.onrender.com/event/student/add`,
             sendingDataDetails,{credentials:true}
           );
@@ -305,7 +305,7 @@ console.log("Val of selectedOutcome is:",selectedOutcome);
             <div className="modal-container">
               <div className="modal-left">
                { console.log("image result is:",props.userReducer.profileImage)}
-              {props.userReducer.profileImage != "" ? <Avatar src={<img src={`http://localhost:5000/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
+              {props.userReducer.profileImage != "" ? <Avatar src={<img src={`/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
               {
                 isResultFormVisible ? (<>
                 <h1  style={{marginLeft:"20%"}}>Event Details</h1>

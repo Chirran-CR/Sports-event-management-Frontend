@@ -63,7 +63,7 @@ const EventForm = (props) => {
         //solution src:-https://github.com/axios/axios/issues/2149
         //solution:-Try to add withCredentials: true to the request which create cookie in your server.
          // For example when cookie is created when user is try to login, than add flag withCredentials to login request.
-        const loginRes=await axios.post('http://localhost:5000/event/add',
+        const loginRes=await axios.post('/event/add',
         toBeStoredObj,
         {
           headers:{
@@ -73,7 +73,7 @@ const EventForm = (props) => {
         }
         );
         toBeStoredObj.eventId=loginRes.data.addedEventDetails._id;
-        const uploadedRes=await axios.post(`http://localhost:5000/event/teacher/add/${props.userReducer.id}`,
+        const uploadedRes=await axios.post(`/event/teacher/add/${props.userReducer.id}`,
           toBeStoredObj,
           {
             credentials:true
@@ -121,7 +121,7 @@ const EventForm = (props) => {
           <div className="modal">
             <div className="modal-container">
               <div className="modal-left">
-              {props.userReducer.profileImage != "" ? <Avatar src={<img src={`http://localhost:5000/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
+              {props.userReducer.profileImage != "" ? <Avatar src={<img src={`/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
                 <h1 className="modal-title">Welcome {props.userReducer.userName}</h1>
                 <p className="modal-desc">
                   Add event and relax...

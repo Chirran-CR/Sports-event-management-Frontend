@@ -35,7 +35,7 @@ function EventCards(props) {
           
           // const  receivedParticipatedEventData=resp.data.participatedEventsDetails;
           // console.log("Received participatedEventData is:",receivedParticipatedEventData);
-          const respEvents=await axios.get("http://localhost:5000/event/",{credentials:true});
+          const respEvents=await axios.get("/event/",{credentials:true});
           const allEventData=respEvents.data.allEventsDetails;
           console.log("Received allEventData is:",allEventData);
           // const participatedArray=receivedParticipatedEventData[0].eventsArray;
@@ -100,7 +100,7 @@ function EventCards(props) {
           return (
             <div  onClick={()=>{props.setEvent(ev);}} className="marketplace" key={ev.id}>
               <div className="image">
-                <img src={`http://localhost:5000/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
+                <img src={`/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
               </div>
               <div className="name">
                 <h4>Event Name: {ev.name}</h4>

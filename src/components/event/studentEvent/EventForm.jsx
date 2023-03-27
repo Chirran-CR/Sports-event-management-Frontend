@@ -42,7 +42,7 @@ const EventForm = (props) => {
         console.log("values of form in EventForm of student",values);
         console.log("val of sending data details is:",sendingDataDetails);
         const studentEventRes = await axios.post(
-          `http://localhost:5000/event/student/add`,
+          `/event/student/add`,
           // `https://sprots-event-api-2.onrender.com/event/student/add`,
           sendingDataDetails,{credentials:true}
         );
@@ -65,7 +65,7 @@ const EventForm = (props) => {
             <div className="modal-container">
               <div className="modal-left">
                { console.log("image result is:",props.userReducer.profileImage)}
-              {props.userReducer.profileImage != "" ? <Avatar src={<img src={`http://localhost:5000/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
+              {props.userReducer.profileImage != "" ? <Avatar src={<img src={`/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
               
                 <h1 className="modal-title">Welcome {props.userReducer.userName}</h1>
                 <p className="modal-desc">
