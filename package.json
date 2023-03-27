@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "homepage": ".",
-  "proxy":"https://sprots-event-api-2.onrender.com",
+  "proxy":"https://sprots-event-api-2.onrender.com/",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.2.1",
     "@testing-library/jest-dom": "^5.16.4",
