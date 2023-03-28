@@ -97,7 +97,7 @@ function EventCards(props) {
           return (
             <div  onClick={()=>{props.setEvent(ev); props.setUpdate(false); props.setClgUpdate(false);props.getSelectedParticipateMiddlewareFn(ev.id)}} className="marketplace" key={ev.id}>
               <div className="image">
-                <img src={`/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
+                <img src={`${API_URL}/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
               </div>
               <div className="name">
                 <h4>Event Name: {ev.name}</h4>

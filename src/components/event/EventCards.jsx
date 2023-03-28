@@ -10,6 +10,7 @@ import ParticipatedButton from "./ParticipatedButton";
 import styled from "styled-components";
 import {getEventMiddleware} from "../../redux/middleware/getEventMiddleware";
 import Button from "../Button";
+import { API_URL } from "../../App";
 function EventCards(props) {
   const [receivedData,setReceivedData]=useState([]);
   const selectedCategory=props.categoryReducer.choosedCategory;
@@ -64,7 +65,7 @@ function EventCards(props) {
           return (
             <div className="marketplace" key={idx}>
               <div className="image">
-                <img src={`/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
+                <img src={`${API_URL}/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
               </div>
               <div className="name">
                 <h4>Event Name:{ev.eventName}</h4>
