@@ -5,7 +5,7 @@ import subscribe from "../assets/child3.png";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import {API_URL} from "../App";
 
 export default function Subscribe() {
   const [email,setEmail]=useState("");
@@ -43,7 +43,7 @@ export default function Subscribe() {
   const handleSubscribe=async (ev)=>{
       console.log("Val of email,sport & clg is:",email," ",sport," ",clg);
       // const subscribeRes=await axios.post("http://localhost:5000/subscribe/add",{
-      const subscribeRes=await axios.post("/subscribe/add",{
+      const subscribeRes=await axios.post(`${API_URL}/subscribe/add`,{
         emailId:email,
         interestedSport:sport,
         interestedCollege:clg

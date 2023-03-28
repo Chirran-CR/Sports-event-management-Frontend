@@ -11,6 +11,7 @@ import { UserOutlined } from '@ant-design/icons';
 import {Avatar} from "antd";
 import EventAdded from "./EventAdded";
 import marketplace1 from "../../assets/sports3-min.png"
+import { API_URL } from "../../App";
 
 const initialValues = {
   event_name: "",
@@ -63,7 +64,7 @@ const EventForm = (props) => {
         //solution src:-https://github.com/axios/axios/issues/2149
         //solution:-Try to add withCredentials: true to the request which create cookie in your server.
          // For example when cookie is created when user is try to login, than add flag withCredentials to login request.
-        const loginRes=await axios.post('/event/add',
+        const loginRes=await axios.post(`${API_URL}/event/add`,
         toBeStoredObj,
         {
           headers:{
@@ -73,7 +74,7 @@ const EventForm = (props) => {
         }
         );
         toBeStoredObj.eventId=loginRes.data.addedEventDetails._id;
-        const uploadedRes=await axios.post(`/event/teacher/add/${props.userReducer.id}`,
+        const uploadedRes=await axios.post(`${API_URL}/event/teacher/add/${props.userReducer.id}`,
           toBeStoredObj,
           {
             credentials:true

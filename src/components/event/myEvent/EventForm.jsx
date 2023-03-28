@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { UserOutlined } from '@ant-design/icons';
 import {Avatar} from "antd";
 import EventAdded from "./EventAdded";
+import { API_URL } from "../../../App";
 
 
 const initialValues = {
@@ -92,7 +93,7 @@ function handleParticipatedSportsArray(){
 async function handleRemoveParticipation(){
   console.log("Inside handleRemoveParticipation function...");
   const studentDeleteEventRes = await axios.delete(
-      `/event/student/${props.userReducer.id}`,
+      `${API_URL}/event/student/${props.userReducer.id}`,
       // `https://sprots-event-api-2.onrender.com/event/student/add`,
       // {event_id:event_id},{credentials:true}
       {data:{event_id:event_id},credentials:true}
@@ -114,7 +115,7 @@ async function handleShowResult(){
   setRunnersUpInfo({});
   console.log("Handle show reslult is called..");
   //* from the event id, i will get the teacher mail, then send to that mailId...
-  const resultRes=await axios.get(`/event/getresult/${event_id}`);
+  const resultRes=await axios.get(`${API_URL}/event/getresult/${event_id}`);
   console.log("Val of resultRes is:",resultRes);
   setResultData([...resultRes.data.resultOfEvent]);
 
@@ -171,7 +172,7 @@ console.log("Val of runnersUpInfo:",runnersUpInfo);
       //     );
       //  }else{
            const studentEventRes = await axios.put(
-            `/event/student/${props.userReducer.id}`,
+            `${API_URL}/event/student/${props.userReducer.id}`,
             // `https://sprots-event-api-2.onrender.com/event/student/add`,
             sendingDataDetails,{credentials:true}
           );

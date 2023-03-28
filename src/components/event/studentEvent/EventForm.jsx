@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { UserOutlined } from '@ant-design/icons';
 import {Avatar} from "antd";
 import EventAdded from "./EventAdded";
+import { API_URL } from "../../../App";
 
 
 const initialValues = {
@@ -42,7 +43,7 @@ const EventForm = (props) => {
         console.log("values of form in EventForm of student",values);
         console.log("val of sending data details is:",sendingDataDetails);
         const studentEventRes = await axios.post(
-          `/event/student/add`,
+          `${API_URL}/event/student/add`,
           // `https://sprots-event-api-2.onrender.com/event/student/add`,
           sendingDataDetails,{credentials:true}
         );

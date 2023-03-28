@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import {CSVLink} from "react-csv";
 import "./selectParticipant.css";
+import { API_URL } from '../../App';
 
 const SelectParticipant = (props) => {
   console.log("Val of props inside selectParticipant is:",props);
@@ -241,7 +242,7 @@ const SelectParticipant = (props) => {
    const sendObj={sendSelectedStudent:sendSelectedStudent,selectedSport:selectedSport};
    
     // const addSelectedStudentRes=await axios.post(`http://localhost:5000/event/addselectedstudent/${displayedEvent.eventId}`,sendObj);
-    const addSelectedStudentRes=await axios.post(`/event/addselectedstudent/${displayedEvent.eventId}`,sendObj);
+    const addSelectedStudentRes=await axios.post(`${API_URL}/event/addselectedstudent/${displayedEvent.eventId}`,sendObj);
     
     console.log("Val of addSelectedStudentRes is:",addSelectedStudentRes);
     //remove this event from allTheUploadedEvent & set the selectedEvent & displayed event as ""
@@ -282,7 +283,7 @@ const SelectParticipant = (props) => {
     (async function (){
       console.log("inside async fn of useEffect of selectParticipant..");
       // const allTheUploadedEventRes=await axios.get(`http://localhost:5000/selectparticipant/${id}`)
-      const allTheUploadedEventRes=await axios.get(`/selectparticipant/${id}`)
+      const allTheUploadedEventRes=await axios.get(`${API_URL}/selectparticipant/${id}`)
       console.log("Val of allTheUploadedEventRes is:",allTheUploadedEventRes);
       setAllTheUploadedEvent(allTheUploadedEventRes.data.sendDetailsObj);
       // setDisplayedEvent(allTheUploadedEventRes.data.sendDetailsObj);

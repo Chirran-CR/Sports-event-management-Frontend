@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {connect} from "react-redux";
+import {API_URL} from "../../../App";
 
 const initialValues = {
   email: "",
@@ -26,7 +27,7 @@ const Registration = (props) => {
           "🚀 ~ file: Registration.jsx ~ line 11 ~ Registration ~ values",
           values
         );
-        const userObjRes=await axios.post('/user/get',{email:values.email});
+        const userObjRes=await axios.post(`${API_URL}/user/get`,{email:values.email});
         console.log("userObjRes is:",userObjRes);
         const receivedDesignation=userObjRes.data.userDetails[0].designation;
         if(receivedDesignation == "admin"){
@@ -43,7 +44,7 @@ const Registration = (props) => {
               setErr(true);
             }
         }else if(receivedDesignation == "moderator"){
-            const loginRes=await axios.post("/moderator/login",{
+            const loginRes=await axios.post(`${API_URL}/moderator/login`,{
               email:values.email,
               password:values.password,
             })
@@ -58,7 +59,7 @@ const Registration = (props) => {
         }
         else{ 
                 // const loginRes=await axios.post(`http://localhost:5000/auth/${values.designation}/login`,{
-            const loginRes=await axios.post(`/auth/${receivedDesignation}/login`,{
+            const loginRes=await axios.post(`${API_URL}/auth/${receivedDesignation}/login`,{
               // const loginRes=await axios.post(`https://sprots-event-api-2.onrender.com/auth/${values.designation}/login`,{
               
             email:values.email,

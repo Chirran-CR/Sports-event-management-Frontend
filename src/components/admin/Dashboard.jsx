@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import { getDataFroAdminMiddlewareFn } from '../../redux/middleware/getDataForAdminMIddleware';
 import SingleSportModeratorAdd from './SingleSportModeratorAdd';
 import axios from "axios";
+import { API_URL } from '../../App';
 
 const Dashboard = (props) => {
 //   const [eventData,setEventData]=useState([]);
@@ -24,9 +25,9 @@ const [clickedSport,setClickedSport]=useState("");//used to add moderator receiv
 	(async function (){
 		const eventResp=await axios.get(`/event`)
 		let allEvents=eventResp.data.allEventsDetails;
-        const studentResp=await axios.get("/student/get");
-		const teacherResp=await axios.get("/teacher/get");
-		const moderatorResp=await axios.get("/moderator/get");
+        const studentResp=await axios.get(`${API_URL}/student/get`);
+		const teacherResp=await axios.get(`${API_URL}/teacher/get`);
+		const moderatorResp=await axios.get(`${API_URL}/moderator/get`);
 		setTotalData({
 			events:allEvents.length,
 			participants:studentResp.data.studentDetails.length,
@@ -85,11 +86,11 @@ const [clickedSport,setClickedSport]=useState("");//used to add moderator receiv
 			}
 			return evObj;
 		})
-		const sendModeratorEventToBackendResp=await axios.post("/event/addmoderator",singleEvent);
+		const sendModeratorEventToBackendResp=await axios.post(`${API_URL}/event/addmoderator`,singleEvent);
 		console.log("Val of sendModeratorEventToBackendResp.data is:",sendModeratorEventToBackendResp.data);
-		const addModeratorRes=await axios.post("/moderator/add",{name:name,email:email,password:psd,singleEvent:singleEvent,sport:clickedSport});
+		const addModeratorRes=await axios.post(`${API_URL}/moderator/add`,{name:name,email:email,password:psd,singleEvent:singleEvent,sport:clickedSport});
 		console.log("Val of addModeratorRes is:",addModeratorRes);
-		const addModeratorToUserDB=await axios.post("/user/add",{name:name,email:email,designation:"moderator"});
+		const addModeratorToUserDB=await axios.post(`${API_URL}/user/add`,{name:name,email:email,designation:"moderator"});
 		console.log("Val of addModeratorToUserDB is:",addModeratorToUserDB);
 
 		setAllEventData([...updatedAllEventData]);
@@ -97,7 +98,7 @@ const [clickedSport,setClickedSport]=useState("");//used to add moderator receiv
 		console.log("val of allEvent data is:",allEventData);
  }
  async function handleUpdateModerator(name,email,psd,oldEmail){
-	const addModeratorRes=await axios.post("/moderator/update",{name:name,email:email,oldEmail:oldEmail,password:psd,singleEvent:singleEvent,sport:clickedSport});
+	const addModeratorRes=await axios.post(`${API_URL}/moderator/update`,{name:name,email:email,oldEmail:oldEmail,password:psd,singleEvent:singleEvent,sport:clickedSport});
     if(addModeratorRes.data.errorPresent){
 		alert("Moderator is already assigned to another sport");
 		console.log("Error msg is:",addModeratorRes.data.message);
@@ -135,13 +136,13 @@ const [clickedSport,setClickedSport]=useState("");//used to add moderator receiv
 			}
 			return evObj;
 		})
-		const sendModeratorEventToBackendResp=await axios.post("/event/updatemoderator",{singleEvent:tempSingleEvent});
+		const sendModeratorEventToBackendResp=await axios.post(`${API_URL}/event/updatemoderator`,{singleEvent:tempSingleEvent});
 		console.log("Val of sendModeratorEventToBackendResp.data is:",sendModeratorEventToBackendResp.data);
 		console.log("Val of addModeratorRes is:",addModeratorRes);
 		//remove the old moderator from user database first then add the new moderator into user db---------
-		const removeModeratorFromUserDb=await axios.post("/user/remove",{email:oldEmail});
+		const removeModeratorFromUserDb=await axios.post(`${API_URL}/user/remove`,{email:oldEmail});
 		console.log("Val of removeModeratorFromUserDb is:",removeModeratorFromUserDb);
-		const addModeratorToUserDB=await axios.post("/user/add",{name:name,email:email,designation:"moderator"});
+		const addModeratorToUserDB=await axios.post(`${API_URL}/user/add`,{name:name,email:email,designation:"moderator"});
 		console.log("Val of addModeratorToUserDB is:",addModeratorToUserDB);
 	
 		setAllEventData([...updatedAllEventData]);
@@ -152,12 +153,12 @@ const [clickedSport,setClickedSport]=useState("");//used to add moderator receiv
 async function handleRemoveModerator(name,email,psd){
 	console.log("handleRemoveModerator is called..");
 	//todo- remove from moderator db,user db,and from that event's moderators:moderatorDetails
-	const moderatorRes=await axios.post("/moderator/remove",{email:email});
+	const moderatorRes=await axios.post(`${API_URL}/moderator/remove`,{email:email});
 	if(moderatorRes.data.errorPresent){
 		alert("Moderator is not assigned to any sport")
 		console.log("Error in handleRemoveModerator and error is:",moderatorRes.data.message);
 	}else{
-		const removeFromUserDBRes=await axios.post("/user/remove",{email:email});
+		const removeFromUserDBRes=await axios.post(`${API_URL}/user/remove`,{email:email});
 		console.log("Moderator removed from user db and res is:",removeFromUserDBRes);
 	}
 	//todo-delete the moderator from event db
@@ -167,7 +168,7 @@ async function handleRemoveModerator(name,email,psd){
 		}
 		return true;
 	})};
-	const removeModeratorFromEventDBRes=await axios.post("/event/removemoderator",{singleEvent:tempSingleEvent});
+	const removeModeratorFromEventDBRes=await axios.post(`${API_URL}/event/removemoderator`,{singleEvent:tempSingleEvent});
 	console.log("Val of removeModeratorFromEventDBRes is:",removeModeratorFromEventDBRes);
 	
 	//todo- all the other update for frontend
@@ -358,7 +359,7 @@ async function handleRemoveModerator(name,email,psd){
 								return(
 									<tr key={idx} onClick={()=>{handleSinleEvent(sv)}}>
 										<td>
-											<img src={`/images/eventPics/${sv.eventBanner}`} />
+											<img src={`${API_URL}/images/eventPics/${sv.eventBanner}`} />
 											<p>{sv.eventName}</p>
 										</td>
 										<td>{sv.hostingCollege}</td>

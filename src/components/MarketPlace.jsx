@@ -6,6 +6,7 @@ import axios from "axios";
 import styled from "styled-components";
 import marketplace1 from "../assets/sports3-min.png";
 import Button from "./Button";
+import { API_URL } from "../App";
 function MarketPlace(props) {
   const [receivedData,setReceivedData]=useState([]);
   const selectedCategory=props.categoryReducer.choosedCategory;
@@ -22,7 +23,7 @@ function MarketPlace(props) {
   useEffect(()=>{
 
     (async function (){
-          const resp=await axios.get("event/",{credentials:true});
+          const resp=await axios.get(`${API_URL}/event/`,{credentials:true});
           // const resp=await axios.get("http://localhost:5000/event/",{credentials:true});
           eventData=resp.data.allEventsDetails;
           

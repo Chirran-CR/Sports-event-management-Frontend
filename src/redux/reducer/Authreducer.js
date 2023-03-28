@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_URL } from "../../App";
 let initialState = {
   isLoggedIn: false,
   displayFormState:true,
@@ -13,7 +14,7 @@ const Authreducer = (state = initialState, action) => {
       };
     case "logout":
       const designation = localStorage.getItem("designation");
-     axios.get(`/auth/${designation}/logout`, {
+     axios.get(`${API_URL}/auth/${designation}/logout`, {
         credentials: true,
       });
       localStorage.removeItem("designation");

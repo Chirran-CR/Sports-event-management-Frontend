@@ -5,6 +5,7 @@ import { FaEthereum } from "react-icons/fa";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 // import ParticipatedButton from "./ParticipatedButton";
+import {API_URL} from "../../../App";
 
 import styled from "styled-components";
 import marketplace1 from "../../../assets/sports3-min.png";
@@ -29,12 +30,12 @@ function EventCards(props) {
   useEffect(()=>{
     console.log("inside the useEffect of eventCards of event...");
     (async function (){
-          const resp=await axios.get(`/event/student/${id}`,{credentials:true});
+          const resp=await axios.get(`${API_URL}/event/student/${id}`,{credentials:true});
           // const resp=await axios.get("https://sprots-event-api-2.onrender.com/event/",{credentials:true});
           
           const  receivedParticipatedEventData=resp.data.participatedEventsDetails;
           console.log("Received participatedEventData is:",receivedParticipatedEventData);
-          const respEvents=await axios.get("/event/",{credentials:true});
+          const respEvents=await axios.get(`${API_URL}/event/`,{credentials:true});
           const allEventData=respEvents.data.allEventsDetails;
           console.log("Received allEventData is:",allEventData);
           const participatedArray=receivedParticipatedEventData[0].eventsArray;
@@ -95,7 +96,7 @@ function EventCards(props) {
           return (
             <div  onClick={()=>{props.setEvent(ev); props.setUpdate(false)}} className="marketplace" key={ev.id}>
               <div className="image">
-                <img src={`/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
+                <img src={`${API_URL}/images/eventPics/${ev.eventBanner}`} height="142" width="252" alt="marketplace" />
               </div>
               <div className="name">
                 <h4>Event Name: {ev.name}</h4>

@@ -5,6 +5,7 @@ import { FaEthereum } from "react-icons/fa";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import ParticipatedButton from "./ParticipatedButton";
+import {API_URL} from "../../../App";
 
 import styled from "styled-components";
 import marketplace1 from "../../../assets/sports3-min.png";
@@ -26,7 +27,7 @@ function EventCards(props) {
   useEffect(()=>{
 
     (async function (){
-          const resp=await axios.get("/event/",{credentials:true});
+          const resp=await axios.get(`${API_URL}/event/`,{credentials:true});
           // const resp=await axios.get("https://sprots-event-api-2.onrender.com/event/",{credentials:true});
           eventData=resp.data.allEventsDetails;
           

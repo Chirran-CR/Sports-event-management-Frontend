@@ -6,6 +6,7 @@ import { signUpSchema } from "./schemas";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { API_URL } from "../../../App";
 
 const initialValues = {
   name: "",
@@ -40,14 +41,14 @@ const Registration = () => {
           }
         }
         // if(values.designation=="Teacher") myDesignation=
-        const resAfterSavingInUser=await axios.post('http://localhost:5000/user/add',{
+        const resAfterSavingInUser=await axios.post(`${API_URL}/user/add`,{
           name:values.name,
           email:values.email,
           designation:values.designation
         })
         console.log("received from user collection is:",resAfterSavingInUser);
         
-        const res=await axios.post(`http://localhost:5000/auth/${values.designation}/signup`,{
+        const res=await axios.post(`${API_URL}/auth/${values.designation}/signup`,{
         // const res=await axios.post(`https://sprots-event-api-2.onrender.com/auth/${values.designation}/signup`,{
 
            name:values.name,
@@ -60,7 +61,7 @@ const Registration = () => {
         },configObj)
         console.log("response received is:",res);//res.data will show the teacher returned info
         if(!res.data.myError){//encoutner hoga ki nehi dubara cross check karna re..
-		      const addToUserDB=await axios.post("http://localhost:5000/user/add",{name:values.name,email:values.email,designation:values.designation});
+		      const addToUserDB=await axios.post(`${API_URL}/user/add`,{name:values.name,email:values.email,designation:values.designation});
           console.log("Val of addToUserDB, inside registration is:",addToUserDB);
           navigate("/login")
         }else{

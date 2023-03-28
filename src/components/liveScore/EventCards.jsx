@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 // import ParticipatedButton from "./ParticipatedButton";
 
 import styled from "styled-components";
+import { API_URL } from "../../App";
 // import marketplace1 from "../../../assets/sports3-min.png";
 import Button from "../Button";
 function EventCards(props) {
@@ -35,7 +36,7 @@ function EventCards(props) {
           
           // const  receivedParticipatedEventData=resp.data.participatedEventsDetails;
           // console.log("Received participatedEventData is:",receivedParticipatedEventData);
-          const respEvents=await axios.get("/event/",{credentials:true});
+          const respEvents=await axios.get(`${API_URL}/event/`,{credentials:true});
           const allEventData=respEvents.data.allEventsDetails;
           console.log("Received allEventData is:",allEventData);
           // const participatedArray=receivedParticipatedEventData[0].eventsArray;

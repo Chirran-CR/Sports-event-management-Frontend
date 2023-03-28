@@ -1,9 +1,10 @@
 import axios from "axios";
+import { API_URL } from "../../App";
 
 export const getUploadedEventMiddleware=(teacherId)=>{
 
      return (dispatch)=>{
-         axios.get(`/event/teacher/${teacherId}`)
+         axios.get(`${API_URL}/event/teacher/${teacherId}`)
         // axios.get("https://sprots-event-api-2.onrender.com/event")
               .then(resp=>{
                     let eventData=resp.data.uploadedEventsDetails;

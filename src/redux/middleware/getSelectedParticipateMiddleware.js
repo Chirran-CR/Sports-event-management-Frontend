@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_URL } from "../../App";
 // const getEventMiddleware=()=>{
 //     return async (dispatch) => {
 //         try{
@@ -77,7 +78,7 @@ import axios from "axios";
 // }
 export const getSelectedParticipateMiddleware=(eventId)=>{
      return (dispatch)=>{
-         axios.get(`/event/getselectedstudent/${eventId}`)
+         axios.get(`${API_URL}/event/getselectedstudent/${eventId}`)
         // axios.get("https://sprots-event-api-2.onrender.com/event")
               .then(resp=>{
                     let selectedStudentData=resp.data.allSelectedStudent;

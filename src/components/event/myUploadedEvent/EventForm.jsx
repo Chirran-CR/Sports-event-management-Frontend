@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { UserOutlined } from '@ant-design/icons';
 import {Avatar} from "antd";
 import EventAdded from "./EventAdded";
+import { API_URL } from "../../../App";
 
 
 const initialValues = {
@@ -145,7 +146,7 @@ function handleUploadedSportsArray(){
 async function handleRemoveParticipation(){
   console.log("Inside handleRemoveParticipation function...");
   const teacherDeleteEventRes = await axios.delete(
-      `/event/teacher/${props.userReducer.id}`,
+      `${API_URL}/event/teacher/${props.userReducer.id}`,
       // `https://sprots-event-api-2.onrender.com/event/student/add`,
       // {event_id:event_id},{credentials:true}
       {data:{event_id:event_id},credentials:true}
@@ -229,7 +230,7 @@ async function handleUploadResult(){
   }
   console.log("Val of sendingResultData is:",sendingResultData);
 
-  const uploadResultRes=await axios.post(`/event/addresult/${event_id}`,sendingResultData);
+  const uploadResultRes=await axios.post(`${API_URL}/event/addresult/${event_id}`,sendingResultData);
   console.log("Val of uploadResultRes is:",uploadResultRes);
   props.hideStudentForm();
 
@@ -282,7 +283,7 @@ console.log("Val of selectedOutcome is:",selectedOutcome);
       //     );
       //  }else{
            const teacherEventRes = await axios.put(
-            `/event/teacher/${props.userReducer.id}`,
+            `${API_URL}/event/teacher/${props.userReducer.id}`,
             // `https://sprots-event-api-2.onrender.com/event/student/add`,
             sendingDataDetails,{credentials:true}
           );

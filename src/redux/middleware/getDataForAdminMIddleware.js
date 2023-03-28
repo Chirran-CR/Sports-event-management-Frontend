@@ -1,8 +1,8 @@
 import axios from "axios";
-
+import { API_URL } from "../../App";
 export const getDataFroAdminMiddlewareFn=()=>{
      return (dispatch)=>{
-         axios.get(`/event`)
+         axios.get(`${API_URL}/event`)
         // axios.get("https://sprots-event-api-2.onrender.com/event")
               .then(resp=>{
                     let allEvents=resp.data.allEventsDetails;

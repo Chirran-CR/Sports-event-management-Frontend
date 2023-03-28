@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 // import ParticipatedButton from "./ParticipatedButton";
 
 import styled from "styled-components";
+import { API_URL } from "../../../App";
 import marketplace1 from "../../../assets/sports3-min.png";
 import { getSelectedParticipateMiddleware } from "../../../redux/middleware/getSelectedParticipateMiddleware";
 import Button from "../../Button";
@@ -30,12 +31,12 @@ function EventCards(props) {
   useEffect(()=>{
     console.log("inside the useEffect of eventCards of event...");
     (async function (){
-          const resp=await axios.get(`/event/teacher/${id}`,{credentials:true});
+          const resp=await axios.get(`${API_URL}/event/teacher/${id}`,{credentials:true});
           // const resp=await axios.get("https://sprots-event-api-2.onrender.com/event/",{credentials:true});
           
           const  receivedUploadedEventData=resp.data.uploadedEventsDetails;
           console.log("Received receivedUploadedEventData is:",receivedUploadedEventData);
-          const respEvents=await axios.get("/event/",{credentials:true});
+          const respEvents=await axios.get(`${API_URL}/event/`,{credentials:true});
           const allEventData=respEvents.data.allEventsDetails;
           console.log("Received allEventData is:",allEventData);
           const uploadedArray=receivedUploadedEventData[0].eventsArray;

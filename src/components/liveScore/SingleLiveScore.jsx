@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect,useState } from 'react'
+import { API_URL } from '../../App';
 
 const SingleLiveScore = (props) => {
     const eventId= props.eventId;
@@ -11,7 +12,7 @@ const SingleLiveScore = (props) => {
             console.log("Val of event id inside singleLiveScore :",props.eventId);
             console.log("Val of selected sport  inside singleLiveScore is:",props.selectedSport);
             // const liveScoreRes=await axios.get(`http://localhost:5000/event/getlivescore/${props.eventId}`);
-            const liveScoreRes=await axios.get(`/event/getlivescore/${props.eventId}`);
+            const liveScoreRes=await axios.get(`${API_URL}/event/getlivescore/${props.eventId}`);
             console.log("Val of liveScoreRes is:",liveScoreRes.data.liveScoreOfSingleEvent);
             setLiveScoreArrayObj([...liveScoreRes.data.liveScoreOfSingleEvent])
         })();
@@ -21,7 +22,7 @@ const SingleLiveScore = (props) => {
 
    async function handleRefresh(){
     // const liveScoreRes=await axios.get(`http://localhost:5000/event/getlivescore/${props.eventId}`);
-    const liveScoreRes=await axios.get(`/event/getlivescore/${props.eventId}`);
+    const liveScoreRes=await axios.get(`${API_URL}/event/getlivescore/${props.eventId}`);
     console.log("Val of liveScoreRes inside handleRefresh is:",liveScoreRes.data.liveScoreOfSingleEvent);
     setLiveScoreArrayObj([...liveScoreRes.data.liveScoreOfSingleEvent])
    }
