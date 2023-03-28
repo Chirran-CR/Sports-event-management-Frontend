@@ -122,7 +122,7 @@ const EventForm = (props) => {
           <div className="modal">
             <div className="modal-container">
               <div className="modal-left">
-              {props.userReducer.profileImage != "" ? <Avatar src={<img src={`/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
+              {props.userReducer.profileImage != "" ? <Avatar src={<img src={`${API_URL}/images/profilePics/${props.userReducer.profileImage}`}  alt="avatar" />}style={{marginLeft:"40%",marginTop:"-19%",marginBottom:"5%"}} size={64} /> :<Avatar size={64} style={{marginLeft:"40%",marginTop:"-19%"}} icon={<UserOutlined />} />}
                 <h1 className="modal-title">Welcome {props.userReducer.userName}</h1>
                 <p className="modal-desc">
                   Add event and relax...

@@ -234,14 +234,14 @@ async function handleSelectedSportForResult(val){
                           <h2>Winner:-</h2>
                         </label>
                         <div style={{display:"flex"}}>
-                          <Avatar src={<img src={`/images/profilePics/${winnerInfo.profilePic}`}  alt="avatar" />}style={{marginLeft:"35%",marginTop:"-12%",marginBottom:"5%"}} size={50} />
+                          <Avatar src={<img src={`${API_URL}/images/profilePics/${winnerInfo.profilePic}`}  alt="avatar" />}style={{marginLeft:"35%",marginTop:"-12%",marginBottom:"5%"}} size={50} />
                           <h2 style={{marginTop:"-7%",marginLeft:"5%"}}>{winnerInfo.name}</h2>
                         </div>
                         <label htmlFor="runners_up_block" className="input-label" style={{marginTop:"10px"}}>
                           <h2>Runner Up:-</h2>
                         </label>
                         <div style={{display:"flex"}}>
-                          <Avatar src={<img src={`/images/profilePics/${runnersUpInfo.profilePic}`}  alt="avatar" />}style={{marginLeft:"52%",marginTop:"-12%",marginBottom:"5%"}} size={50} />
+                          <Avatar src={<img src={`${API_URL}/images/profilePics/${runnersUpInfo.profilePic}`}  alt="avatar" />}style={{marginLeft:"52%",marginTop:"-12%",marginBottom:"5%"}} size={50} />
                           <h2 style={{marginTop:"-7%",marginLeft:"5%"}}>{runnersUpInfo.name}</h2>
                         </div>
                       </div>):(<h3><SingleLiveScore eventId={props?.eventReducer?.sportEvent?.id} selectedSport={selectedSportForResult} /></h3>)}
