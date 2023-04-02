@@ -23,7 +23,7 @@ const [clickedSport,setClickedSport]=useState("");//used to add moderator receiv
 	// const recv=props.getAdminData();
 	// console.log("Recv is;",recv);
 	(async function (){
-		const eventResp=await axios.get(`/event`)
+		const eventResp=await axios.get(`${API_URL}/event`)
 		let allEvents=eventResp.data.allEventsDetails;
         const studentResp=await axios.get(`${API_URL}/student/get`);
 		const teacherResp=await axios.get(`${API_URL}/teacher/get`);
