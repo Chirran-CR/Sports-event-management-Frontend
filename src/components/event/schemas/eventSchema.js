@@ -7,5 +7,7 @@ export const eventSchema = Yup.object({
   participating_clg:Yup.array().min(1,"select at least one college"),
   venue:Yup.string().required("Venue should be there"),
   sports_category:Yup.array().min(1,"select at least one category"),
+  registration_deadline:Yup.date().required("Deadline is required"),
+  event_date:Yup.date().required("Event date is required"),
   event_banner:Yup.mixed()
 });

@@ -96,6 +96,8 @@ export const getEventMiddleware=()=>{
                         hostingCollege:ev.hostingCollege,
                         participatingColleges:ev.participatingColleges,
                         sportsCategory:ev.sportsCategory,
+                        eventDate:ev.eventDate,
+                        registrationDeadline:ev.registrationDeadline,
                         venue:ev.venue
                     }
                     })

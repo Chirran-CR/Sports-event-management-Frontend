@@ -4,8 +4,9 @@ import { BsThreeDots } from "react-icons/bs";
 import { FaEthereum } from "react-icons/fa";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
+import moment from "moment";
 import ParticipatedButton from "./ParticipatedButton";
-
+import EventDateButton from "../EventDateButton";
 
 import styled from "styled-components";
 import {getEventMiddleware} from "../../redux/middleware/getEventMiddleware";
@@ -14,6 +15,7 @@ import { API_URL } from "../../App";
 function EventCards(props) {
   const [receivedData,setReceivedData]=useState([]);
   const selectedCategory=props.categoryReducer.choosedCategory;
+  const eventDateType=props.eventDateTypeReducer.eventDateType;
   const sportsCategories = [
     "ALL",
     "CRICKET",
@@ -37,8 +39,51 @@ function EventCards(props) {
   // setReceivedData(props.allEvents);
  console.log("new recevied data:",receivedData);
  let totalEvents=props?.teacherEventReducer.allEvents; 
- if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=>  ev.sportsCategory.includes(selectedCategory));
- console.log("Total event ki value in 37 line:",totalEvents);
+ if(eventDateType == "All" && selectedCategory == "ALL") totalEvents= props?.teacherEventReducer.allEvents;
+
+ if (eventDateType!="All") {
+  const dateType=eventDateType;
+  totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=> {
+    const dateLimit = moment(ev.eventDate, 'YYYY-MM-DD');
+    const now = moment()
+     if(dateType=="Live"){
+      if (dateLimit.isValid() && now.isSame(dateLimit,"day","month","year")) {
+         return true;
+      }else return false;
+     }else if(dateType=="Upcoming"){
+      if (dateLimit.isValid() && now.isBefore(dateLimit,"day","month","year")) {
+        return true;
+      }else return false;
+     }else{
+      if (dateLimit.isValid() && now.isAfter(dateLimit,"day","month","year")) {
+        return true;
+      }else return false;
+     }
+  });
+ }
+//  if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=>  ev.sportsCategory.includes(selectedCategory));
+if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=> { 
+  const dateLimit = moment(ev.eventDate, 'YYYY-MM-DD');
+  const now = moment()
+  if(eventDateType == "All"){
+    return ev.sportsCategory.includes(selectedCategory);
+  }else if(eventDateType=="Live"){
+    if ((dateLimit.isValid()) && (now.isSame(dateLimit,"day","month","year") && (ev.sportsCategory.includes(selectedCategory)))) {
+      return true;
+   }else return false;
+  }else if(eventDateType=="Upcoming"){
+    if ((dateLimit.isValid()) && (now.isBefore(dateLimit,"day","month","year") && (ev.sportsCategory.includes(selectedCategory)))) {
+      console.log("Inside upcoming...",ev.sportsCategory.includes(selectedCategory));
+      return true;
+    }else return false;
+  }else if(eventDateType=="Completed"){
+    if ((dateLimit.isValid()) && (now.isAfter(dateLimit,"day","month","year") && (ev.sportsCategory.includes(selectedCategory)))) {
+      return true;
+    }else return false;
+  }
+  return false;
+}); 
+console.log("Total event ki value in 37 line:",totalEvents);
  return (
     <Section>
       <div className="title">
@@ -55,6 +100,7 @@ function EventCards(props) {
          Add the event and we will manage the event for you...
         </p>
       </div>
+      <EventDateButton/>
       <div className="marketPlaceTypes">
         {sportsCategories.map((text, index) => {
           return <Button text={text} key={index} blue={text=== selectedCategory} />;

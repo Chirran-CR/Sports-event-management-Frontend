@@ -8,10 +8,17 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
 import { UserOutlined } from '@ant-design/icons';
-import {Avatar} from "antd";
 import EventAdded from "./EventAdded";
 import marketplace1 from "../../assets/sports3-min.png"
 import { API_URL } from "../../App";
+import {Avatar} from "antd";
+import moment from "moment";
+// import DatePicker from 'react-date-picker';
+import  DatePicker,{ registerLocale } from "react-datepicker";
+// import 'react-date-picker/dist/DatePicker.css';
+import "react-datepicker/dist/react-datepicker.css";
+import el from "date-fns/locale/el"; // the locale you want
+registerLocale("el", el); // register it with the name you want
 
 const initialValues = {
   event_name: "",
@@ -20,6 +27,8 @@ const initialValues = {
   participating_clg: [],
   venue: "",
   sports_category: [],
+  registration_deadline:new Date(),
+  event_date:new Date(),
   event_banner:""
 };
 
@@ -43,6 +52,8 @@ const EventForm = (props) => {
           hostingCollege:values.hosting_clg,
           participatingColleges:values.participating_clg,
           sportsCategory:values.sports_category,
+          registrationDeadline:values.registration_deadline,
+          eventDate:values.event_date,
           venue:values.venue,
           eventBanner:values.event_banner
         };
@@ -73,6 +84,7 @@ const EventForm = (props) => {
           credentials:true
         }
         );
+        console.log("Val of loginRes is:",loginRes);
         toBeStoredObj.eventId=loginRes.data.addedEventDetails._id;
         const uploadedRes=await axios.post(`${API_URL}/event/teacher/add/${props.userReducer.id}`,
           toBeStoredObj,
@@ -92,6 +104,8 @@ const EventForm = (props) => {
         participating_clg: [],
         venue: "",
         sports_category: [],
+        registration_deadline:new Date(),
+        event_date:new Date(),
         event_banner:""
       }});
         // action.setSubmitting(false);
@@ -244,6 +258,56 @@ const EventForm = (props) => {
                     })}
                     {errors.sports_category && touched.sports_category ? (
                       <p className="form-error">{errors.sports_category}</p>
+                    ) : null}
+                  </div>
+                  <div className="input-block">
+                    <label htmlFor="registration_deadline" className="input-label">
+                      Registration Deadline
+                    </label>
+                    <DatePicker
+                      
+                      // onFocus={() => setFocusStart(true)}
+                      // onCalendarClose={() => setFocusStart(false)}
+                      name="registration_deadline"
+                      value={values.registration_deadline}
+                      selected={( new Date(values.registration_deadline)) || null}
+                      onChange={(val) => {
+                                      // setStartDate(val);
+                                      console.log("Val of date inside formik is:",val);
+                                      setFieldValue("registration_deadline", val);
+                                  }}
+                      // onChange={handleChange}
+                      dateFormat="dd.MM.yyyy" 
+                      selectsStart                            
+                      minDate={new Date()}                                
+                      />
+                    {errors.registration_deadline && touched.registration_deadline ? (
+                      <p className="form-error">{errors.registration_deadline}</p>
+                    ) : null}
+                  </div>
+                  <div className="input-block">
+                    <label htmlFor="event_date" className="input-label">
+                      Event Date
+                    </label>
+                    <DatePicker
+                      //  locale="el"
+                      // onFocus={() => setFocusStart(true)}
+                      // onCalendarClose={() => setFocusStart(false)}
+                      name="event_date"
+                      value={values.event_date}
+                      selected={( new Date(values.event_date)) || null}
+                      onChange={(val) => {
+                                      // setStartDate(val);
+                                      console.log("Val of date inside formik is:",val);
+                                      setFieldValue("event_date", val);
+                                  }}
+                      // onChange={handleChange}
+                      dateFormat="dd.MM.yyyy" 
+                      selectsStart                            
+                      // minDate={values.registration_deadline}                                
+                      />
+                    {errors.event_date && touched.event_date ? (
+                      <p className="form-error">{errors.event_date}</p>
                     ) : null}
                   </div>
                   <div className="input-block">

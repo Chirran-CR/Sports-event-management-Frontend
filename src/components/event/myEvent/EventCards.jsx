@@ -5,15 +5,20 @@ import { FaEthereum } from "react-icons/fa";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 // import ParticipatedButton from "./ParticipatedButton";
+import moment from "moment";
+
 import {API_URL} from "../../../App";
 
 import styled from "styled-components";
 import marketplace1 from "../../../assets/sports3-min.png";
 import Button from "../../Button";
+import EventDateButton from "../../EventDateButton";
 function EventCards(props) {
   const [receivedData,setReceivedData]=useState([]);
   console.log("props in Event card of student:",props);//sportsEvent
   const selectedCategory=props.categoryReducer.choosedCategory;
+  const eventDateType=props.eventDateTypeReducer.eventDateType;
+
   const sportsCategories = [
     "ALL",
     "CRICKET",
@@ -71,8 +76,50 @@ function EventCards(props) {
     console.log("image with participatedEventData:",imageWithEventData);
   },[])
  let totalEvents=receivedData;
- if (selectedCategory!="ALL") totalEvents=receivedData?.filter((ev)=>  ev.sports.includes(selectedCategory));
+ if(eventDateType == "All" && selectedCategory == "ALL") totalEvents= props?.teacherEventReducer.allEvents;
 
+ if (eventDateType!="All") {
+  const dateType=eventDateType;
+  totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=> {
+    const dateLimit = moment(ev.eventDate, 'YYYY-MM-DD');
+    const now = moment()
+     if(dateType=="Live"){
+      if (dateLimit.isValid() && now.isSame(dateLimit,"day","month","year")) {
+         return true;
+      }else return false;
+     }else if(dateType=="Upcoming"){
+      if (dateLimit.isValid() && now.isBefore(dateLimit,"day","month","year")) {
+        return true;
+      }else return false;
+     }else{
+      if (dateLimit.isValid() && now.isAfter(dateLimit,"day","month","year")) {
+        return true;
+      }else return false;
+     }
+  });
+ }
+//  if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=>  ev.sportsCategory.includes(selectedCategory));
+if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=> { 
+  const dateLimit = moment(ev.eventDate, 'YYYY-MM-DD');
+  const now = moment()
+  if(eventDateType == "All"){
+    return ev.sportsCategory.includes(selectedCategory);
+  }else if(eventDateType=="Live"){
+    if ((dateLimit.isValid()) && (now.isSame(dateLimit,"day","month","year") && (ev.sportsCategory.includes(selectedCategory)))) {
+      return true;
+   }else return false;
+  }else if(eventDateType=="Upcoming"){
+    if ((dateLimit.isValid()) && (now.isBefore(dateLimit,"day","month","year") && (ev.sportsCategory.includes(selectedCategory)))) {
+      console.log("Inside upcoming...",ev.sportsCategory.includes(selectedCategory));
+      return true;
+    }else return false;
+  }else if(eventDateType=="Completed"){
+    if ((dateLimit.isValid()) && (now.isAfter(dateLimit,"day","month","year") && (ev.sportsCategory.includes(selectedCategory)))) {
+      return true;
+    }else return false;
+  }
+  return false;
+}); 
   console.log("event dAta:",participatedEventData);
   
   console.log("image with event data:",imageWithEventData);
@@ -86,6 +133,7 @@ function EventCards(props) {
           <ParticipatedButton text="Participated Events" blue={true}/>
        </Link>  */}
       </div>
+      <EventDateButton/>
       <div className="marketPlaceTypes">
         {sportsCategories.map((text, index) => {
           return <Button text={text} key={index} blue={text=== selectedCategory} />;
