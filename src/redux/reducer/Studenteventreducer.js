@@ -18,6 +18,6 @@ let initialState = {
         return state;
     }
   };
-  
+   
   export default Studenteventreducer;
   

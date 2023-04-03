@@ -59,6 +59,8 @@ function EventCards(props) {
               return{
                   id:ev._id,
                   eventBanner:ev.eventBanner,
+                  registrationDeadline:ev.registrationDeadline,
+                  eventDate:ev.eventDate,
                   name:ev.eventName,
                   host:ev.hostingCollege,
                   participate:ev.participatingColleges,
@@ -77,10 +79,12 @@ function EventCards(props) {
     // console.log("image with participatedEventData:",imageWithEventData);
   },[])
  let totalEvents=receivedData;
- if(eventDateType == "All" && selectedCategory == "ALL") totalEvents= props?.teacherEventReducer.allEvents;
+//  if(eventDateType == "All" && selectedCategory == "ALL") totalEvents= props?.teacherEventReducer.allEvents;
+if(eventDateType == "All" && selectedCategory == "ALL") totalEvents= receivedData;
+
  if (eventDateType!="All") {
   const dateType=eventDateType;
-  totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=> {
+  totalEvents=receivedData?.filter((ev)=> {
     const dateLimit = moment(ev.eventDate, 'YYYY-MM-DD');
     const now = moment()
      if(dateType=="Live"){
@@ -99,22 +103,22 @@ function EventCards(props) {
   });
  }
 //  if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=>  ev.sportsCategory.includes(selectedCategory));
-if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=> { 
+if (selectedCategory!="ALL") totalEvents=receivedData.filter((ev)=> { 
   const dateLimit = moment(ev.eventDate, 'YYYY-MM-DD');
   const now = moment()
   if(eventDateType == "All"){
-    return ev.sportsCategory.includes(selectedCategory);
+    return ev?.sports.includes(selectedCategory);
   }else if(eventDateType=="Live"){
-    if ((dateLimit.isValid()) && (now.isSame(dateLimit,"day","month","year") && (ev.sportsCategory.includes(selectedCategory)))) {
+    if ((dateLimit.isValid()) && (now.isSame(dateLimit,"day","month","year") && (ev?.sports.includes(selectedCategory)))) {
       return true;
    }else return false;
   }else if(eventDateType=="Upcoming"){
-    if ((dateLimit.isValid()) && (now.isBefore(dateLimit,"day","month","year") && (ev.sportsCategory.includes(selectedCategory)))) {
-      console.log("Inside upcoming...",ev.sportsCategory.includes(selectedCategory));
+    if ((dateLimit.isValid()) && (now.isBefore(dateLimit,"day","month","year") && (ev?.sports.includes(selectedCategory)))) {
+      console.log("Inside upcoming...",ev.sports?.includes(selectedCategory));
       return true;
     }else return false;
   }else if(eventDateType=="Completed"){
-    if ((dateLimit.isValid()) && (now.isAfter(dateLimit,"day","month","year") && (ev.sportsCategory.includes(selectedCategory)))) {
+    if ((dateLimit.isValid()) && (now.isAfter(dateLimit,"day","month","year") && (ev?.sports.includes(selectedCategory)))) {
       return true;
     }else return false;
   }

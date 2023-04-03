@@ -64,6 +64,8 @@ function EventCards(props) {
                   host:ev.hostingCollege,
                   participate:ev.participatingColleges,
                   sports:ev.sportsCategory,
+                  registrationDeadline:ev.registrationDeadline,
+                  eventDate:ev.eventDate,
                   venue:ev.venue,
                   participatingStudents:ev.participatingStudents,
                   result:ev.result,
@@ -81,7 +83,7 @@ function EventCards(props) {
     console.log("image with imageWithEventData:",imageWithEventData);
   },[])
  let totalEvents=receivedData;
- if(eventDateType == "All" && selectedCategory == "ALL") totalEvents= props?.teacherEventReducer.allEvents;
+ if(eventDateType == "All" && selectedCategory == "ALL") totalEvents= receivedData;
  if (eventDateType!="All") {
   const dateType=eventDateType;
   totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=> {
@@ -100,7 +102,13 @@ function EventCards(props) {
         return true;
       }else return false;
      }
-  });
+  }).map((ev)=>{
+    ev.name = ev.eventName;
+    ev.host= ev.hostingCollege;
+    ev.participate=ev.participatingColleges;
+    ev.sports=ev.sportsCategory;
+    return ev;
+ });
  }
 //  if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=>  ev.sportsCategory.includes(selectedCategory));
 if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=> { 
@@ -123,6 +131,12 @@ if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.fi
     }else return false;
   }
   return false;
+}).map((ev)=>{
+  ev.name = ev.eventName;
+  ev.host= ev.hostingCollege;
+  ev.participate=ev.participatingColleges;
+  ev.sports=ev.sportsCategory;
+  return ev;
 }); 
   // console.log("event dAta:",participatedEventData);
   

@@ -57,8 +57,10 @@ function EventCards(props) {
      console.log("image with eventData:",imageWithEventData);
   },[])
  let totalEvents=receivedData;
- if(eventDateType == "All" && selectedCategory == "ALL") totalEvents= props?.teacherEventReducer.allEvents;
- if (eventDateType!="All") {
+//  if(eventDateType == "All" && selectedCategory == "ALL") totalEvents= props?.teacherEventReducer.allEvents;
+if(eventDateType == "All" && selectedCategory == "ALL") totalEvents= receivedData;
+
+if (eventDateType!="All") {
   const dateType=eventDateType;
   totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=> {
     const dateLimit = moment(ev.eventDate, 'YYYY-MM-DD');
@@ -76,7 +78,13 @@ function EventCards(props) {
         return true;
       }else return false;
      }
-  });
+  }).map((ev)=>{
+    ev.name = ev.eventName;
+    ev.host= ev.hostingCollege;
+    ev.participate=ev.participatingColleges;
+    ev.sports=ev.sportsCategory;
+    return ev;
+ });;
  }
 //  if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=>  ev.sportsCategory.includes(selectedCategory));
 if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=> { 
@@ -99,7 +107,13 @@ if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.fi
     }else return false;
   }
   return false;
-}); 
+}).map((ev)=>{
+  ev.name = ev.eventName;
+  ev.host= ev.hostingCollege;
+  ev.participate=ev.participatingColleges;
+  ev.sports=ev.sportsCategory;
+  return ev;
+});; 
   console.log("event dAta:",eventData);
   
   console.log("image with event data:",imageWithEventData);
