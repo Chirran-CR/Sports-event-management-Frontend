@@ -64,6 +64,7 @@ function EventCards(props) {
                   host:ev.hostingCollege,
                   participate:ev.participatingColleges,
                   sports:ev.sportsCategory,
+                  result:ev.result,
                   venue:ev.venue
               }
             })
@@ -114,7 +115,7 @@ if (selectedCategory!="ALL") totalEvents=receivedData?.filter((ev)=> {
    }else return false;
   }else if(eventDateType=="Upcoming"){
     if ((dateLimit.isValid()) && (now.isBefore(dateLimit,"day","month","year") && (ev.sports.includes(selectedCategory)))) {
-      console.log("Inside upcoming...",ev.sportsCategory.includes(selectedCategory));
+      console.log("Inside upcoming...",ev?.sports.includes(selectedCategory));
       return true;
     }else return false;
   }else if(eventDateType=="Completed"){

@@ -279,7 +279,7 @@ const EventForm = (props) => {
                       // onChange={handleChange}
                       dateFormat="dd.MM.yyyy" 
                       selectsStart                            
-                      minDate={new Date()}                                
+                      // minDate={new Date()}                                
                       />
                     {errors.registration_deadline && touched.registration_deadline ? (
                       <p className="form-error">{errors.registration_deadline}</p>
@@ -304,7 +304,7 @@ const EventForm = (props) => {
                       // onChange={handleChange}
                       dateFormat="dd.MM.yyyy" 
                       selectsStart                            
-                      // minDate={values.registration_deadline}                                
+                      minDate={values.registration_deadline}                                
                       />
                     {errors.event_date && touched.event_date ? (
                       <p className="form-error">{errors.event_date}</p>

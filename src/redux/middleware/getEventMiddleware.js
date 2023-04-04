@@ -84,7 +84,7 @@ export const getEventMiddleware=()=>{
               .then(resp=>{
                     let eventData=resp.data.allEventsDetails;
             
-                    console.log("Received EventData:",eventData);
+                    console.log("Received EventData inside getEventMiddleware:",eventData);
                     let imageWithEventData=eventData?.map((ev)=>
                     { 
                         
@@ -98,6 +98,7 @@ export const getEventMiddleware=()=>{
                         sportsCategory:ev.sportsCategory,
                         eventDate:ev.eventDate,
                         registrationDeadline:ev.registrationDeadline,
+                        result:ev.result,
                         venue:ev.venue
                     }
                     })

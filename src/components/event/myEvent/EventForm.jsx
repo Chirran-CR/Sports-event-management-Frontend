@@ -6,6 +6,7 @@ import { Field, useFormik,Formik,useField } from "formik";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import moment from "moment";
 import { connect } from "react-redux";
 import { UserOutlined } from '@ant-design/icons';
 import {Avatar} from "antd";
@@ -29,7 +30,9 @@ const EventForm = (props) => {
   const [selectedSportForResult,setSelectedSportForResult]=useState("");
   const [winnerInfo,setWinnerInfo]=useState({});
   const [runnersUpInfo,setRunnersUpInfo]=useState({});
-
+  const registrationDeadline = moment(props?.eventReducer?.sportEvent?.registrationDeadline, 'YYYY-MM-DD');
+  const now = moment()
+  // const [isBtnDisabled,setIsBtnDisabled]=useState(now.isAfter(registrationDeadline,"day","month","year"));
   let tempSport;
 useEffect(()=>{
   setUpdate(false);
@@ -352,23 +355,26 @@ console.log("Val of runnersUpInfo:",runnersUpInfo);
                         ) : null}
                       </div>
                       <h1 className="modal-title">No of Participants:{23}</h1>
+                      {now.isAfter(registrationDeadline,"day","month","year")? (  <div className="input-block"><p>Registration Deadline is over,unable to update or remove</p></div>) :""}
                       <div className="modal-buttons">
                         <motion.button
                           whileHover={{ scale: 1.2 }}
-                          className="input-button"
+                          className={now.isAfter(registrationDeadline,"day","month","year")?  "input-button blur-button":"input-button"}
                           type="submit"
                           // onClick={(removeParticipatedEvent)=>{setRemoveParticipatedEvent(false);}}
+                          disabled={now.isAfter(registrationDeadline,"day","month","year")}
                         >
                           Update Participation
                         </motion.button>
                         <motion.button
                           whileHover={{ scale: 1.2 }}
-                          className="input-button"
+                          className={now.isAfter(registrationDeadline,"day","month","year")? "input-button blur-button":"input-button"}
                           // type="submit"
                           type="button"
                           style={{marginLeft:"5px",marginRight:"2px"}}
                           // onClick={(removeParticipatedEvent)=>{console.log("remove participation is clicked...");setRemoveParticipatedEvent(true);}}
                           onClick={()=>{handleRemoveParticipation()}}
+                          disabled={now.isAfter(registrationDeadline,"day","month","year")}
                         >
                           Remove Participation
                         </motion.button>
@@ -376,12 +382,13 @@ console.log("Val of runnersUpInfo:",runnersUpInfo);
                       <div className="modal-buttons">
                         <motion.button
                             whileHover={{ scale: 1.2 }}
-                            className="input-button"
+                            className={props?.eventReducer?.sportEvent?.result?.length == 0 ? "input-button blur-button":"input-button"}
                             // type="submit"
                             type="button"
                             style={{marginLeft:"80px",marginRight:"2px",marginTop:"10px"}}
                             // onClick={(removeParticipatedEvent)=>{console.log("remove participation is clicked...");setRemoveParticipatedEvent(true);}}
                             onClick={()=>{setShowResult(true);handleShowResult();}}
+                            disabled={props?.eventReducer?.sportEvent?.result?.length == 0 }
                         >
                             View Result
                           </motion.button>
@@ -510,7 +517,9 @@ const Wrapper = styled.section`
     // background: #55311c;//original color
     color: #2d69fd;
   }
-
+  .blur-button{
+    background:gray;
+  }
   .input-label {
     font-size: 11px;
     text-transform: uppercase;

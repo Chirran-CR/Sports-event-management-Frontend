@@ -45,6 +45,8 @@ function EventCards(props) {
                 host:ev.hostingCollege,
                 participate:ev.participatingColleges,
                 sports:ev.sportsCategory,
+                registrationDeadline:ev.registrationDeadline,
+                eventDate:ev.eventDate,
                 venue:ev.venue
             }
        })

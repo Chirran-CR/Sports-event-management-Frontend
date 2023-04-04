@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
+import moment from "moment";
 import { UserOutlined } from '@ant-design/icons';
 import {Avatar} from "antd";
 import EventAdded from "./EventAdded";
@@ -24,7 +25,8 @@ const EventForm = (props) => {
   // const [displayForm,setDisplayForm]=useState(true);
   // console.log("props in eventForm of student:",props);
   let event_id=props?.eventReducer?.sportEvent?.id;
-  
+  const registrationDeadline = moment(props?.eventReducer?.sportEvent?.registrationDeadline, 'YYYY-MM-DD');
+  const now = moment()
   // console.log("initial values in eventForm:",initialValues);
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
@@ -56,7 +58,7 @@ const EventForm = (props) => {
         props.hideForm();
       },
     });
-
+//  console.log("Val now.isAfter(registrationDeadline) is:",now.isAfter(registrationDeadline,"day","month","year"));
   return (
     <>
       <GlobalStyle />
@@ -139,12 +141,14 @@ const EventForm = (props) => {
                       <p className="form-error">{errors.sports_category}</p>
                     ) : null}
                   </div>
+                  {!props?.eventReducer?.sportEvent?.participate?.includes(props.userReducer.userCollegeName) ? (  <div className="input-block"><p>Your college is not elligible..</p></div>) :""}
+                  {now.isAfter(registrationDeadline,"day","month","year")? (  <div className="input-block"><p>Registration Deadline is over..!Can't Join</p></div>) :""}
                   <div className="modal-buttons">
                     <motion.button
                       whileHover={{ scale: 1.2 }}
-                      className="input-button"
+                      className={(now.isAfter(registrationDeadline,"day","month","year")) || (!props?.eventReducer?.sportEvent?.participate?.includes(props.userReducer.userCollegeName)) ?  "input-button blur-button":"input-button"}
                       type="submit"
-                      disabled={!props?.eventReducer?.sportEvent?.participate?.includes(props.userReducer.userCollegeName)}
+                      // disabled={(now.isAfter(registrationDeadline,"day","month","year")) || (!props?.eventReducer?.sportEvent?.participate?.includes(props.userReducer.userCollegeName))}
                       
                     >
                       Join Event
@@ -269,6 +273,9 @@ const Wrapper = styled.section`
     transition: 0.3s;
     cursor: pointer;
     font-family: "Nunito", sans-serif;
+  }
+  .blur-button{
+    background:gray;
   }
   .input-button:hover {
     // background: #55311c;//original color

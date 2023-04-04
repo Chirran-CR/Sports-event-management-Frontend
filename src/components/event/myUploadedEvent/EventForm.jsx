@@ -6,18 +6,25 @@ import { Field, useFormik,Formik,useField } from "formik";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { connect } from "react-redux";
-import { UserOutlined } from '@ant-design/icons';
 import {Avatar} from "antd";
 import EventAdded from "./EventAdded";
 import { API_URL } from "../../../App";
+import moment from "moment";
+import  DatePicker,{ registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import el from "date-fns/locale/el"; // the locale you want
+import { connect } from "react-redux";
+import { UserOutlined } from '@ant-design/icons';
+registerLocale("el", el);
 
 
 const initialValues = {
   // student_email: "",
   // college_name: "",
   uploaded_sports:  "",
-  participating_clg:""
+  participating_clg:"",
+  event_date:new Date(),
+  registration_deadline:new Date(),
 };
 const sportsCategories = [
   
@@ -46,7 +53,11 @@ const EventForm = (props) => {
     winner:"",
     runnersUp:"",
   })
-
+  //to check event status
+  const eventDate = moment(props?.eventReducer?.sportEvent?.eventDate, 'YYYY-MM-DD');
+  const now = moment()
+  initialValues.event_date=props?.eventReducer?.sportEvent?.eventDate ? moment(props?.eventReducer?.sportEvent?.eventDate, 'YYYY-MM-DD'):new Date();
+  initialValues.registration_deadline=props?.eventReducer?.sportEvent?.registrationDeadline ? moment(props?.eventReducer?.sportEvent?.registrationDeadline, 'YYYY-MM-DD'):new Date();
 
   let tempSport,tempClg;
 useEffect(()=>{
@@ -268,6 +279,8 @@ console.log("Val of selectedOutcome is:",selectedOutcome);
           // collegeName:values.college_name,
           participatingClgs:[...participatedClgArray],
           sportsCategory:[...uploadedSportsArray],
+          eventDate:values.event_date,
+          registrationDeadline:values.registration_deadline,
           
         }
         console.log("values of form in EventForm of myUploadedEvent",values);
@@ -463,11 +476,63 @@ console.log("Val of selectedOutcome is:",selectedOutcome);
                         <p className="form-error">{errors.sports_category}</p>
                       ) : null}
                     </div>
-                    <h1 className="modal-title">No of Participants:{23}</h1>
+                    {/* <h1 className="modal-title">No of Participants:{23}</h1> */}
+                    <div className="input-block">
+                    <label htmlFor="registration_deadline" className="input-label">
+                      Registration Deadline
+                    </label>
+                    <DatePicker
+                      
+                      // onFocus={() => setFocusStart(true)}
+                      // onCalendarClose={() => setFocusStart(false)}
+                      name="registration_deadline"
+                      value={values.registration_deadline}
+                      selected={( new Date(values.registration_deadline)) || null}
+                      onChange={(val) => {
+                                      // setStartDate(val);
+                                      console.log("Val of date inside formik is:",val);
+                                      setFieldValue("registration_deadline", val);
+                                  }}
+                      // onChange={handleChange}
+                      dateFormat="dd.MM.yyyy" 
+                      selectsStart                            
+                      // minDate={new Date()}                                
+                      />
+                    {errors.registration_deadline && touched.registration_deadline ? (
+                      <p className="form-error">{errors.registration_deadline}</p>
+                    ) : null}
+                  </div>
+                  <div className="input-block">
+                    <label htmlFor="event_date" className="input-label">
+                      Event Date
+                    </label>
+                    <DatePicker
+                      //  locale="el"
+                      // onFocus={() => setFocusStart(true)}
+                      // onCalendarClose={() => setFocusStart(false)}
+                      name="event_date"
+                      value={values.event_date}
+                      selected={( new Date(values.event_date)) || null}
+                      onChange={(val) => {
+                                      // setStartDate(val);
+                                      console.log("Val of date inside formik is:",val);
+                                      setFieldValue("event_date", val);
+                                  }}
+                      // onChange={handleChange}
+                      dateFormat="dd.MM.yyyy" 
+                      selectsStart                            
+                      minDate={values.registration_deadline}                                
+                      />
+                    {errors.event_date && touched.event_date ? (
+                      <p className="form-error">{errors.event_date}</p>
+                    ) : null}
+                  </div>
+                    {now.isSame(eventDate,"day","month","year")? (  <div className="input-block"><p>Event is live now,unable to update or remove...</p></div>) :""}
+                    {now.isAfter(eventDate,"day","month","year")? (  <div className="input-block"><p>Event is already over...So can't update or remove...</p></div>) :""}
                     <div className="modal-buttons">
                       <motion.button
                         whileHover={{ scale: 1.2 }}
-                        className="input-button"
+                        className={(now.isAfter(eventDate,"day","month","year")) || (now.isSame(eventDate,"day","month","year")) ?  "input-button blur-button":"input-button"}
                         type="submit"
                         // onClick={(removeParticipatedEvent)=>{setRemoveParticipatedEvent(false);}}
                       >
@@ -475,7 +540,7 @@ console.log("Val of selectedOutcome is:",selectedOutcome);
                       </motion.button>
                       <motion.button
                         whileHover={{ scale: 1.2 }}
-                        className="input-button"
+                        className={(now.isAfter(eventDate,"day","month","year")) || (now.isSame(eventDate,"day","month","year")) ?  "input-button blur-button":"input-button"}
                         // type="submit"
                         type="button"
                         style={{marginLeft:"5px",marginRight:"2px"}}
@@ -621,6 +686,9 @@ const Wrapper = styled.section`
     transition: 0.3s;
     cursor: pointer;
     font-family: "Nunito", sans-serif;
+  }
+  .blur-button{
+    background:gray;
   }
   .input-button:hover {
     // background: #55311c;//original color
