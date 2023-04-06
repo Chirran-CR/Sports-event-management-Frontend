@@ -10,7 +10,7 @@ import logo from "../assets/logo2.png";
 
 export default function Footer() {
   const servicesLinks = ["Providing Platform", "Easier Payment", "Attractive GUI", "Effective Management"];
-  const companyLinks = ["Home", "About", "Events", "Account"];
+  const companyLinks = ["JioTv", "Reliance Digital", "Style Craze", "Sports Arena"];
   const contactInfo = [
     {
       icon: <MdEmail />,
@@ -57,7 +57,7 @@ export default function Footer() {
         </ul>
       </div>
       <div className="row">
-        <h3>Company</h3>
+        <h3>Sponsored Company</h3>
         <ul className="list">
           {companyLinks.map((link) => {
             return <li key={link}>{link}</li>;

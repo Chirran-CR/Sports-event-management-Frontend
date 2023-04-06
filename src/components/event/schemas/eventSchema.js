@@ -9,5 +9,6 @@ export const eventSchema = Yup.object({
   sports_category:Yup.array().min(1,"select at least one category"),
   registration_deadline:Yup.date().required("Deadline is required"),
   event_date:Yup.date().required("Event date is required"),
+  amount:Yup.number(),
   event_banner:Yup.mixed()
 });

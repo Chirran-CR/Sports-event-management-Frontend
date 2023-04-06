@@ -12,6 +12,7 @@ import { UserOutlined } from '@ant-design/icons';
 import {Avatar} from "antd";
 import EventAdded from "./EventAdded";
 import { API_URL } from "../../../App";
+import EventPayment from "./EventPayment";
 
 
 const initialValues = {
@@ -28,7 +29,7 @@ const EventForm = (props) => {
   const registrationDeadline = moment(props?.eventReducer?.sportEvent?.registrationDeadline, 'YYYY-MM-DD');
   const now = moment()
   // console.log("initial values in eventForm:",initialValues);
-
+  const isPaidEvent=props?.eventReducer?.sportEvent?.price ? true:false;
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
@@ -42,23 +43,26 @@ const EventForm = (props) => {
           collegeName:props.userReducer.userCollegeName,
           participatingSports:values.participating_sports
         }
-        console.log("values of form in EventForm of student",values);
+        console.log("values of form in EventForm of student inside onSubmit",values);
         console.log("val of sending data details is:",sendingDataDetails);
-        const studentEventRes = await axios.post(
-          `${API_URL}/event/student/add`,
-          // `https://sprots-event-api-2.onrender.com/event/student/add`,
-          sendingDataDetails,{credentials:true}
-        );
-        
-        console.log("studentEventRes received is:", studentEventRes);
-        action.resetForm();
-        // action.setSubmitting(false);
-        // document.getElementsByClassName("mycheck").checked = false;
-        // setCheckboxTick(checkboxTick+1);
-        props.hideForm();
-      },
+        if(!isPaidEvent) {
+          const studentEventRes = await axios.post(
+            `${API_URL}/event/student/add`,
+            // `https://sprots-event-api-2.onrender.com/event/student/add`,
+            sendingDataDetails,{credentials:true}
+          );
+          
+          console.log("studentEventRes received inside eventForm is:", studentEventRes);
+          // action.setSubmitting(false);
+          // document.getElementsByClassName("mycheck").checked = false;
+          // setCheckboxTick(checkboxTick+1);
+          props.hideForm();}        
+          action.resetForm();
+        },
     });
 //  console.log("Val now.isAfter(registrationDeadline) is:",now.isAfter(registrationDeadline,"day","month","year"));
+// console.log("value of ",(now.isAfter(registrationDeadline,"day","month","year")) || (!props?.eventReducer?.sportEvent?.participate?.includes(props.userReducer.userCollegeName)));
+
   return (
     <>
       <GlobalStyle />
@@ -143,17 +147,29 @@ const EventForm = (props) => {
                   </div>
                   {!props?.eventReducer?.sportEvent?.participate?.includes(props.userReducer.userCollegeName) ? (  <div className="input-block"><p>Your college is not elligible..</p></div>) :""}
                   {now.isAfter(registrationDeadline,"day","month","year")? (  <div className="input-block"><p>Registration Deadline is over..!Can't Join</p></div>) :""}
+                  {(now.isAfter(registrationDeadline,"day","month","year")) || (!props?.eventReducer?.sportEvent?.participate?.includes(props.userReducer.userCollegeName)) ? (<div className="modal-buttons">
+                    <motion.button
+                      whileHover={{ scale: 1.2 }}
+                      className={(now.isAfter(registrationDeadline,"day","month","year")) || (!props?.eventReducer?.sportEvent?.participate?.includes(props.userReducer.userCollegeName)) ?  "input-button blur-button":"input-button"}
+                      type="submit"
+                      disabled={(now.isAfter(registrationDeadline,"day","month","year")) || (!props?.eventReducer?.sportEvent?.participate?.includes(props.userReducer.userCollegeName))}
+                      
+                    >
+                      Join Event
+                    </motion.button>
+                  </div>):(isPaidEvent ? (<div className="payment" ><EventPayment myProps={props} myValues={values}/></div>):(
+                    
                   <div className="modal-buttons">
                     <motion.button
                       whileHover={{ scale: 1.2 }}
                       className={(now.isAfter(registrationDeadline,"day","month","year")) || (!props?.eventReducer?.sportEvent?.participate?.includes(props.userReducer.userCollegeName)) ?  "input-button blur-button":"input-button"}
                       type="submit"
-                      // disabled={(now.isAfter(registrationDeadline,"day","month","year")) || (!props?.eventReducer?.sportEvent?.participate?.includes(props.userReducer.userCollegeName))}
+                      disabled={(now.isAfter(registrationDeadline,"day","month","year")) || (!props?.eventReducer?.sportEvent?.participate?.includes(props.userReducer.userCollegeName))}
                       
                     >
                       Join Event
                     </motion.button>
-                  </div>
+                  </div>))}
                 </form>
               </div>
             </div>
@@ -246,6 +262,14 @@ const Wrapper = styled.section`
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+  .payment{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom:1rem;
+    margin-left:4rem;
+    // background-color:red;
   }
   .modal-buttons a {
     color: rgba(51, 51, 51, 0.6);

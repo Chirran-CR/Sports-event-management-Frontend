@@ -77,7 +77,7 @@ function EventCards(props) {
 
         
     console.log("image with participatedEventData:",imageWithEventData);
-  },[])
+  },[]) 
  let totalEvents=receivedData;
 //  if(eventDateType == "All" && selectedCategory == "ALL") totalEvents= props?.teacherEventReducer.allEvents;
 if(eventDateType == "All" && selectedCategory == "ALL") totalEvents= receivedData;

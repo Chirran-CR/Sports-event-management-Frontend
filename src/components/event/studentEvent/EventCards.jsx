@@ -47,6 +47,7 @@ function EventCards(props) {
                 sports:ev.sportsCategory,
                 registrationDeadline:ev.registrationDeadline,
                 eventDate:ev.eventDate,
+                price:ev.price,
                 venue:ev.venue
             }
        })
@@ -64,7 +65,7 @@ if(eventDateType == "All" && selectedCategory == "ALL") totalEvents= receivedDat
 
 if (eventDateType!="All") {
   const dateType=eventDateType;
-  totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=> {
+  totalEvents=receivedData?.filter((ev)=> {
     const dateLimit = moment(ev.eventDate, 'YYYY-MM-DD');
     const now = moment()
      if(dateType=="Live"){
@@ -80,42 +81,30 @@ if (eventDateType!="All") {
         return true;
       }else return false;
      }
-  }).map((ev)=>{
-    ev.name = ev.eventName;
-    ev.host= ev.hostingCollege;
-    ev.participate=ev.participatingColleges;
-    ev.sports=ev.sportsCategory;
-    return ev;
- });;
+  });
  }
 //  if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=>  ev.sportsCategory.includes(selectedCategory));
-if (selectedCategory!="ALL") totalEvents=props?.teacherEventReducer.allEvents.filter((ev)=> { 
+if (selectedCategory!="ALL") totalEvents=receivedData?.filter((ev)=> { 
   const dateLimit = moment(ev.eventDate, 'YYYY-MM-DD');
   const now = moment()
   if(eventDateType == "All"){
-    return ev.sportsCategory.includes(selectedCategory);
+    return ev?.sports?.includes(selectedCategory);
   }else if(eventDateType=="Live"){
-    if ((dateLimit.isValid()) && (now.isSame(dateLimit,"day","month","year") && (ev.sportsCategory.includes(selectedCategory)))) {
+    if ((dateLimit.isValid()) && (now.isSame(dateLimit,"day","month","year") && (ev?.sports?.includes(selectedCategory)))) {
       return true;
    }else return false;
   }else if(eventDateType=="Upcoming"){
-    if ((dateLimit.isValid()) && (now.isBefore(dateLimit,"day","month","year") && (ev.sportsCategory.includes(selectedCategory)))) {
-      console.log("Inside upcoming...",ev.sportsCategory.includes(selectedCategory));
+    if ((dateLimit.isValid()) && (now.isBefore(dateLimit,"day","month","year") && (ev?.sports?.includes(selectedCategory)))) {
+      console.log("Inside upcoming...",ev?.sports?.includes(selectedCategory));
       return true;
     }else return false;
   }else if(eventDateType=="Completed"){
-    if ((dateLimit.isValid()) && (now.isAfter(dateLimit,"day","month","year") && (ev.sportsCategory.includes(selectedCategory)))) {
+    if ((dateLimit.isValid()) && (now.isAfter(dateLimit,"day","month","year") && (ev?.sports?.includes(selectedCategory)))) {
       return true;
     }else return false;
   }
   return false;
-}).map((ev)=>{
-  ev.name = ev.eventName;
-  ev.host= ev.hostingCollege;
-  ev.participate=ev.participatingColleges;
-  ev.sports=ev.sportsCategory;
-  return ev;
-});; 
+}); 
   console.log("event dAta:",eventData);
   
   console.log("image with event data:",imageWithEventData);

@@ -29,6 +29,7 @@ const initialValues = {
   sports_category: [],
   registration_deadline:new Date(),
   event_date:new Date(),
+  amount:0,
   event_banner:""
 };
 
@@ -55,8 +56,11 @@ const EventForm = (props) => {
           registrationDeadline:values.registration_deadline,
           eventDate:values.event_date,
           venue:values.venue,
+          price:values.amount,
           eventBanner:values.event_banner
         };
+        console.log("Val of toBeStoredObj inside the eventForm of teacher Event is:",toBeStoredObj);
+
         //works good but file has not send to backend
         // const loginRes = await axios.post(
         //   `http://localhost:5000/event/add`,toBeStoredObj,{credentials:true}          
@@ -106,6 +110,7 @@ const EventForm = (props) => {
         sports_category: [],
         registration_deadline:new Date(),
         event_date:new Date(),
+        amount:0,
         event_banner:""
       }});
         // action.setSubmitting(false);
@@ -279,7 +284,7 @@ const EventForm = (props) => {
                       // onChange={handleChange}
                       dateFormat="dd.MM.yyyy" 
                       selectsStart                            
-                      // minDate={new Date()}                                
+                      minDate={new Date()}                                
                       />
                     {errors.registration_deadline && touched.registration_deadline ? (
                       <p className="form-error">{errors.registration_deadline}</p>
@@ -308,6 +313,24 @@ const EventForm = (props) => {
                       />
                     {errors.event_date && touched.event_date ? (
                       <p className="form-error">{errors.event_date}</p>
+                    ) : null}
+                  </div>
+                  <div className="input-block">
+                    <label htmlFor="amount" className="input-label">
+                      Participation Charge
+                    </label>
+                    <input
+                      type="number"
+                      autoComplete="off"
+                      name="amount"
+                      id="amount"
+                      placeholder="Amount"
+                      value={values.amount}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.amount && touched.amount ? (
+                      <p className="form-error">{errors.amount}</p>
                     ) : null}
                   </div>
                   <div className="input-block">
