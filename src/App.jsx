@@ -85,5 +85,5 @@ const DashboardPrivateRoute=()=>{
   }
 }
 export default App;
-// export const API_URL="https://sprots-event-api-2.onrender.com";
-export const API_URL="http://localhost:5000";
+export const API_URL="https://sprots-event-api-2.onrender.com";
+// export const API_URL="http://localhost:5000";
