@@ -266,7 +266,7 @@ const Registration = () => {
 const Wrapper = styled.section`
   .container {
     position: relative;
-    top: 40rem;
+    top: 45rem;
     left: 0;
     right: 0;
     bottom: 0;

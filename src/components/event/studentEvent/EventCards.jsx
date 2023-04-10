@@ -115,7 +115,7 @@ if (selectedCategory!="ALL") totalEvents=receivedData?.filter((ev)=> {
       <div className="title">
         <h2>Added Sports Events</h2>
        <Link to="/myevent">
-          <ParticipatedButton text="Participated Events" blue={true}/>
+          <ParticipatedButton text="Participated Events" blue={false} mycolor="button-color" />
        </Link> 
       </div>
       <EventDateButton/>

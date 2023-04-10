@@ -6,11 +6,11 @@ import {connect} from "react-redux";
 function ParticipatedButton(props) {
   const text=props.text;
   const blue=props.blue;
-  
+  const mycolor=props.mycolor;
   
   return (
     <Div whileHover={{ scale: 1.2 }}>
-      <button className={`${blue ? "blue" : ""}`} onClick={()=>{}}>{text}</button>
+      <button className={`${blue ? "blue" : mycolor? "blue button-color":""}`}  onClick={()=>{}}>{text}</button>
     </Div>
   );
 }
@@ -31,6 +31,10 @@ const Div = styled(motion.div)`
   }
   .blue {
     background-color: #2d69fd;
+  }
+  .button-color {
+    background-color:#232835;
+    // color:red;
   }
 `;
 

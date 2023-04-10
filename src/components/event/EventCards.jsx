@@ -90,10 +90,10 @@ console.log("Total event ki value in 37 line:",totalEvents);
         <h2>Added Sports Events</h2>
        <div  style={{display:"flex"}}>
         <Link to="/myuploadedevent">
-          <ParticipatedButton text="My Uploaded Events" blue={true}/>
+          <ParticipatedButton text="My Uploaded Events" blue={false} mycolor="button-color"/>
        </Link> 
        <Link to="/selectparticipant">
-          <ParticipatedButton text="Select Participant" blue={true}/>
+          <ParticipatedButton text="Select Participant" blue={false} mycolor="button-color"/>
        </Link>
         </div> 
         <p>

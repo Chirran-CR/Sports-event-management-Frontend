@@ -24,7 +24,7 @@ const Section=styled.section`
    grid-template-rows:repeat(3,1fr),
    background-color:gray;
    height:100vh;
-  border:2px solid red;
+  border:2px solid ;
    padding-top:6rem;
    gap:0.5rem;
   //  box-sizing:border-box;

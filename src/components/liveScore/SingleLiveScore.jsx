@@ -46,8 +46,8 @@ const SingleLiveScore = (props) => {
                                 <h2>{liveScorObj.score.presentScore.team1Score}</h2>
                                 <h2>{liveScorObj.score.presentScore.team2Score}</h2>
                             </div>
-                            <div style={{marginLeft:"4rem",fontSize:"2rem",cursor:"pointer"}} onClick={()=>{handleRefresh()}}>
-                            <i class='bx bxs-sun bx-spin'></i>
+                            <div style={{marginLeft:"4rem",fontSize:"2rem",cursor:"pointer",color:"green"}} onClick={()=>{handleRefresh()}}>
+                            <p>Live</p><i class='bx bxs-sun bx-spin'></i>
                             </div>
                          </div>
                          <div style={{padding:"2rem"}}>
