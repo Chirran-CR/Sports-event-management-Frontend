@@ -63,6 +63,8 @@ function EventCards(props) {
                   name:ev.eventName,
                   host:ev.hostingCollege,
                   participate:ev.participatingColleges,
+                  participatingStudents:ev.participatingStudents,
+                  TeacherEmail:ev.TeacherEmail,
                   sports:ev.sportsCategory,
                   result:ev.result,
                   venue:ev.venue

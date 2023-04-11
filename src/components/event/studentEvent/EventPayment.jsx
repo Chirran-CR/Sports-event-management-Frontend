@@ -59,6 +59,7 @@ function EventPayment({myProps,myValues}) {
         },
       });
       if (response.status === 200) {
+       
         handleSuccess();
       }
     } catch (error) {

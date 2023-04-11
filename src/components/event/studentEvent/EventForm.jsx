@@ -13,6 +13,8 @@ import {Avatar} from "antd";
 import EventAdded from "./EventAdded";
 import { API_URL } from "../../../App";
 import EventPayment from "./EventPayment";
+import EventPayment2 from "./EventPayment2";
+
 
 
 const initialValues = {

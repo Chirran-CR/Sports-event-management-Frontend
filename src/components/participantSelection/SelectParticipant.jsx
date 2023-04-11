@@ -241,6 +241,10 @@ const SelectParticipant = (props) => {
    
    const sendObj={sendSelectedStudent:sendSelectedStudent,selectedSport:selectedSport};
    
+   const sendObjForEmail={selectedEvent,sendSelectedStudent:sendSelectedStudent,selectedSport:selectedSport};
+   const sendObjForEmailRes=await axios.post(`${API_URL}/event/sendmailselectedstudent`,sendObjForEmail);
+   console.log("Val of sendObjForEmailRes is:",sendObjForEmailRes);
+   
     // const addSelectedStudentRes=await axios.post(`http://localhost:5000/event/addselectedstudent/${displayedEvent.eventId}`,sendObj);
     const addSelectedStudentRes=await axios.post(`${API_URL}/event/addselectedstudent/${displayedEvent.eventId}`,sendObj);
     

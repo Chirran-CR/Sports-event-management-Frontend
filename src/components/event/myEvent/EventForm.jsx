@@ -130,6 +130,13 @@ async function handleSendFeedback(){
   console.log("Val of student id is:",props.userReducer.id);
   console.log("Val of event id is:",event_id);
   console.log("val of sportEvent inside eventReducer is:",props?.eventReducer?.sportEvent);
+  // const studentEmail=props?.userReducer?.userEmail;
+  const studentName=props?.userReducer?.userName;
+  const teacherEmail=props?.eventReducer?.sportEvent?.TeacherEmail;
+  const eventName=props?.eventReducer?.sportEvent?.name;
+  const sportName=selectedSportForResult;
+  const sendFeedbackRes= await axios.post(`${API_URL}/event/student/sendfeedback`,{studentName,teacherEmail,eventName,sportName,feedback:textAreaVal});
+  console.log("Val of sendFeedbackRes is:",sendFeedbackRes);
   setTextAreaVal("");
   setShowFeedbackBlock(false);
   setShowResult(false);
@@ -242,7 +249,7 @@ console.log("Val of runnersUpInfo:",runnersUpInfo);
                           <h2 style={{marginTop:"-7%",marginLeft:"5%"}}>{runnersUpInfo.name}</h2>
                         </div>
                       </div>
-                      <h1 className="modal-title">No of Participants:{23}</h1>
+                      <h1 className="modal-title">No of Participants:{props?.eventReducer?.sportEvent?.participatingStudents?.length}</h1>
                       {showFeedbackBlock? 
                         <div className="input-block">
                           <label htmlFor="comment_block" className="input-label">
@@ -354,7 +361,7 @@ console.log("Val of runnersUpInfo:",runnersUpInfo);
                           <p className="form-error">{errors.sports_category}</p>
                         ) : null}
                       </div>
-                      <h1 className="modal-title">No of Participants:{23}</h1>
+                      <h1 className="modal-title">No of Participants:{props?.eventReducer?.sportEvent?.participatingStudents?.length}</h1>
                       {now.isAfter(registrationDeadline,"day","month","year")? (  <div className="input-block"><p>Registration Deadline is over,unable to update or remove</p></div>) :""}
                       <div className="modal-buttons">
                         <motion.button

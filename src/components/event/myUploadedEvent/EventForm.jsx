@@ -198,6 +198,11 @@ function handleParticipatedClgArray(){
 async function handleUploadResult(){
   console.log("Handle Upload result is clicked...");
   console.log(`Winner of the ${selectedSport} is: ${selectedOutcome.winner} & runnersUp is: ${selectedOutcome.runnersUp}`);
+  //send mail to winner and runners up
+  const sendResultMailObj={eventName:props?.eventReducer?.sportEvent?.name,selectedSport,selectedOutcome};
+  const sendResultMailRes=await axios.post(`${API_URL}/event/sendresultmail`,sendResultMailObj);
+  console.log("Val of sendResultMailres is:",sendResultMailRes);
+    
   //TODO:- remove the sports from the, selected sport dropdown menu..
   //TODO:- send resutl to backend & store it in the respective event..
   let winnerStudentInfo={};

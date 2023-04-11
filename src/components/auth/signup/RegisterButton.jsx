@@ -8,10 +8,15 @@ function Button(props) {
   const blue=props.blue;
   let link="/signup";
   if(localStorage.getItem("designation")) link="/";
+  function showNotification(){
+    if(link=="/"){
+      alert("Already Registered..");
+    }
+  }
   return (
     <Div whileHover={{ scale: 1.2 }}>
      
-      <button className={`${blue ? "blue" : ""}`} ><Link style={{color:"white",textDecoration:"none"}}to={link}>{text}</Link></button>
+      <button className={`${blue ? "blue" : ""}`} onClick={()=>showNotification()}><Link style={{color:"white",textDecoration:"none"}}to={link}>{text}</Link></button>
     </Div>
   );
 }
