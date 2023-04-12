@@ -45,5 +45,9 @@ const Section=styled.section`
     // background-color:cyan;
     grid-row:2/span 2;
   };
-`
+  @media screen and (max-width: 400px) {
+   
+
+  }
+` 
 export default LiveScore;
