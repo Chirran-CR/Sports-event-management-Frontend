@@ -65,6 +65,7 @@ const Registration = (props) => {
             email:values.email,
               password:values.password,
             },{withCredentials:true})
+            
             if(!loginRes.data.myError){
               const userDetails=receivedDesignation=="student"?loginRes.data.studentDetails:loginRes.data.teacherDetails;
               const userObj={userEmail:userDetails.email,

@@ -60,13 +60,14 @@ const Registration = () => {
            profilePic:values.profile_pic,
         },configObj)
         console.log("response received is:",res);//res.data will show the teacher returned info
-        if(!res.data.myError){//encoutner hoga ki nehi dubara cross check karna re..
-		      const addToUserDB=await axios.post(`${API_URL}/user/add`,{name:values.name,email:values.email,designation:values.designation});
-          console.log("Val of addToUserDB, inside registration is:",addToUserDB);
-          navigate("/login")
-        }else{
-          setErr(true);
-        }
+        // if(!res.data.myError){//encoutner hoga ki nehi dubara cross check karna re..
+		    //   const addToUserDB=await axios.post(`${API_URL}/user/add`,{name:values.name,email:values.email,designation:values.designation});
+        //   console.log("Val of addToUserDB, inside registration is:",addToUserDB);
+        //   navigate("/login")
+        // }else{
+        //   setErr(true);
+        // }
+        navigate("/login")
         action.resetForm();
       },
     });
