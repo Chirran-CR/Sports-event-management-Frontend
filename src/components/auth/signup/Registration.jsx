@@ -5,6 +5,8 @@ import { useFormik } from "formik";
 import { signUpSchema } from "./schemas";
 import { motion } from "framer-motion";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from "react-router-dom";
 import { API_URL } from "../../../App";
 
@@ -25,7 +27,16 @@ const Registration = () => {
   const fileRef=useRef(null);
   const users=["teacher","student"];
   const gender=["Male","Female"];
-  
+  const notifySendVerificationMail = () => toast.success('Verification mail has been sent,Check your inbox', {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+    }); 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue } =
     useFormik({
       initialValues,
@@ -40,13 +51,13 @@ const Registration = () => {
             "Content-Type":"multipart/form-data"
           }
         }
-        // if(values.designation=="Teacher") myDesignation=
-        const resAfterSavingInUser=await axios.post(`${API_URL}/user/add`,{
-          name:values.name,
-          email:values.email,
-          designation:values.designation
-        })
-        console.log("received from user collection is:",resAfterSavingInUser);
+        
+        // const resAfterSavingInUser=await axios.post(`${API_URL}/user/add`,{
+        //   name:values.name,
+        //   email:values.email,
+        //   designation:values.designation
+        // })
+        // console.log("received from user collection is:",resAfterSavingInUser);
         
         const res=await axios.post(`${API_URL}/auth/${values.designation}/signup`,{
         // const res=await axios.post(`https://sprots-event-api-2.onrender.com/auth/${values.designation}/signup`,{
@@ -67,7 +78,13 @@ const Registration = () => {
         // }else{
         //   setErr(true);
         // }
+        if(!res.data.myError){
+       
+        notifySendVerificationMail();
         navigate("/login")
+      }else{
+          setErr(true);
+        }
         action.resetForm();
       },
     });

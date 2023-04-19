@@ -6,6 +6,8 @@ import { signUpSchema } from "./schemas";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {connect} from "react-redux";
 import {API_URL} from "../../../App";
 
@@ -17,7 +19,17 @@ const initialValues = {
 
 const Registration = (props) => {
   const navigate=useNavigate();
-  const [err,setErr]=useState(false)
+  const [err,setErr]=useState(false);
+  const notifyUserNotRegistered = () => toast.error('User not registered', {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+    }); 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
@@ -29,60 +41,66 @@ const Registration = (props) => {
         );
         const userObjRes=await axios.post(`${API_URL}/user/get`,{email:values.email});
         console.log("userObjRes is:",userObjRes);
-        const receivedDesignation=userObjRes.data.userDetails[0].designation;
-        if(receivedDesignation == "admin"){
-            console.log("Desugnation is:",receivedDesignation);
-            if(values.password == "123456"){
-              props.logIn(receivedDesignation);
-              // if(receivedDesignation == "moderator"){
-              //   const moderatorRes=await axios.post("http://localhost:5000/moderator/get",{email:values.email});
-              //   console.log("Val of moderator res is:",moderatorRes);
-              //   props.setModerator({...moderatorRes.data.moderatorDetails});
-              // } 
-              navigate("/dashboard");
-            }else{
-              setErr(true);
-            }
-        }else if(receivedDesignation == "moderator"){
-            const loginRes=await axios.post(`${API_URL}/moderator/login`,{
-              email:values.email,
-              password:values.password,
-            })
-            console.log("Val of loginRes inside login of registraion inside else if block:",loginRes);
-            if(!loginRes.data.errorPresent){
-              props.setModerator({...loginRes.data.moderatorDetails});
-              props.logIn(receivedDesignation);
-              navigate("/dashboard");
-            }else{
-              setErr(true);
-            }
-        }
-        else{ 
-                // const loginRes=await axios.post(`http://localhost:5000/auth/${values.designation}/login`,{
-            const loginRes=await axios.post(`${API_URL}/auth/${receivedDesignation}/login`,{
-              // const loginRes=await axios.post(`https://sprots-event-api-2.onrender.com/auth/${values.designation}/login`,{
-              
-            email:values.email,
-              password:values.password,
-            },{withCredentials:true})
-            
-            if(!loginRes.data.myError){
-              const userDetails=receivedDesignation=="student"?loginRes.data.studentDetails:loginRes.data.teacherDetails;
-              const userObj={userEmail:userDetails.email,
-                userName:userDetails.name,
-                userCollegeName:userDetails.collegeName,
-                profileImage:userDetails.profilePic,
-                id:userDetails._id,
+        if(userObjRes.data.userDetails.length == 0){
+          setErr(true);
+          notifyUserNotRegistered();
+        }else{
+          const receivedDesignation=userObjRes.data.userDetails[0].designation;
+          if(receivedDesignation == "admin"){
+              console.log("Desugnation is:",receivedDesignation);
+              if(values.password == "123456"){
+                props.logIn(receivedDesignation);
+                // if(receivedDesignation == "moderator"){
+                //   const moderatorRes=await axios.post("http://localhost:5000/moderator/get",{email:values.email});
+                //   console.log("Val of moderator res is:",moderatorRes);
+                //   props.setModerator({...moderatorRes.data.moderatorDetails});
+                // } 
+                navigate("/dashboard");
+              }else{
+                setErr(true);
               }
-              props.setUser(userObj);
-              console.log("inside if block of registration login and response is:",loginRes);
-              props.logIn(receivedDesignation);
-              navigate("/events")
-            }else{
-              setErr(true);
-            } 
-            console.log("loginRes received is:",loginRes);
+          }else if(receivedDesignation == "moderator"){
+              const loginRes=await axios.post(`${API_URL}/moderator/login`,{
+                email:values.email,
+                password:values.password,
+              })
+              console.log("Val of loginRes inside login of registraion inside else if block:",loginRes);
+              if(!loginRes.data.errorPresent){
+                props.setModerator({...loginRes.data.moderatorDetails});
+                props.logIn(receivedDesignation);
+                navigate("/dashboard");
+              }else{
+                setErr(true);
+              }
+          }
+          else{ 
+                  // const loginRes=await axios.post(`http://localhost:5000/auth/${values.designation}/login`,{
+              const loginRes=await axios.post(`${API_URL}/auth/${receivedDesignation}/login`,{
+                // const loginRes=await axios.post(`https://sprots-event-api-2.onrender.com/auth/${values.designation}/login`,{
+                
+              email:values.email,
+                password:values.password,
+              },{withCredentials:true})
+              
+              if(!loginRes.data.myError){
+                const userDetails=receivedDesignation=="student"?loginRes.data.studentDetails:loginRes.data.teacherDetails;
+                const userObj={userEmail:userDetails.email,
+                  userName:userDetails.name,
+                  userCollegeName:userDetails.collegeName,
+                  profileImage:userDetails.profilePic,
+                  id:userDetails._id,
+                }
+                props.setUser(userObj);
+                console.log("inside if block of registration login and response is:",loginRes);
+                props.logIn(receivedDesignation);
+                navigate("/events")
+              }else{
+                setErr(true);
+              } 
+              console.log("loginRes received is:",loginRes);
+          }
         }
+       
       
         action.resetForm();
       },

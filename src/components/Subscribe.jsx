@@ -31,6 +31,16 @@ export default function Subscribe() {
     progress: undefined,
     theme: "colored",
     });  
+    const notifySendVerificationMail = () => toast.success('Verification mail has been sent,Check your inbox', {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      }); 
   const handleEmailChange=(ev)=>{
     setEmail(ev.target.value);
   }
@@ -52,7 +62,11 @@ export default function Subscribe() {
       if(subscribeRes.data.successNotification){
         notifySubscription();
       }else{
-        notifyErrorSubscription();
+        if(subscribeRes.data.sendMail){
+          notifySendVerificationMail();
+        }else{
+          notifyErrorSubscription();
+        }
       }
       console.log("subscribe response received is:",subscribeRes);
   }
