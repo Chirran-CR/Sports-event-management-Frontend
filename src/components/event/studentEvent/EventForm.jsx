@@ -360,6 +360,10 @@ const Wrapper = styled.section`
 
     
   }
+  @media screen and (max-width: 400px) {
+    width:100vw;
+    margin-left:-2rem;
+  }
 `;
 function mapStateToProps(store) {
   return store;

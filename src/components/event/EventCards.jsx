@@ -100,13 +100,15 @@ console.log("Total event ki value in 37 line:",totalEvents);
          Add the event and we will manage the event for you...
         </p>
       </div>
-      <EventDateButton/>
+      <div className="event-date-mobile">
+      <EventDateButton/>  
+      </div>
       <div className="marketPlaceTypes">
         {sportsCategories.map((text, index) => {
           return <Button text={text} key={index} blue={text=== selectedCategory} />;
         })}
       </div>
-      <div className="marketPlaces">
+      <div className="marketPlaces mycard">
         {totalEvents?.map((ev,idx) => {
           return (
             <div className="marketplace" key={idx}>
@@ -207,6 +209,19 @@ const Section = styled.section`
       flex-direction: column;
       justify-content: center;
       align-items: center;
+    }
+  }
+  @media screen and (max-width: 400px) {
+    margin-top:116rem;
+    width:100vw;
+    .mycard{
+      margin-left:-8rem;
+    }
+    .title{
+      margin-left:-7rem;
+    }
+    .event-date-mobile{
+      margin-left:-30rem;
     }
   }
 `;

@@ -264,7 +264,7 @@ const Section = styled.section`
     }
   }
   @media screen and (max-width: 400px) {
-    margin-top:40rem;
+    margin-top:44rem;
     width:100vw;
     .mycard{
       margin-left:-2rem;

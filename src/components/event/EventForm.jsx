@@ -529,9 +529,11 @@ const Wrapper = styled.section`
   @media (max-width: 750px) {
     .modal-container {
       max-width: 90vw;
-    }
-
-    
+    }    
+  }
+  @media screen and (max-width: 400px) {
+    width:100vw;
+    margin-left:-2rem;
   }
 `;
 function mapStateToProps(store) {

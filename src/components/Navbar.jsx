@@ -127,9 +127,13 @@ const Nav = styled(motion.nav)`
   }
   @media screen and (min-width: 280px) and (max-width: 1080px) {
     position: relative;
-    padding: 1rem 2rem;
+    left: -2rem;
+    width:100vw;
+    padding: 1rem 2rem; 
     z-index: 999;
-    margin: 0;
+    // margin: 0;
+    
+    
     button {
       display: none;
     }
@@ -181,6 +185,11 @@ const Nav = styled(motion.nav)`
       }
     }
   }
+  @media screen and (max-width: 400px) {
+    // width:100vw;
+    // // margin-right:20rem;
+    // border:2px solid red;
+  } 
 `;
 
 function mapStateToProps(store){

@@ -4,8 +4,8 @@ import App from './App'
 
 const Signup = () => {
   return (
-    <div>Signup
-        <Link to="/">Home</Link>
+    <div>
+        {/* <Link to="/">Home</Link>   */}
         <App/>
     </div>
   )
