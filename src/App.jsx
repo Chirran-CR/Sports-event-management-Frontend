@@ -85,5 +85,7 @@ const DashboardPrivateRoute=()=>{
   }
 }
 export default App;
+//*uncomment below line when running in deployment server
 export const API_URL="https://sprots-event-api-2.onrender.com";
+//*uncomment below line when running in localhost
 // export const API_URL="http://localhost:5000";
